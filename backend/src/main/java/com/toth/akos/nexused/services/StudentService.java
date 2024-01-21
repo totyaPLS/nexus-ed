@@ -1,6 +1,8 @@
 package com.toth.akos.nexused.services;
 
 import com.toth.akos.nexused.dtos.StudentDTO;
+import com.toth.akos.nexused.exceptions.ApplicationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -11,7 +13,7 @@ import java.util.List;
 public class StudentService {
     private final List<StudentDTO> students = Arrays.asList(
             new StudentDTO(
-                    10,
+                    1,
                     "Hegedűs",
                     "Virág",
                     "Szeged",
@@ -26,7 +28,7 @@ public class StudentService {
                     "+36201234567",
                     "+362032165487"),
             new StudentDTO(
-                    10,
+                    2,
                     "Baka",
                     "András",
                     "Szeged",
@@ -44,5 +46,11 @@ public class StudentService {
 
     public List<StudentDTO> allStudents() {
         return students;
+    }
+
+    public StudentDTO getStudent(int id) {
+        return students.stream().filter(student -> id == student.getId())
+                .findFirst()
+                .orElseThrow(() -> new ApplicationException("Student not found", HttpStatus.NOT_FOUND));
     }
 }
