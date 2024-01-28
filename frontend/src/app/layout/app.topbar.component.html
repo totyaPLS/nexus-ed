@@ -1,0 +1,88 @@
+<div class="layout-topbar">
+    <div class="topbar-left">
+        <a #menubutton tabindex="0" class="menu-button p-trigger" (click)="onMenuButtonClick()">
+            <i class="pi pi-chevron-left"></i>
+        </a>
+        <img class="horizontal-logo" [routerLink]="['/']" [src]="'assets/layout/images/logo-'+ logo + '.svg'" alt="nexus-ed-layout"/>
+        <span class="topbar-separator"></span>
+        <app-breadcrumb></app-breadcrumb>
+        <img class="mobile-logo" [src]="'assets/layout/images/logo-'+ logo + '.svg'" alt="nexus-ed-layout"/>
+    </div>
+
+    <div class="layout-topbar-menu-section">
+        <app-sidebar></app-sidebar>
+    </div>
+    <div class="layout-mask modal-in"></div>
+
+    <div class="topbar-right">
+        <ul class="topbar-menu">
+            <li class="static sm:relative">
+                <a tabindex="0" pStyleClass="@next" enterClass="hidden" enterActiveClass="scalein" leaveToClass="hidden" leaveActiveClass="fadeout" [hideOnOutsideClick]="true">
+                    <i class="pi pi-pencil"></i>
+                    <span class="topbar-badge">23</span>
+                </a>
+            </li>
+
+            <li class="static sm:relative">
+                <a tabindex="0" pStyleClass="@next" enterClass="hidden" enterActiveClass="scalein" leaveToClass="hidden" leaveActiveClass="fadeout" [hideOnOutsideClick]="true">
+                    <i class="pi pi-bell"></i>
+                    <span class="topbar-badge">2</span>
+                </a>
+                <ul class="list-none p-3 m-0 border-round shadow-2 absolute surface-overlay hidden origin-top w-full sm:w-19rem mt-2 right-0 z-5 top-auto">
+                    <li>
+                        <a pRipple class="flex p-2 border-round align-items-center hover:surface-hover transition-colors transition-duration-150 cursor-pointer">
+                            <i class="pi pi-inbox mr-3"></i>
+                            <span class="flex flex-column">
+                                <span class="font-semibold">Új beérkező levelek</span>
+                                <span class="text-color-secondary"><strong>3</strong> új leveled érkezett.</span>
+                            </span>
+                        </a>
+                        <a pRipple class="flex p-2 border-round align-items-center hover:surface-hover transition-colors transition-duration-150 cursor-pointer">
+                            <i class="pi pi-comments mr-3"></i>
+                            <span class="flex flex-column">
+                                <span class="font-semibold">Kommentek</span>
+                                <span class="text-color-secondary"><strong>2</strong> új hozzászólás érkezett.</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="static sm:relative">
+                <a tabindex="0" pStyleClass="@next" enterClass="hidden" enterActiveClass="scalein" leaveToClass="hidden" leaveActiveClass="fadeout" [hideOnOutsideClick]="true">
+                    <i class="pi pi-comment"></i>
+                    <span class="topbar-badge">23</span>
+                </a>
+            </li>
+
+            <li class="profile-item static sm:relative">
+                <a tabindex="0" pStyleClass="@next" enterClass="hidden" enterActiveClass="scalein" leaveToClass="hidden" leaveActiveClass="fadeout" [hideOnOutsideClick]="true">
+                    <img src="assets/demo/images/avatar/profile.jpg" alt="nexus-ed-layout" class="profile-image"/>
+                    <span class="profile-name">Kiss Virág</span>
+                </a>
+                <ul class="list-none p-3 m-0 border-round shadow-2 absolute surface-overlay hidden origin-top w-full sm:w-12rem mt-2 right-0  z-5 top-auto">
+                    <li>
+                        <a pRipple class="flex p-2 border-round align-items-center hover:surface-hover transition-colors transition-duration-150 cursor-pointer">
+                            <i class="pi pi-user mr-3"></i>
+                            <span class="flex flex-column">
+                                <span class="font-semibold">Fiókom</span>
+                            </span>
+                        </a>
+                        <a pRipple class="flex p-2 border-round align-items-center hover:surface-hover transition-colors transition-duration-150 cursor-pointer">
+                            <i class="pi pi-power-off mr-3"></i>
+                            <span class="flex flex-column">
+                                <span class="font-semibold">Kijelentkezés</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="right-sidebar-item">
+                <a tabindex="0" (click)="onRightMenuClick()">
+                    <i class="pi pi-align-right"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Új" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+
+            <div class="mb-3">
+                <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" styleClass="p-button-text"></p-button>
+                <p-button type="button" icon="pi pi-refresh" (click)="reset()" styleClass="p-button-text"></p-button>
+                <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>
+            </div>
+            <p-table
+                [value]="(students$ | async)!"
+                [paginator]="true"
+                [rows]="5"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                (onPage)="pageChange($event)"
+                [rowsPerPageOptions]="[10, 25, 50]"
+            >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th id="student-id" style="width:25%">Tanuló ID</th>
+                        <th id="surname" style="width:25%">Vezetéknév</th>
+                        <th id="lastname" style="width:25%">Keresztnév</th>
+                        <th id="operations" style="width:25%"></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-student>
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.surname }}</td>
+                        <td>{{ student.lastName }}</td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(student)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(student.id)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorleft">
+                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

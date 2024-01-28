@@ -34,4 +34,11 @@ public class StudentService {
         Student createdStudent = studentRepository.save(student);
         return studentMapper.toStudentDTO(createdStudent);
     }
+
+    public StudentDTO deleteStudent(int id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new ApplicationException("Student not found", HttpStatus.NOT_FOUND));
+        studentRepository.deleteById(id);
+        return studentMapper.toStudentDTO(student);
+    }
 }

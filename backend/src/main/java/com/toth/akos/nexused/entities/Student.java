@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @Setter
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     @Column
     private String surname;

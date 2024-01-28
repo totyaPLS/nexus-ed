@@ -36,4 +36,9 @@ public class StudentController {
         StudentDTO createdStudent = studentService.createStudent(studentDTO);
         return ResponseEntity.created(URI.create("/students/" + createdStudent.getId())).body(createdStudent);
     }
+
+    @DeleteMapping("/students/{id}")
+    public ResponseEntity<StudentDTO> deleteStudent(@PathVariable int id) {
+        return ResponseEntity.ok(studentService.deleteStudent(id));
+    }
 }
