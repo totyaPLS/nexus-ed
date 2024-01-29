@@ -10,6 +10,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
     providers: [MessageService, ConfirmationService]
 })
 export class StudentsComponent implements OnInit {
+    studentDialog = false;
 
     students$!: Observable<Student[]>;
     first = 0;
@@ -18,7 +19,8 @@ export class StudentsComponent implements OnInit {
     destroyRef = inject(DestroyRef);
 
     constructor(private studentService: StudentService,
-                private studentRepo: StudentRepository) {
+                private studentRepo: StudentRepository,
+                private messageService: MessageService) {
         this.students$ = studentRepo.students$;
     }
 
@@ -57,11 +59,19 @@ export class StudentsComponent implements OnInit {
     }
 
     openNew() {
+        this.studentDialog = true;
+    }
+
+    closeDialog() {
+        this.studentDialog = false;
     }
 
     editProduct(student: Student) {}
 
     deleteProduct(studentId: number) {
-        this.studentService.deleteStudent(studentId).subscribe();
+        this.studentService.deleteStudent(studentId)
+            .subscribe(() => {
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Student Deleted', life: 3000 });
+            });
     }
 }

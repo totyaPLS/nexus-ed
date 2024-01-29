@@ -1,9 +1,6 @@
 package com.toth.akos.nexused.dtos;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,9 +9,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class StudentDTO {
-    @NotNull
     private int id;
-    private String surname;
+    private String firstName;
     private String lastName;
     /*private String residence;
     private String birthplace;

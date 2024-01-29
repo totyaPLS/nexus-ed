@@ -1,0 +1,22 @@
+<p-dialog [(visible)]="studentDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" class="p-fluid" (onHide)="hideDialog()">
+    <ng-template pTemplate="content">
+        <form [formGroup]="studentForm" novalidate>
+            <div class="field">
+                <label for="last-name" class="block">Vezetéknév</label>
+                <input type="text" pInputText id="last-name" formControlName="lastName" required autofocus/>
+                <small class="p-error block" *ngIf="isInputInvalid('lastName')">A vezetéknév megadása kötelező.</small>
+            </div>
+
+            <div class="field">
+                <label for="first-name">Keresztnév</label>
+                <input type="text" pInputText id="first-name" formControlName="firstName" required/>
+                <small class="p-error block" *ngIf="isInputInvalid('firstName')">A keresztnév megadása kötelező.</small>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Mégse" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button type="submit" pButton pRipple label="Mentés" icon="pi pi-check" class="p-button-text" [disabled]="studentForm.invalid" (click)="saveStudent()"></button>
+    </ng-template>
+</p-dialog>

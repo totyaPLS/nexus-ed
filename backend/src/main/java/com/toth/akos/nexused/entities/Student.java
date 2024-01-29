@@ -3,10 +3,8 @@ package com.toth.akos.nexused.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Entity
-@Table
+@Table(name = "students")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -15,9 +13,13 @@ import java.time.LocalDate;
 @Setter
 public class Student {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
     private int id;
+
     @Column
-    private String surname;
+    private String firstName;
+
     @Column
     private String lastName;
     /*@Column

@@ -28,16 +28,16 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th id="student-id" style="width:25%">Tanuló ID</th>
-                        <th id="surname" style="width:25%">Vezetéknév</th>
-                        <th id="lastname" style="width:25%">Keresztnév</th>
+                        <th id="last-name" style="width:25%">Vezetéknév</th>
+                        <th id="first-name" style="width:25%">Keresztnév</th>
                         <th id="operations" style="width:25%"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-student>
                     <tr>
                         <td>{{ student.id }}</td>
-                        <td>{{ student.surname }}</td>
                         <td>{{ student.lastName }}</td>
+                        <td>{{ student.firstName }}</td>
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(student)"></button>
@@ -53,6 +53,8 @@
                     <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
                 </ng-template>
             </p-table>
+
+            <app-student-popup *ngIf="studentDialog" [studentDialog]="studentDialog" (closeDialogEvent)="closeDialog()"></app-student-popup>
         </div>
     </div>
 </div>

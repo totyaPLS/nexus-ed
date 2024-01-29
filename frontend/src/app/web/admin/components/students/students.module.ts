@@ -16,26 +16,28 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
+import {StudentPopupComponent} from "../student-popup/student-popup.component";
 
 @NgModule({
-	imports: [
-		CommonModule,
-		StudentsRoutingModule,
-		TableModule,
-		FileUploadModule,
-		FormsModule,
-		ButtonModule,
-		RippleModule,
-		ToastModule,
-		ToolbarModule,
-		RatingModule,
-		InputTextModule,
-		InputTextareaModule,
-		DropdownModule,
-		RadioButtonModule,
-		InputNumberModule,
-		DialogModule
-	],
+    imports: [
+        CommonModule,
+        StudentsRoutingModule,
+        TableModule,
+        FileUploadModule,
+        FormsModule,
+        ButtonModule,
+        RippleModule,
+        ToastModule,
+        ToolbarModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        DialogModule,
+        StudentPopupComponent
+    ],
 	declarations: [StudentsComponent]
 })
 export class StudentsModule { }

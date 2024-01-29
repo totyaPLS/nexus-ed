@@ -15,8 +15,8 @@ import {
 
 export interface Student {
     id: number;
-    surname: string;
-    lastname: string;
+    firstName: string;
+    lastName: string;
 }
 
 type RequestStates =

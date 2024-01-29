@@ -19,9 +19,9 @@ export class StudentService {
         );
     }
 
-    createStudent(student: Student): Observable<Student[]> {
-        return this.http.delete<Student[]>(`${this.studentBase}/${student}`).pipe(
-            this.studentRepo.withRequestStatus('studentLoading', () => this.studentRepo.addStudent(student)),
+    createStudent(student: Omit<Student, 'id'>): Observable<Student[]> {
+        return this.http.post<Student[]>(`${this.studentBase}`, student).pipe(
+            this.studentRepo.withRequestStatus('studentLoading', students => this.studentRepo.setStudents(students)),
         );
     }
 
