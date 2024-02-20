@@ -71,7 +71,7 @@ export class StudentsComponent implements OnInit {
     deleteProduct(studentId: number) {
         this.studentService.deleteStudent(studentId)
             .subscribe(() => {
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Student Deleted', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Tanuló törölve', life: 3000 });
             });
     }
 }

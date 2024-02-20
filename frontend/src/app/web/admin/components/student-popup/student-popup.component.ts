@@ -55,7 +55,7 @@ export class StudentPopupComponent {
         this.studentService.createStudent(this.studentForm.value as Student)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
-                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Student Added', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Tanuló hozzáadva', life: 3000 });
                 this.hideDialog();
             });
     }
