@@ -13,6 +13,8 @@ import java.util.Date;
 @Builder
 public class UserDTO {
     private String uid;
+    private String firstName;
+    private String lastName;
     private String phone;
     private String publicEmail;
     private String schoolEmail;

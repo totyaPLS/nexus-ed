@@ -7,6 +7,7 @@ import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {MessageService} from "primeng/api";
 import {MessageModule} from "primeng/message";
 import {ToastModule} from "primeng/toast";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import {ToastModule} from "primeng/toast";
         AppRoutingModule,
         AppLayoutModule,
         MessageModule,
-        ToastModule
+        ToastModule,
+        CommonModule
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },

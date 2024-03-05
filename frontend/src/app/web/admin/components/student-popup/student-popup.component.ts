@@ -2,7 +2,7 @@ import {Component, DestroyRef, EventEmitter, inject, Input, Output} from '@angul
 import {DialogModule} from "primeng/dialog";
 import {DropdownModule} from "primeng/dropdown";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {NgClass, NgIf} from "@angular/common";
+import {CommonModule, NgClass, NgIf} from "@angular/common";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from "primeng/inputtext";
@@ -12,6 +12,7 @@ import {RippleModule} from "primeng/ripple";
 import {StudentService} from "../../../common/rest/student.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {MessageService} from "primeng/api";
+import {PasswordModule} from "primeng/password";
 
 @Component({
   selector: 'app-student-popup',
@@ -27,7 +28,9 @@ import {MessageService} from "primeng/api";
         NgIf,
         ButtonModule,
         RippleModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        CommonModule,
+        PasswordModule
     ],
   templateUrl: './student-popup.component.html'
 })

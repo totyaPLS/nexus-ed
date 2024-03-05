@@ -12,6 +12,8 @@
                 <input type="text" pInputText id="first-name" formControlName="firstName" required/>
                 <small class="p-error block" *ngIf="isInputInvalid('firstName')">A keresztnév megadása kötelező.</small>
             </div>
+
+            <p-password  id="password" placeholder="Jelszó" inputStyleClass="w-20rem"></p-password>
         </form>
     </ng-template>
 

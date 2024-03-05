@@ -1,7 +1,6 @@
 package com.toth.akos.nexused.config;
 
 import com.toth.akos.nexused.dtos.ErrorDTO;
-import com.toth.akos.nexused.dtos.StudentDTO;
 import com.toth.akos.nexused.exceptions.ApplicationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

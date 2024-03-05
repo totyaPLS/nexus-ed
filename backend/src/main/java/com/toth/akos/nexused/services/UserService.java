@@ -1,6 +1,7 @@
 package com.toth.akos.nexused.services;
 
 import com.toth.akos.nexused.dtos.CredentialsDTO;
+import com.toth.akos.nexused.dtos.SignUpDTO;
 import com.toth.akos.nexused.dtos.UserDTO;
 import com.toth.akos.nexused.entities.User;
 import com.toth.akos.nexused.exceptions.ApplicationException;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +30,18 @@ public class UserService {
             return userMapper.toUserDTO(user);
         }
         throw new ApplicationException("Invalid password", HttpStatus.BAD_REQUEST);
+    }
+
+    public UserDTO register(SignUpDTO signUpDTO) {
+        Optional<User> oUser = userRepository.findByUid(signUpDTO.publicEmail());
+
+        if (oUser.isPresent()) {
+            throw new ApplicationException("Login already exists", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userMapper.signUpDTOToUser(signUpDTO);
+        user.setPassword(passwordEncoder.encode(CharBuffer.wrap(signUpDTO.password())));
+        User savedUser = userRepository.save(user);
+        return userMapper.toUserDTO(savedUser);
     }
 }
