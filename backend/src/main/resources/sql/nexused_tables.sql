@@ -1,5 +1,7 @@
 create table system_user (
     uid varchar(10) primary key,
+    first_name varchar(255) not null,
+    last_name varchar(255) not null,
     password varchar(255) not null,
     phone varchar(50),
     public_email varchar(100),
