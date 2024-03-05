@@ -1,5 +1,6 @@
 create table system_user (
-    uid serial primary key,
+    uid varchar(10) primary key,
+    password varchar(255) not null,
     phone varchar(50),
     public_email varchar(100),
     school_email varchar(100) unique,
@@ -27,34 +28,34 @@ create table subject (
 );
 
 create table student (
-    id integer primary key references system_user(uid) not null,
+    id varchar(10) primary key references system_user(uid) not null,
     class_id integer references class(id) not null unique
 );
 
 create table teacher (
-    id integer primary key references system_user(uid) not null
+    id varchar(10) primary key references system_user(uid) not null
 );
 
 create table form_teacher (
-    id integer primary key references system_user(uid) not null,
+    id varchar(10) primary key references system_user(uid) not null,
     class_id integer references class(id) not null unique
 );
 
 create table class_teaching (
-    id integer references teacher(id) not null,
+    id varchar(10) references teacher(id) not null,
     class_id integer references class(id) not null,
     PRIMARY KEY (id, class_id)
 );
 
 create table subject_teaching (
-    id integer references teacher(id) not null,
+    id varchar(10) references teacher(id) not null,
     subject_id integer references subject(id) not null,
     PRIMARY KEY (id, subject_id)
 );
 
 create table announcement (
     id serial primary key not null,
-    teacher_id integer references teacher(id) not null,
+    teacher_id varchar(10) references teacher(id) not null,
     subject_id integer references subject(id) not null,
     title varchar(255) not null,
     description text,
@@ -70,7 +71,7 @@ create table task (
 
 create table comment (
     id serial primary key not null,
-    person_id integer references system_user(uid) not null,
+    person_id varchar(10) references system_user(uid) not null,
     task_id integer references task(id),
     announcement_id integer references announcement(id),
     text varchar(255) not null,
@@ -79,8 +80,8 @@ create table comment (
 
 create table grade (
     id serial primary key not null,
-    student_id integer references student(id) not null,
-    teacher_id integer references teacher(id) not null,
+    student_id varchar(10) references student(id) not null,
+    teacher_id varchar(10) references teacher(id) not null,
     grade smallint not null,
     weight double precision not null
 );
@@ -102,7 +103,7 @@ create table lesson (
 
 create table absence (
     id serial primary key not null,
-    student_id integer references student(id) not null,
+    student_id varchar(10) references student(id) not null,
     lesson_id integer references lesson(id) not null,
     status varchar(100) not null,
     modification_date timestamp not null
@@ -110,7 +111,7 @@ create table absence (
 
 create table submittable_task (
     id integer primary key not null,
-    student_id integer references student(id) not null,
+    student_id varchar(10) references student(id) not null,
     grade_id integer references grade(id),
     task_id integer references task(id) not null,
     graded timestamp not null,

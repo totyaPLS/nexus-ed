@@ -1,6 +1,6 @@
 package com.toth.akos.nexused.controllers;
 
-import com.toth.akos.nexused.dtos.StudentDTO;
+import com.toth.akos.nexused.dtos.UserDTO;
 import com.toth.akos.nexused.services.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,23 +22,23 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public ResponseEntity<List<StudentDTO>> allStudents() {
+    public ResponseEntity<List<UserDTO>> allStudents() {
         return ResponseEntity.ok(studentService.allStudents());
     }
 
     @GetMapping("/students/{id}")
-    public ResponseEntity<StudentDTO> getStudent(@PathVariable int id) {
+    public ResponseEntity<UserDTO> getStudent(@PathVariable String id) {
         return ResponseEntity.ok(studentService.getStudent(id));
     }
 
     @PostMapping("/students")
-    public ResponseEntity<StudentDTO> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
-        StudentDTO createdStudent = studentService.createStudent(studentDTO);
-        return ResponseEntity.created(URI.create("/students/" + createdStudent.getId())).body(createdStudent);
+    public ResponseEntity<UserDTO> createStudent(@Valid @RequestBody UserDTO studentDTO) {
+        UserDTO createdStudent = studentService.createStudent(studentDTO);
+        return ResponseEntity.created(URI.create("/students/" + createdStudent.getUid())).body(createdStudent);
     }
 
     @DeleteMapping("/students/{id}")
-    public ResponseEntity<StudentDTO> deleteStudent(@PathVariable int id) {
+    public ResponseEntity<UserDTO> deleteStudent(@PathVariable String id) {
         return ResponseEntity.ok(studentService.deleteStudent(id));
     }
 }

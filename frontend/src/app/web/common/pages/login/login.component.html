@@ -1,0 +1,27 @@
+<div class="flex h-screen">
+    <div class="w-full lg:w-4 h-full text-center px-6 py-6 flex flex-column justify-content-between">
+        <img [src]="'assets/layout/images/logo-dark.svg'" class="h-4rem mt-4" alt="diamond-layout" />
+
+        <div class="flex flex-column align-items-center gap-4">
+            <div class="mb-3">
+                <h2>Bejelentkezés</h2>
+                <p>Elfelejtetted a jelszavad? <a class="text-primary hover:underline cursor-pointer font-medium">Jelszó visszaállítása</a></p>
+            </div>
+            <input pInputText id="email" placeholder="UID" class="w-20rem"/>
+            <p-password  id="password" placeholder="Jelszó" inputStyleClass="w-20rem"></p-password>
+            <button pButton label="TOVÁBB" type="button" class="w-20rem"></button>
+        </div>
+
+        <p class="text-color-secondary font-semibold">Több információra van szükséged? <a class="text-primary hover:underline cursor-pointer font-medium">Vissza a főoldalra</a></p>
+    </div>
+    <div class="w-8 hidden lg:flex flex-column justify-content-between align-items-center px-6 py-6 bg-cover bg-norepeat" style="background-image: url('assets/demo/images/auth/bg-login.jpg')">
+        <div class="mt-auto mb-auto">
+            <span class="block text-white text-7xl font-semibold">Lépj be <br/>NexusEd<br/> fiókodba</span>
+            <span class="block text-white text-3xl mt-4">Iskolai ügyek hatékony kezelése,<br/>Magasabb felhasználói élmény,<br/>Minőségi kommunikációs felület</span>
+        </div>
+        <div class="flex align-items-center gap-5">
+            <span class="text-white font-semibold">SZTE PTI szakdolgozat projekt</span>
+            <i class="pi pi-github text-3xl p-1 surface-overlay border-circle cursor-pointer"></i>
+        </div>
+    </div>
+</div>

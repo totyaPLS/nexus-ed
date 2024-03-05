@@ -1,10 +1,10 @@
 package com.toth.akos.nexused.services;
 
-import com.toth.akos.nexused.dtos.StudentDTO;
-import com.toth.akos.nexused.entities.Student;
+import com.toth.akos.nexused.dtos.UserDTO;
+import com.toth.akos.nexused.entities.User;
 import com.toth.akos.nexused.exceptions.ApplicationException;
-import com.toth.akos.nexused.mappers.StudentMapper;
-import com.toth.akos.nexused.repositories.StudentRepository;
+import com.toth.akos.nexused.mappers.UserMapper;
+import com.toth.akos.nexused.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,30 +15,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentService {
 
-    private final StudentRepository studentRepository;
-    private final StudentMapper studentMapper;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public List<StudentDTO> allStudents() {
-        List<Student> all = studentRepository.findAll();
-        return studentMapper.toStudentDTOs(all);
+    public List<UserDTO> allStudents() {
+        List<User> all = userRepository.findAll();
+        return userMapper.toUserDTOs(all);
     }
 
-    public StudentDTO getStudent(int id) {
-        Student student = studentRepository.findById(id)
+    public UserDTO getStudent(String id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new ApplicationException("Student not found", HttpStatus.NOT_FOUND));
-        return studentMapper.toStudentDTO(student);
+        return userMapper.toUserDTO(user);
     }
 
-    public StudentDTO createStudent(StudentDTO studentDTO) {
-        Student student = studentMapper.toStudent(studentDTO);
-        Student createdStudent = studentRepository.save(student);
-        return studentMapper.toStudentDTO(createdStudent);
+    public UserDTO createStudent(UserDTO userDTO) {
+        User user = userMapper.toUser(userDTO);
+        User createdStudent = userRepository.save(user);
+        return userMapper.toUserDTO(createdStudent);
     }
 
-    public StudentDTO deleteStudent(int id) {
-        Student student = studentRepository.findById(id)
+    public UserDTO deleteStudent(String id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new ApplicationException("Student not found", HttpStatus.NOT_FOUND));
-        studentRepository.deleteById(id);
-        return studentMapper.toStudentDTO(student);
+        userRepository.deleteById(id);
+        return userMapper.toUserDTO(user);
     }
 }
