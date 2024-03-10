@@ -7,20 +7,21 @@ import {Student, StudentRepository} from "../state/students.repository";
     providedIn: 'root',
 })
 export class StudentService {
-    private studentBase = 'http://localhost:8080/students';
+    private studentBase = 'http://localhost:8080';
 
     constructor(private http: HttpClient,
                 private studentRepo: StudentRepository) {
     }
 
-    listStudents(): Observable<Student[]> {
-        return this.http.get<Student[]>(`${this.studentBase}`).pipe(
+    listStudents(): Observable<any> {
+        /*return this.http.get<Student[]>(`${this.studentBase}`).pipe(
             this.studentRepo.withRequestStatus('studentLoading', students => this.studentRepo.setStudents(students)),
-        );
+        );*/
+        return this.http.get<any>(`${this.studentBase}/test`);
     }
 
     createStudent(student: Omit<Student, 'id'>): Observable<Student[]> {
-        return this.http.post<Student[]>(`${this.studentBase}`, student).pipe(
+        return this.http.post<Student[]>(`${this.studentBase}/register`, student).pipe(
             this.studentRepo.withRequestStatus('studentLoading', students => this.studentRepo.setStudents(students)),
         );
     }

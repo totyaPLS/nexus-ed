@@ -17,6 +17,11 @@ export interface Student {
     id: number;
     firstName: string;
     lastName: string;
+    password: string;
+    student: boolean;
+    teacher: boolean;
+    formTeacher: boolean;
+    admin: boolean;
 }
 
 type RequestStates =

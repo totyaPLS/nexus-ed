@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="studentDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" class="p-fluid" (onHide)="hideDialog()">
+<p-dialog [(visible)]="studentDialog" [style]="{width: '800px'}" header="Product Details" [modal]="true" class="p-fluid" (onHide)="hideDialog()">
     <ng-template pTemplate="content">
         <form [formGroup]="studentForm" novalidate>
             <div class="field">
@@ -13,7 +13,39 @@
                 <small class="p-error block" *ngIf="isInputInvalid('firstName')">A keresztnév megadása kötelező.</small>
             </div>
 
-            <p-password  id="password" placeholder="Jelszó" inputStyleClass="w-20rem"></p-password>
+            <div class="field">
+                <label for="password">Jelszó</label>
+                <p-password  id="password" [feedback]="false" formControlName="password"></p-password>
+                <small class="p-error block" *ngIf="isInputInvalid('password')">A jelszó megadása kötelező.</small>
+            </div>
+
+            <h5>Jogosultságok</h5>
+            <div class="grid formgrid">
+                <div class="col-12 md:col-2">
+                    <div class="field-checkbox">
+                        <p-checkbox formControlName="student" [binary]="true" id="student"></p-checkbox>
+                        <label for="student">Tanuló</label>
+                    </div>
+                </div>
+                <div class="col-12 md:col-2">
+                    <div class="field-checkbox">
+                        <p-checkbox formControlName="teacher" [binary]="true" id="teacher"></p-checkbox>
+                        <label for="teacher">Tanár</label>
+                    </div>
+                </div>
+                <div class="col-12 md:col-3">
+                    <div class="field-checkbox">
+                        <p-checkbox formControlName="formTeacher" [binary]="true" id="formTeacher"></p-checkbox>
+                        <label for="formTeacher">Osztályfőnök</label>
+                    </div>
+                </div>
+                <div class="col-12 md:col-2">
+                    <div class="field-checkbox">
+                        <p-checkbox formControlName="admin" [binary]="true" id="admin"></p-checkbox>
+                        <label for="admin">Admin</label>
+                    </div>
+                </div>
+            </div>
         </form>
     </ng-template>
 

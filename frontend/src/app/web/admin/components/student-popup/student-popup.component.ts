@@ -13,6 +13,7 @@ import {StudentService} from "../../../common/rest/student.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {MessageService} from "primeng/api";
 import {PasswordModule} from "primeng/password";
+import {CheckboxModule} from "primeng/checkbox";
 
 @Component({
   selector: 'app-student-popup',
@@ -30,7 +31,8 @@ import {PasswordModule} from "primeng/password";
         RippleModule,
         ReactiveFormsModule,
         CommonModule,
-        PasswordModule
+        PasswordModule,
+        CheckboxModule
     ],
   templateUrl: './student-popup.component.html'
 })
@@ -42,7 +44,12 @@ export class StudentPopupComponent {
 
     studentForm = this.createForm({
         firstName: '',
-        lastName: ''
+        lastName: '',
+        password: '',
+        student: false,
+        teacher: false,
+        formTeacher: false,
+        admin: false
     });
 
     constructor(private studentService: StudentService,
@@ -67,6 +74,7 @@ export class StudentPopupComponent {
         let formGroup = this.fb.group(model);
         formGroup.get('firstName')?.addValidators([Validators.required]);
         formGroup.get('lastName')?.addValidators([Validators.required]);
+        formGroup.get('password')?.addValidators([Validators.required]);
         return formGroup;
     }
 

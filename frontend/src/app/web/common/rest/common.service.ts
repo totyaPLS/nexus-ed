@@ -7,7 +7,7 @@ import {StudentRepository} from "../state/students.repository";
     providedIn: 'root',
 })
 export class StudentService {
-    private loginBase = 'http://localhost:8080/login';
+    private loginBase = 'http://localhost:8080';
 
     constructor(private http: HttpClient,
                 private studentRepo: StudentRepository) {
