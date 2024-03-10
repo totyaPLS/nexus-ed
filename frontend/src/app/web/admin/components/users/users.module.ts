@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { StudentsRoutingModule } from './students-routing.module';
-import { StudentsComponent } from './students.component';
+import { UsersRoutingModule } from './users-routing.module';
+import { UsersComponent } from './users.component';
 import { TableModule } from 'primeng/table';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
@@ -21,7 +21,7 @@ import {StudentPopupComponent} from "../student-popup/student-popup.component";
 @NgModule({
     imports: [
         CommonModule,
-        StudentsRoutingModule,
+        UsersRoutingModule,
         TableModule,
         FileUploadModule,
         FormsModule,
@@ -38,6 +38,6 @@ import {StudentPopupComponent} from "../student-popup/student-popup.component";
         DialogModule,
         StudentPopupComponent
     ],
-	declarations: [StudentsComponent]
+	declarations: [UsersComponent]
 })
-export class StudentsModule { }
+export class UsersModule { }

@@ -16,7 +16,7 @@
                 <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>
             </div>
             <p-table
-                [value]="(students$ | async)!"
+                [value]="(users$ | async)!"
                 [paginator]="true"
                 [rows]="5"
                 [showCurrentPageReport]="true"
@@ -27,7 +27,7 @@
             >
                 <ng-template pTemplate="header">
                     <tr>
-                        <th id="student-id" style="width:25%">Tanuló ID</th>
+                        <th id="student-id" style="width:25%">ID</th>
                         <th id="last-name" style="width:25%">Vezetéknév</th>
                         <th id="first-name" style="width:25%">Keresztnév</th>
                         <th id="operations" style="width:25%"></th>
@@ -35,13 +35,13 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-student>
                     <tr>
-                        <td>{{ student.id }}</td>
+                        <td>{{ student.uid }}</td>
                         <td>{{ student.lastName }}</td>
                         <td>{{ student.firstName }}</td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(student)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(student.id)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(student.uid)"></button>
                             </div>
                         </td>
                     </tr>
@@ -54,7 +54,7 @@
                 </ng-template>
             </p-table>
 
-            <app-student-popup *ngIf="studentDialog" [studentDialog]="studentDialog" (closeDialogEvent)="closeDialog()"></app-student-popup>
+            <app-student-popup *ngIf="userDialog" [studentDialog]="userDialog" (closeDialogEvent)="closeDialog()"></app-student-popup>
         </div>
     </div>
 </div>

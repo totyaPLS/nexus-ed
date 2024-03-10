@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {StudentRepository} from "../state/students.repository";
+import {UserRepository} from "../state/users.repository";
 
 @Injectable({
     providedIn: 'root',
@@ -10,7 +10,7 @@ export class StudentService {
     private loginBase = 'http://localhost:8080';
 
     constructor(private http: HttpClient,
-                private studentRepo: StudentRepository) {
+                private studentRepo: UserRepository) {
     }
 
     login(): Observable<any[]> {

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.sql.Date;
 
@@ -16,6 +17,8 @@ import java.sql.Date;
 @Table(name = "system_user")
 public class User {
     @Id
+    @GenericGenerator(name = "uid", type = com.toth.akos.nexused.util.UserIdGenerator.class)
+    @GeneratedValue(generator = "uid")
     @Column(name = "uid")
     private String uid;
 

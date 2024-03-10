@@ -13,86 +13,94 @@ import {
     withRequestsStatus
 } from "@ngneat/elf-requests";
 
-export interface Student {
-    id: number;
+export interface User {
+    uid: string;
     firstName: string;
     lastName: string;
-    password: string;
+    // phone: string;
+    // publicEmail: string;
+    // schoolEmail: string;
+    // school: string;
+    // residence: string;
+    // birthplace: string;
+    // birthdate: boolean;
+    admin: boolean;
     student: boolean;
     teacher: boolean;
     formTeacher: boolean;
-    admin: boolean;
+    // online: boolean;
+    password: string;
 }
 
 type RequestStates =
-    'students'
-    | 'studentLoading'
-    | 'studentUpdate'
-    | 'studentDelete';
+    'users'
+    | 'userLoading'
+    | 'userUpdate'
+    | 'userDelete';
 
 @Injectable({providedIn: 'root'})
-export class StudentRepository {
-    students$: Observable<Student[]>;
+export class UserRepository {
+    users$: Observable<User[]>;
 
     //loading states
     listLoading$: Observable<boolean>;
-    studentLoading$: Observable<boolean>;
-    studentUpdating$: Observable<boolean>;
-    studentDeleting$: Observable<boolean>;
+    userLoading$: Observable<boolean>;
+    userUpdating$: Observable<boolean>;
+    userDeleting$: Observable<boolean>;
 
     private readonly store;
     private readonly trackRequestStatus;
 
     constructor() {
-        this.store = createStore({name: 'students'},
-            withEntities<Student>(),
+        this.store = createStore({name: 'users'},
+            withEntities<User, 'uid'>({idKey: 'uid'}),
             withRequestsStatus<RequestStates>(),
         );
         this.trackRequestStatus = createRequestsStatusOperator(this.store);
-        this.students$ = this.store.pipe(selectAllEntities());
+        this.users$ = this.store.pipe(selectAllEntities());
         this.listLoading$ = this.store.pipe(
-            this.isRequestPending('students'),
+            this.isRequestPending('users'),
         );
-        this.studentLoading$ = this.store.pipe(
-            this.isRequestPending('studentLoading'),
+        this.userLoading$ = this.store.pipe(
+            this.isRequestPending('userLoading'),
         );
-        this.studentUpdating$ = this.store.pipe(
-            this.isRequestPending('studentUpdate'),
+        this.userUpdating$ = this.store.pipe(
+            this.isRequestPending('userUpdate'),
         );
-        this.studentDeleting$ = this.store.pipe(
-            this.isRequestPending('studentDelete'),
+        this.userDeleting$ = this.store.pipe(
+            this.isRequestPending('userDelete'),
         );
     }
 
-    getCurrentStudents() {
+    getCurrentUsers() {
         return this.store.query(
             getAllEntities(),
         );
     }
 
-    addStudent(student: Student) {
+    addUser(user: User) {
         this.store.update(
-            addEntities(student, {prepend: true}),
+            addEntities(user, {prepend: true}),
         );
     }
 
-    setStudent(student: Student) {
+    setUser(user: User) {
         this.store.update(
-            upsertEntities(student, {prepend: true}),
+            upsertEntities(user, {prepend: true}),
         );
     }
 
-    setStudents(students: Student[]) {
+    setUsers(users: User[]) {
         this.store.update(
-            upsertEntities(students),
-            updateRequestStatus('studentLoading', 'success'),
+            upsertEntities(users),
+            updateRequestStatus('userLoading', 'success'),
         );
     }
 
-    deleteStudent(id: Student['id']) {
+    deleteUser(uid: User['uid']) {
         this.store.update(
-            deleteEntities(id),
-            updateRequestStatus('studentLoading', 'success'),
+            deleteEntities(uid),
+            updateRequestStatus('userLoading', 'success'),
         );
     }
 

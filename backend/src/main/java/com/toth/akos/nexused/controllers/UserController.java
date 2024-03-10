@@ -12,33 +12,27 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-public class StudentController {
-
+public class UserController {
     private final StudentService studentService;
 
-    @GetMapping("/")
-    public String all() {
-        return "Good job, the backend works!";
-    }
-
-    @GetMapping("/students")
+    @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> allStudents() {
         return ResponseEntity.ok(studentService.allStudents());
     }
 
-    @GetMapping("/students/{id}")
-    public ResponseEntity<UserDTO> getStudent(@PathVariable String id) {
-        return ResponseEntity.ok(studentService.getStudent(id));
+    @GetMapping("/users/{uid}")
+    public ResponseEntity<UserDTO> getStudent(@PathVariable String uid) {
+        return ResponseEntity.ok(studentService.getStudent(uid));
     }
 
-    @PostMapping("/students")
+    @PostMapping("/users")
     public ResponseEntity<UserDTO> createStudent(@Valid @RequestBody UserDTO studentDTO) {
         UserDTO createdStudent = studentService.createStudent(studentDTO);
         return ResponseEntity.created(URI.create("/students/" + createdStudent.getUid())).body(createdStudent);
     }
 
-    @DeleteMapping("/students/{id}")
-    public ResponseEntity<UserDTO> deleteStudent(@PathVariable String id) {
-        return ResponseEntity.ok(studentService.deleteStudent(id));
+    @DeleteMapping("/users/{uid}")
+    public ResponseEntity<UserDTO> deleteStudent(@PathVariable String uid) {
+        return ResponseEntity.ok(studentService.deleteStudent(uid));
     }
 }

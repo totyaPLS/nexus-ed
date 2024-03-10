@@ -6,10 +6,10 @@ import {CommonModule, NgClass, NgIf} from "@angular/common";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from "primeng/inputtext";
-import {Student} from "../../../common/state/students.repository";
+import {User} from "../../../common/state/users.repository";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
-import {StudentService} from "../../../common/rest/student.service";
+import {UserService} from "../../../common/rest/user.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {MessageService} from "primeng/api";
 import {PasswordModule} from "primeng/password";
@@ -42,17 +42,17 @@ export class StudentPopupComponent {
 
     destroyRef = inject(DestroyRef);
 
-    studentForm = this.createForm({
+    userForm = this.createForm({
         firstName: '',
         lastName: '',
         password: '',
+        admin: false,
         student: false,
         teacher: false,
         formTeacher: false,
-        admin: false
     });
 
-    constructor(private studentService: StudentService,
+    constructor(private studentService: UserService,
                 private fb: FormBuilder,
                 private messageService: MessageService) {
     }
@@ -62,7 +62,7 @@ export class StudentPopupComponent {
     }
 
     saveStudent() {
-        this.studentService.createStudent(this.studentForm.value as Student)
+        this.studentService.createUser(this.userForm.value as User)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
                 this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Tanuló hozzáadva', life: 3000 });
@@ -70,7 +70,7 @@ export class StudentPopupComponent {
             });
     }
 
-    createForm(model: Omit<Student, 'id'>) {
+    createForm(model: Omit<User, 'uid'>) {
         let formGroup = this.fb.group(model);
         formGroup.get('firstName')?.addValidators([Validators.required]);
         formGroup.get('lastName')?.addValidators([Validators.required]);
@@ -79,6 +79,6 @@ export class StudentPopupComponent {
     }
 
     isInputInvalid(formControlName: string) {
-        return this.studentForm.get(formControlName)?.invalid && this.studentForm.get(formControlName)?.dirty;
+        return this.userForm.get(formControlName)?.invalid && this.userForm.get(formControlName)?.dirty;
     }
 }

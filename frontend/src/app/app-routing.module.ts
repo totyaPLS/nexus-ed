@@ -11,7 +11,7 @@ const routes: Routes = [
     {
         path: 'students', component: AppLayoutComponent,
         children: [
-            { path: '', loadChildren: () => import('./web/admin/components/students/students.module').then(m => m.StudentsModule) },
+            { path: '', loadChildren: () => import('./web/admin/components/users/users.module').then(m => m.UsersModule) },
         ]
     },
     { path: 'notfound', loadChildren: () => import('./web/common/pages/notfound/notfound.module').then(m => m.NotfoundModule) },
