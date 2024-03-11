@@ -9,7 +9,7 @@ const routerOptions: ExtraOptions = {
 const routes: Routes = [
     { path: 'login', loadChildren: () => import('./web/common/pages/login/login.module').then(m => m.LoginModule) },
     {
-        path: 'students', component: AppLayoutComponent,
+        path: 'users', component: AppLayoutComponent,
         children: [
             { path: '', loadChildren: () => import('./web/admin/components/users/users.module').then(m => m.UsersModule) },
         ]
