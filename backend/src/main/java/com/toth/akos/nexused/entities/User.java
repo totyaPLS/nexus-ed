@@ -1,5 +1,6 @@
 package com.toth.akos.nexused.entities;
 
+import com.toth.akos.nexused.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,17 +53,9 @@ public class User {
     @Column(name = "birthdate")
     private Date birthdate;
 
-    @Column(name = "is_admin", nullable = false)
-    private boolean admin;
-
-    @Column(name = "is_student", nullable = false)
-    private boolean student;
-
-    @Column(name = "is_teacher", nullable = false)
-    private boolean teacher;
-
-    @Column(name = "is_form_teacher", nullable = false)
-    private boolean formTeacher;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
 
     @Column(name = "online", nullable = false)
     private boolean online;

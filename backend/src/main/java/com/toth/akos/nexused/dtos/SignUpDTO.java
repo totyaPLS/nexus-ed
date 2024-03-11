@@ -1,5 +1,7 @@
 package com.toth.akos.nexused.dtos;
 
+import com.toth.akos.nexused.enums.Role;
+
 import java.util.Date;
 
 public record SignUpDTO (
@@ -12,10 +14,7 @@ public record SignUpDTO (
         String residence,
         String birthplace,
         Date birthdate,
-        boolean admin,
-        boolean student,
-        boolean teacher,
-        boolean formTeacher,
+        Role role,
         char[] password
 ) {
 }

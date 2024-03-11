@@ -1,5 +1,6 @@
 package com.toth.akos.nexused.dtos;
 
+import com.toth.akos.nexused.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,10 +23,7 @@ public class UserDTO {
     private String residence;
     private String birthplace;
     private Date birthdate;
-    private boolean admin;
-    private boolean student;
-    private boolean teacher;
-    private boolean formTeacher;
+    private Role role;
     private boolean online;
     private String token;
 }

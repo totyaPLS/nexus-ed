@@ -8,6 +8,7 @@ import {MessageService} from "primeng/api";
 import {MessageModule} from "primeng/message";
 import {ToastModule} from "primeng/toast";
 import {CommonModule} from "@angular/common";
+import {AuthInterceptorService} from "./config/auth-interceptor.service";
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import {CommonModule} from "@angular/common";
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
         MessageService
     ],
     bootstrap: [AppComponent]

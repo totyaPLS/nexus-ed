@@ -24,11 +24,14 @@ export interface User {
     // residence: string;
     // birthplace: string;
     // birthdate: boolean;
-    admin: boolean;
-    student: boolean;
-    teacher: boolean;
-    formTeacher: boolean;
+    role: string;
     // online: boolean;
+    password: string;
+    token: string;
+}
+
+export interface Credentials {
+    uid: string;
     password: string;
 }
 

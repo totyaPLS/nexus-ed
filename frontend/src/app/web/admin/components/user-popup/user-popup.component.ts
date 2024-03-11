@@ -14,9 +14,10 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {MessageService} from "primeng/api";
 import {PasswordModule} from "primeng/password";
 import {CheckboxModule} from "primeng/checkbox";
+import {Role, ROLE_TYPE} from "../../../common/enums/Role";
 
 @Component({
-  selector: 'app-student-popup',
+  selector: 'app-user-popup',
   standalone: true,
     imports: [
         DialogModule,
@@ -34,9 +35,9 @@ import {CheckboxModule} from "primeng/checkbox";
         PasswordModule,
         CheckboxModule
     ],
-  templateUrl: './student-popup.component.html'
+  templateUrl: './user-popup.component.html'
 })
-export class StudentPopupComponent {
+export class UserPopupComponent {
     @Input() studentDialog!: boolean;
     @Output() closeDialogEvent = new EventEmitter<void>();
 
@@ -46,13 +47,10 @@ export class StudentPopupComponent {
         firstName: '',
         lastName: '',
         password: '',
-        admin: false,
-        student: false,
-        teacher: false,
-        formTeacher: false,
+        role: '',
     });
 
-    constructor(private studentService: UserService,
+    constructor(private userService: UserService,
                 private fb: FormBuilder,
                 private messageService: MessageService) {
     }
@@ -62,23 +60,27 @@ export class StudentPopupComponent {
     }
 
     saveStudent() {
-        this.studentService.createUser(this.userForm.value as User)
+        this.userService.createUser(this.userForm.value as User)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
-                this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Tanuló hozzáadva', life: 3000 });
+                this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Felhasználó hozzáadva', life: 3000 });
                 this.hideDialog();
             });
     }
 
-    createForm(model: Omit<User, 'uid'>) {
+    createForm(model: Omit<User, 'uid' | 'token'>) {
         let formGroup = this.fb.group(model);
         formGroup.get('firstName')?.addValidators([Validators.required]);
         formGroup.get('lastName')?.addValidators([Validators.required]);
         formGroup.get('password')?.addValidators([Validators.required]);
+        formGroup.get('role')?.addValidators([Validators.required]);
         return formGroup;
     }
 
     isInputInvalid(formControlName: string) {
         return this.userForm.get(formControlName)?.invalid && this.userForm.get(formControlName)?.dirty;
     }
+
+    protected readonly Role = Role;
+    protected readonly ROLE_TYPE = ROLE_TYPE;
 }

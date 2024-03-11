@@ -7,6 +7,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { AppConfigModule } from 'src/app/layout/config/app.config.module';
+import {PaginatorModule} from "primeng/paginator";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -18,7 +20,9 @@ import { AppConfigModule } from 'src/app/layout/config/app.config.module';
         InputTextModule,
         PasswordModule,
         ButtonModule,
-        AppConfigModule
+        AppConfigModule,
+        PaginatorModule,
+        ReactiveFormsModule
     ]
 })
 export class LoginModule { }

@@ -16,7 +16,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
-import {StudentPopupComponent} from "../student-popup/student-popup.component";
+import {UserPopupComponent} from "../user-popup/user-popup.component";
 
 @NgModule({
     imports: [
@@ -36,7 +36,7 @@ import {StudentPopupComponent} from "../student-popup/student-popup.component";
         RadioButtonModule,
         InputNumberModule,
         DialogModule,
-        StudentPopupComponent
+        UserPopupComponent
     ],
 	declarations: [UsersComponent]
 })

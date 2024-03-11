@@ -22,27 +22,27 @@
             <h5>Jogosultságok</h5>
             <div class="grid formgrid">
                 <div class="col-12 md:col-2">
-                    <div class="field-checkbox">
-                        <p-checkbox formControlName="student" [binary]="true" id="student"></p-checkbox>
-                        <label for="student">Tanuló</label>
+                    <div class="field-radiobutton">
+                        <p-radioButton [value]="Role.ADMIN" formControlName="role" id="admin"></p-radioButton>
+                        <label for="admin">{{ ROLE_TYPE.ADMIN }}</label>
                     </div>
                 </div>
                 <div class="col-12 md:col-2">
-                    <div class="field-checkbox">
-                        <p-checkbox formControlName="teacher" [binary]="true" id="teacher"></p-checkbox>
-                        <label for="teacher">Tanár</label>
-                    </div>
-                </div>
-                <div class="col-12 md:col-3">
-                    <div class="field-checkbox">
-                        <p-checkbox formControlName="formTeacher" [binary]="true" id="formTeacher"></p-checkbox>
-                        <label for="formTeacher">Osztályfőnök</label>
+                    <div class="field-radiobutton">
+                        <p-radioButton [value]="Role.STUDENT" formControlName="role" id="student"></p-radioButton>
+                        <label for="student">{{ ROLE_TYPE.STUDENT }}</label>
                     </div>
                 </div>
                 <div class="col-12 md:col-2">
-                    <div class="field-checkbox">
-                        <p-checkbox formControlName="admin" [binary]="true" id="admin"></p-checkbox>
-                        <label for="admin">Admin</label>
+                    <div class="field-radiobutton">
+                        <p-radioButton [value]="Role.TEACHER" formControlName="role" id="teacher"></p-radioButton>
+                        <label for="teacher">{{ ROLE_TYPE.TEACHER }}</label>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6">
+                    <div class="field-radiobutton">
+                        <p-radioButton [value]="Role.FORM_TEACHER" formControlName="role" id="form-teacher"></p-radioButton>
+                        <label for="form-teacher">{{ ROLE_TYPE.FORM_TEACHER }}</label>
                     </div>
                 </div>
             </div>

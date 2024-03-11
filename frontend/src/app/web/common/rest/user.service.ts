@@ -13,7 +13,7 @@ export class UserService {
                 private userRepo: UserRepository) {
     }
 
-    listUsers(): Observable<any> {
+    listUsers(): Observable<User[]> {
         return this.http.get<User[]>(`${this.base}/users`).pipe(
             this.userRepo.withRequestStatus('userLoading', users => this.userRepo.setUsers(users)),
         );
