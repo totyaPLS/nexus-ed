@@ -14,7 +14,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {MessageService} from "primeng/api";
 import {PasswordModule} from "primeng/password";
 import {CheckboxModule} from "primeng/checkbox";
-import {Role, ROLE_TYPE} from "../../../common/enums/Role";
+import {Role, ROLE_TYPE} from "../../../common/util/enums/Role";
 
 @Component({
   selector: 'app-user-popup',

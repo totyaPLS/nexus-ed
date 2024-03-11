@@ -35,6 +35,7 @@
     "@ngneat/elf-requests": "^1.9.2",
     "@ngneat/elf-state-history": "^1.4.0",
     "chart.js": "^3.3.2",
+    "jwt-decode": "^4.0.0",
     "primeflex": "^3.3.1",
     "primeicons": "6.0.1",
     "primeng": "17.2.0",

@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.toth.akos.nexused.dtos.UserDTO;
 import com.toth.akos.nexused.entities.User;
+import com.toth.akos.nexused.enums.Role;
 import com.toth.akos.nexused.exceptions.ApplicationException;
 import com.toth.akos.nexused.mappers.UserMapper;
 import com.toth.akos.nexused.repositories.UserRepository;
@@ -17,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Date;
@@ -35,16 +37,17 @@ public class UserAuthProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(UserDTO dto) {
+    public String createToken(UserDTO userDTO) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + 3_600_00);
 
         return JWT.create()
-                .withIssuer(dto.getUid())
+                .withIssuer(userDTO.getUid())
                 .withIssuedAt(now)
                 .withExpiresAt(validity)
-                .withClaim("firstName", dto.getFirstName())
-                .withClaim("lastName", dto.getLastName())
+                .withClaim("firstName", userDTO.getFirstName())
+                .withClaim("lastName", userDTO.getLastName())
+                .withClaim("role", userDTO.getRole().name())
                 .sign(Algorithm.HMAC256(secretKey));
     }
 
@@ -57,9 +60,10 @@ public class UserAuthProvider {
                 .uid(decoded.getIssuer())
                 .firstName(decoded.getClaim("firstName").asString())
                 .lastName(decoded.getClaim("lastName").asString())
+                .role(decoded.getClaim("role").as(Role.class))
                 .build();
 
-        return new UsernamePasswordAuthenticationToken(userDTO, null, Collections.emptyList());
+        return new UsernamePasswordAuthenticationToken(userDTO, null, Arrays.asList(userDTO.getRole()));
     }
 
     public Authentication validateStronger(String token) {
