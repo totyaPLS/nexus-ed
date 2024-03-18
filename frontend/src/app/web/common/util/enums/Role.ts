@@ -7,9 +7,9 @@ export enum Role {
 
 export const ROLE_TYPE = {
     [Role.ADMIN]: 'Admin',
-    [Role.STUDENT]: 'Student',
-    [Role.TEACHER]: 'Teacher',
-    [Role.FORM_TEACHER]: 'Teacher & Form teacher',
+    [Role.STUDENT]: 'Tanuló',
+    [Role.TEACHER]: 'Tanár',
+    [Role.FORM_TEACHER]: 'Tanár és Osztályfőnök',
 } as const;
 
 export function getRoleName(value: Role | null) {

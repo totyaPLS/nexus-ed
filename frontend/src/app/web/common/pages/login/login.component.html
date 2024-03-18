@@ -2,7 +2,7 @@
     <div class="w-full lg:w-4 h-full text-center px-6 py-6 flex flex-column justify-content-between">
         <img [src]="'assets/layout/images/logo-dark.svg'" class="h-4rem mt-4" alt="diamond-layout" />
 
-        <form [formGroup]="loginForm" novalidate>
+        <form [formGroup]="loginForm" (submit)="login()" novalidate>
             <div class="flex flex-column align-items-center gap-4">
                 <div class="mb-3">
                     <h2>Bejelentkezés</h2>
@@ -11,7 +11,7 @@
                 <input pInputText id="email" placeholder="UID" class="w-20rem" formControlName="uid"/>
                 <p-password  id="password" placeholder="Jelszó" inputStyleClass="w-20rem" [feedback]="false"
                              formControlName="password"></p-password>
-                <button pButton label="TOVÁBB" type="button" class="w-20rem" (click)="login()"></button>
+                <button pButton label="TOVÁBB" type="submit" class="w-20rem"></button>
             </div>
         </form>
 
