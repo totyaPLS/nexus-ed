@@ -11,4 +11,4 @@ import {NexusLoadingDirective} from "../nexus-loading.directive";
   ],
     exports: [NexusLoadingDirective]
 })
-export class SharedModule { }
+export class NexLoadingModule { }

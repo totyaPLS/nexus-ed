@@ -17,7 +17,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import {UserPopupComponent} from "../user-popup/user-popup.component";
-import {SharedModule} from "../../../../util/shared/shared.module";
+import {NexLoadingModule} from "../../../../util/shared/nex-loading.module";
 
 @NgModule({
     imports: [
@@ -38,7 +38,7 @@ import {SharedModule} from "../../../../util/shared/shared.module";
         InputNumberModule,
         DialogModule,
         UserPopupComponent,
-        SharedModule
+        NexLoadingModule
     ],
 	declarations: [UsersComponent]
 })

@@ -1,5 +1,4 @@
 import {
-    ComponentFactoryResolver,
     Directive, ElementRef,
     Input,
     OnInit,
@@ -15,20 +14,19 @@ export class NexusLoadingDirective implements OnInit {
     @Input('nexusLoading') isLoading!: boolean;
 
     constructor(private viewContainerRef: ViewContainerRef,
-                private componentFactoryResolver: ComponentFactoryResolver,
                 private elementRef: ElementRef) {
     }
 
     ngOnInit(): void {
         if (this.isLoading) {
-            const componentFactory = this.componentFactoryResolver.resolveComponentFactory(NexusLoadingComponent);
-            this.viewContainerRef.clear();
-            const componentRef = this.viewContainerRef.createComponent(componentFactory);
-            this.elementRef.nativeElement.appendChild(componentRef.location.nativeElement);
+            const componentRef = this.viewContainerRef.createComponent(NexusLoadingComponent);
+            const childElement = componentRef.location.nativeElement;
+            const parentElement = this.elementRef.nativeElement;
+            parentElement.style.position = 'relative';
+            parentElement.appendChild(childElement);
         } else {
             this.viewContainerRef.clear();
         }
     }
-
 
 }

@@ -2,7 +2,7 @@ import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {UserService} from "../../../common/rest/user.service";
 import {User, UserRepository} from "../../../common/state/users.repository";
-import {Observable} from "rxjs";
+import {distinctUntilChanged, Observable} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
@@ -12,6 +12,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 export class UsersComponent implements OnInit {
     userDialog = false;
 
+    loading$: Observable<boolean>;
     users$!: Observable<User[]>;
     first = 0;
     rows = 10;
@@ -19,9 +20,12 @@ export class UsersComponent implements OnInit {
     destroyRef = inject(DestroyRef);
 
     constructor(private studentService: UserService,
-                private studentRepo: UserRepository,
+                private userRepo: UserRepository,
                 private messageService: MessageService) {
-        this.users$ = studentRepo.users$;
+        this.users$ = userRepo.users$;
+        this.loading$ = this.userRepo.listLoading$.pipe(
+            distinctUntilChanged(),
+        );
     }
 
     ngOnInit(): void {

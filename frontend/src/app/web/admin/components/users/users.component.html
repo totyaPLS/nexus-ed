@@ -1,4 +1,4 @@
-<div class="grid" [nexusLoading]="true">
+<div class="grid">
     <div class="col-12">
         <div class="card px-6 py-6">
             <p-toast></p-toast>
@@ -24,6 +24,7 @@
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 (onPage)="pageChange($event)"
                 [rowsPerPageOptions]="[10, 25, 50]"
+                [nexusLoading]="(loading$ | async)!"
             >
                 <ng-template pTemplate="header">
                     <tr>
