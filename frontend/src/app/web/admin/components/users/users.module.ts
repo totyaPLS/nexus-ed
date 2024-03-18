@@ -17,6 +17,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
 import {UserPopupComponent} from "../user-popup/user-popup.component";
+import {SharedModule} from "../../../../util/shared/shared.module";
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import {UserPopupComponent} from "../user-popup/user-popup.component";
         RadioButtonModule,
         InputNumberModule,
         DialogModule,
-        UserPopupComponent
+        UserPopupComponent,
+        SharedModule
     ],
 	declarations: [UsersComponent]
 })
