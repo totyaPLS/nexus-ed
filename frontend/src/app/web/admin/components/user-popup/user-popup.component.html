@@ -35,11 +35,17 @@
                 </div>
                 <div class="col-12 md:col-2">
                     <div class="field-radiobutton">
+                        <p-radioButton [value]="Role.PARENT" formControlName="role" id="parent"></p-radioButton>
+                        <label for="parent">{{ ROLE_TYPE.PARENT }}</label>
+                    </div>
+                </div>
+                <div class="col-12 md:col-2">
+                    <div class="field-radiobutton">
                         <p-radioButton [value]="Role.TEACHER" formControlName="role" id="teacher"></p-radioButton>
                         <label for="teacher">{{ ROLE_TYPE.TEACHER }}</label>
                     </div>
                 </div>
-                <div class="col-12 md:col-6">
+                <div class="col-12 md:col-4">
                     <div class="field-radiobutton">
                         <p-radioButton [value]="Role.FORM_TEACHER" formControlName="role" id="form-teacher"></p-radioButton>
                         <label for="form-teacher">{{ ROLE_TYPE.FORM_TEACHER }}</label>
