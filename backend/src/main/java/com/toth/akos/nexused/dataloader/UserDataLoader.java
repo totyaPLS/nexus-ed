@@ -1,10 +1,12 @@
 package com.toth.akos.nexused.dataloader;
 
-import com.toth.akos.nexused.entities.User;
+import com.toth.akos.nexused.dtos.SignUpDTO;
 import com.toth.akos.nexused.enums.Role;
 import com.toth.akos.nexused.repositories.UserRepository;
+import com.toth.akos.nexused.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 @AllArgsConstructor
+@Order(value = 2)
 @Component
 public class UserDataLoader implements CommandLineRunner {
     private static final Random RANDOM = new Random();
@@ -23,6 +26,7 @@ public class UserDataLoader implements CommandLineRunner {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
     public void run(String... args) {
@@ -33,7 +37,6 @@ public class UserDataLoader implements CommandLineRunner {
         if (userRepository.count() != 0) return;
 
         for (int i = 0; i < USER_AMOUNT; i++) {
-            String uid = null;
             String firstName = genFirstName();
             String lastName = genLastName();
             String psw = genPassword();
@@ -45,12 +48,13 @@ public class UserDataLoader implements CommandLineRunner {
             String birthPlace = residence;
             Role role = genRole();
             LocalDate birthDate = genBirthDate(role);
-            boolean online = genAvailability();
 
-            userRepository.save(
-                    new User(uid, firstName, lastName, psw, phone, pubEmail, schoolEmail, school, residence,
-                            birthPlace, birthDate, role, online)
+            SignUpDTO signUpDTO = new SignUpDTO(
+                    firstName, lastName, phone, pubEmail, schoolEmail, school, residence, birthPlace, birthDate,
+                    role, psw.toCharArray()
             );
+
+            userService.register(signUpDTO);
         }
     }
 
@@ -228,26 +232,22 @@ public class UserDataLoader implements CommandLineRunner {
             return Role.ADMIN;
         }
 
-        if (userRepository.countByRole(Role.STUDENT) < USER_AMOUNT * 0.4) {
-            return Role.STUDENT;
+        if (userRepository.countByRole(Role.FORM_TEACHER) < USER_AMOUNT * 0.06) {
+            return Role.FORM_TEACHER;
         }
 
         if (userRepository.countByRole(Role.PARENT) < USER_AMOUNT * 0.4) {
             return Role.PARENT;
         }
 
+        if (userRepository.countByRole(Role.STUDENT) < USER_AMOUNT * 0.4) {
+            return Role.STUDENT;
+        }
+
         if (userRepository.countByRole(Role.TEACHER) < USER_AMOUNT * 0.14) {
             return Role.TEACHER;
         }
 
-        if (userRepository.countByRole(Role.FORM_TEACHER) < USER_AMOUNT * 0.06) {
-            return Role.FORM_TEACHER;
-        }
-
         return Role.STUDENT;
-    }
-
-    private boolean genAvailability() {
-        return RANDOM.nextBoolean();
     }
 }

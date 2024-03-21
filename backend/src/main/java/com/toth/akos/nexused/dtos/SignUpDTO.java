@@ -2,7 +2,7 @@ package com.toth.akos.nexused.dtos;
 
 import com.toth.akos.nexused.enums.Role;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public record SignUpDTO (
         String firstName,
@@ -13,7 +13,7 @@ public record SignUpDTO (
         String school,
         String residence,
         String birthplace,
-        Date birthdate,
+        LocalDate birthdate,
         Role role,
         char[] password
 ) {
