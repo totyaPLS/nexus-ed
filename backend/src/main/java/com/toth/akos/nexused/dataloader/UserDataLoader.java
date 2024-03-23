@@ -12,10 +12,8 @@ import com.toth.akos.nexused.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.nio.CharBuffer;
 import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -28,7 +26,6 @@ public class UserDataLoader implements CommandLineRunner {
     private static final int USER_AMOUNT = 50;
     private static final String NORMAL_REGEX = "\\p{M}";
 
-    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final ClassRepository classRepository;
     private final UserService userService;
@@ -54,7 +51,7 @@ public class UserDataLoader implements CommandLineRunner {
     private UserDTO registerUser(Role roleToBeRegistered, String parentId, int classId) {
         String firstName = genFirstName();
         String lastName = genLastName();
-        String psw = genPassword();
+        String psw = "q1w2e3r4";
         String phone = genPhoneNumber();
         String pubEmail = genPubEmail(firstName, lastName);
         String schoolEmail = genSchoolEmail(firstName, lastName);
@@ -104,10 +101,6 @@ public class UserDataLoader implements CommandLineRunner {
         for (int i = 0; i < USER_AMOUNT*0.2; i++) {
             registerUser(Role.TEACHER, null, 0);
         }
-    }
-
-    private String genPassword() {
-        return passwordEncoder.encode(CharBuffer.wrap("q1w2e3r4"));
     }
 
     private String genFirstName() {
@@ -177,22 +170,14 @@ public class UserDataLoader implements CommandLineRunner {
     }
 
     private String genPubEmail(String firstName, String lastName) {
-        String firstNameNormalized = Normalizer.normalize(firstName, Normalizer.Form.NFD)
-                .replaceAll(NORMAL_REGEX, "")
-                .toLowerCase();
-
-        String lastNameNormalized = Normalizer.normalize(lastName, Normalizer.Form.NFD)
-                .replaceAll(NORMAL_REGEX, "")
-                .toLowerCase();
-
-        String lastNameClean = lastNameNormalized.replaceAll("[^a-zA-Z0-9]", "");
-
-        int randomNumber = RANDOM.nextInt(100);
-
-        return firstNameNormalized + "." + lastNameClean + String.format("%02d", randomNumber) + "@gmail.com";
+        return genEmail(firstName, lastName,"gmail.com");
     }
 
     private String genSchoolEmail(String firstName, String lastName) {
+        return genEmail(firstName, lastName,"bfmg.com");
+    }
+
+    private String genEmail(String firstName, String lastName, String domain) {
         String firstNameNormalized = Normalizer.normalize(firstName, Normalizer.Form.NFD)
                 .replaceAll(NORMAL_REGEX, "")
                 .toLowerCase();
@@ -205,7 +190,7 @@ public class UserDataLoader implements CommandLineRunner {
 
         int randomNumber = RANDOM.nextInt(100);
 
-        return firstNameNormalized + "." + lastNameClean + String.format("%02d", randomNumber) + "@bfmg.com";
+        return firstNameNormalized + "." + lastNameClean + String.format("%02d", randomNumber) + "@" + domain;
     }
 
     private String genResidence() {
