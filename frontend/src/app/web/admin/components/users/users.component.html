@@ -16,6 +16,7 @@
                 <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" styleClass="p-button-text"></p-button>
             </div>
             <p-table
+                #usersTable
                 [value]="(users$ | async)!"
                 [paginator]="true"
                 [rows]="5"
@@ -25,7 +26,17 @@
                 (onPage)="pageChange($event)"
                 [rowsPerPageOptions]="[10, 25, 50]"
                 [nexusLoading]="(loading$ | async)!"
+                [globalFilterFields]="['uid','firstName','lastName']"
             >
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-between flex-column sm:flex-row">
+                        <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(usersTable)"></button>
+                        <span class="p-input-icon-left mb-2">
+							<i class="pi pi-search"></i>
+							<input pInputText type="text" #filter (input)="onGlobalFilter(usersTable, $event)" placeholder="Search Keyword" class="w-full"/>
+						</span>
+                    </div>
+                </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
                         <th id="student-id" style="width:25%">ID</th>

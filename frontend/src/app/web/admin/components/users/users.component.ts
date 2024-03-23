@@ -1,15 +1,17 @@
-import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {Component, DestroyRef, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {UserService} from "../../../common/rest/user.service";
 import {User, UserRepository} from "../../../common/state/users.repository";
 import {distinctUntilChanged, Observable} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {Table} from "primeng/table";
 
 @Component({
     templateUrl: './users.component.html',
     providers: [MessageService, ConfirmationService]
 })
 export class UsersComponent implements OnInit {
+    @ViewChild('filter') filter!: ElementRef;
     userDialog = false;
 
     loading$: Observable<boolean>;
@@ -75,5 +77,14 @@ export class UsersComponent implements OnInit {
             .subscribe(() => {
                 this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Felhasználó törölve', life: 3000 });
             });
+    }
+
+    onGlobalFilter(table: Table, event: Event) {
+        table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
+    }
+
+    clear(table: Table) {
+        table.clear();
+        this.filter.nativeElement.value = '';
     }
 }
