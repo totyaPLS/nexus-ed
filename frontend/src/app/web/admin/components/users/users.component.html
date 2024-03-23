@@ -22,7 +22,7 @@
                 [rows]="5"
                 [showCurrentPageReport]="true"
                 [tableStyle]="{ 'min-width': '50rem' }"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                currentPageReportTemplate="{first}-{last} megjelenítése a(z) {totalRecords} bejegyzésből"
                 (onPage)="pageChange($event)"
                 [rowsPerPageOptions]="[10, 25, 50]"
                 [nexusLoading]="(loading$ | async)!"
@@ -30,10 +30,10 @@
             >
                 <ng-template pTemplate="caption">
                     <div class="flex justify-content-between flex-column sm:flex-row">
-                        <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(usersTable)"></button>
+                        <button pButton label="Szűrő törlése" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(usersTable)"></button>
                         <span class="p-input-icon-left mb-2">
 							<i class="pi pi-search"></i>
-							<input pInputText type="text" #filter (input)="onGlobalFilter(usersTable, $event)" placeholder="Search Keyword" class="w-full"/>
+							<input pInputText type="text" #filter (input)="onGlobalFilter(usersTable, $event)" placeholder="Kulcsszó keresése" class="w-full"/>
 						</span>
                     </div>
                 </ng-template>
