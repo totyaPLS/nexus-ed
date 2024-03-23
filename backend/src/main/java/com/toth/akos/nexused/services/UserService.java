@@ -51,10 +51,7 @@ public class UserService {
         User savedUser = userRepository.save(user);
 
         if (savedUser.getRole() == Role.STUDENT) {
-            Optional<User> aParent = userRepository.findByRole(Role.PARENT); // FIXME: an exact parent id will come instead of this
-            if (aParent.isPresent()) {
-                studentRepository.save(new Student(user.getUid(), 1, aParent.get().getUid()));
-            }
+            studentRepository.save(new Student(user.getUid(), signUpDTO.classId(), signUpDTO.parentid()));
         }
 
         if (savedUser.getRole() == Role.TEACHER) {

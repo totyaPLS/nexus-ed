@@ -15,6 +15,8 @@ public record SignUpDTO (
         String birthplace,
         LocalDate birthdate,
         Role role,
-        char[] password
+        char[] password,
+        String parentid,
+        Integer classId
 ) {
 }

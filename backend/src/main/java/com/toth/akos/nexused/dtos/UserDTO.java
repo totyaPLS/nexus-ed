@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -22,7 +23,7 @@ public class UserDTO {
     private String school;
     private String residence;
     private String birthplace;
-    private Date birthdate;
+    private LocalDate birthdate;
     private Role role;
     private boolean online;
     private String token;

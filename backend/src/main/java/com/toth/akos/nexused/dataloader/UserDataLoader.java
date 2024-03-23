@@ -1,12 +1,17 @@
 package com.toth.akos.nexused.dataloader;
 
 import com.toth.akos.nexused.dtos.SignUpDTO;
+import com.toth.akos.nexused.dtos.UserDTO;
+import com.toth.akos.nexused.entities.ClassSchool;
+import com.toth.akos.nexused.entities.User;
 import com.toth.akos.nexused.enums.Role;
+import com.toth.akos.nexused.exceptions.ApplicationException;
+import com.toth.akos.nexused.repositories.ClassRepository;
 import com.toth.akos.nexused.repositories.UserRepository;
 import com.toth.akos.nexused.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -17,44 +22,87 @@ import java.time.ZoneId;
 import java.util.*;
 
 @AllArgsConstructor
-@Order(value = 2)
 @Component
 public class UserDataLoader implements CommandLineRunner {
     private static final Random RANDOM = new Random();
-    private static final int USER_AMOUNT = 100;
+    private static final int USER_AMOUNT = 50;
     private static final String NORMAL_REGEX = "\\p{M}";
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final ClassRepository classRepository;
     private final UserService userService;
 
     @Override
     public void run(String... args) {
-        loadUserData();
+        if (USER_AMOUNT >= 50) {
+            loadUserData();
+        } else {
+            throw new ApplicationException("USER_AMOUNT must be more then 50", HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     private void loadUserData() {
         if (userRepository.count() != 0) return;
 
-        for (int i = 0; i < USER_AMOUNT; i++) {
-            String firstName = genFirstName();
-            String lastName = genLastName();
-            String psw = genPassword();
-            String phone = genPhoneNumber();
-            String pubEmail = genPubEmail(firstName, lastName);
-            String schoolEmail = genSchoolEmail(firstName, lastName);
-            String school = "Budapesti Fazekas Mihály Gimnázium";
-            String residence = genResidence();
-            String birthPlace = residence;
-            Role role = genRole();
-            LocalDate birthDate = genBirthDate(role);
+        registerUser(Role.ADMIN, null, 0);
+        registerFormTeachersAndClasses();
+        registerParentsWithStudents();
+        registerTeachers();
+    }
 
-            SignUpDTO signUpDTO = new SignUpDTO(
-                    firstName, lastName, phone, pubEmail, schoolEmail, school, residence, birthPlace, birthDate,
-                    role, psw.toCharArray()
+    private UserDTO registerUser(Role roleToBeRegistered, String parentId, int classId) {
+        String firstName = genFirstName();
+        String lastName = genLastName();
+        String psw = genPassword();
+        String phone = genPhoneNumber();
+        String pubEmail = genPubEmail(firstName, lastName);
+        String schoolEmail = genSchoolEmail(firstName, lastName);
+        String school = "Budapesti Fazekas Mihály Gimnázium";
+        String residence = genResidence();
+        String birthPlace = residence;
+        Role role = roleToBeRegistered;
+        LocalDate birthDate = genBirthDate(role);
+
+        SignUpDTO signUpDTO = new SignUpDTO(
+                firstName, lastName, phone, pubEmail, schoolEmail, school, residence, birthPlace, birthDate,
+                role, psw.toCharArray(), parentId, classId
+        );
+
+        return userService.register(signUpDTO);
+    }
+
+    private void registerFormTeachersAndClasses() {
+        char[] classLetters = {'A', 'B', 'C'};
+        for (int classLevel = 9; classLevel <= 12; classLevel++) {
+            for (char classLetter : classLetters) {
+                UserDTO registeredFT = registerUser(Role.FORM_TEACHER, null, 0);
+                Optional<User> foundFT = this.userRepository.findByPhoneAndAndBirthdate(registeredFT.getPhone(), registeredFT.getBirthdate());
+                if (foundFT.isPresent()) {
+                    loadClassData(foundFT.get().getUid(), classLevel, classLetter);
+                }
+            }
+        }
+    }
+
+    private void registerParentsWithStudents() {
+        for (int i = 0; i < USER_AMOUNT*0.4; i++) {
+            UserDTO registeredParent = registerUser(Role.PARENT, null, 0);
+            Optional<User> foundParent = this.userRepository.findByPhoneAndAndBirthdate(
+                    registeredParent.getPhone(),
+                    registeredParent.getBirthdate()
             );
+            List<ClassSchool> classes = classRepository.findAll();
+            if(foundParent.isPresent() && !classes.isEmpty()) {
+                int classId = classes.get(RANDOM.nextInt(classes.size())).getId();
+                registerUser(Role.STUDENT, foundParent.get().getUid(), classId);
+            }
+        }
+    }
 
-            userService.register(signUpDTO);
+    private void registerTeachers() {
+        for (int i = 0; i < USER_AMOUNT*0.2; i++) {
+            registerUser(Role.TEACHER, null, 0);
         }
     }
 
@@ -227,27 +275,7 @@ public class UserDataLoader implements CommandLineRunner {
         return LocalDate.ofInstant(calendar.toInstant(), ZoneId.systemDefault());
     }
 
-    private Role genRole() {
-        if (userRepository.findByRole(Role.ADMIN).isEmpty()) {
-            return Role.ADMIN;
-        }
-
-        if (userRepository.countByRole(Role.FORM_TEACHER) < USER_AMOUNT * 0.06) {
-            return Role.FORM_TEACHER;
-        }
-
-        if (userRepository.countByRole(Role.PARENT) < USER_AMOUNT * 0.4) {
-            return Role.PARENT;
-        }
-
-        if (userRepository.countByRole(Role.STUDENT) < USER_AMOUNT * 0.4) {
-            return Role.STUDENT;
-        }
-
-        if (userRepository.countByRole(Role.TEACHER) < USER_AMOUNT * 0.14) {
-            return Role.TEACHER;
-        }
-
-        return Role.STUDENT;
+    private void loadClassData(String formTeacherId, int classLevel, char classLetter) {
+        classRepository.save(new ClassSchool(0, formTeacherId, classLevel, classLetter));
     }
 }
