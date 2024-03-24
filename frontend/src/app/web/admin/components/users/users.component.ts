@@ -23,7 +23,8 @@ export class UsersComponent implements OnInit {
 
     constructor(private studentService: UserService,
                 private userRepo: UserRepository,
-                private messageService: MessageService) {
+                private messageService: MessageService,
+                private userService: UserService) {
         this.users$ = userRepo.users$;
         this.loading$ = this.userRepo.listLoading$.pipe(
             distinctUntilChanged(),
@@ -86,5 +87,14 @@ export class UsersComponent implements OnInit {
     clear(table: Table) {
         table.clear();
         this.filter.nativeElement.value = '';
+    }
+
+    saveUser(user: User) {
+        this.userService.createUser(user)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(() => {
+                this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Felhasználó hozzáadva', life: 3000 });
+                this.closeDialog();
+            });
     }
 }

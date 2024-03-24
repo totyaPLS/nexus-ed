@@ -1,4 +1,4 @@
-import {Component, DestroyRef, EventEmitter, inject, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {DialogModule} from "primeng/dialog";
 import {DropdownModule} from "primeng/dropdown";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -6,15 +6,13 @@ import {CommonModule, NgClass, NgIf} from "@angular/common";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from "primeng/inputtext";
-import {User} from "../../../common/state/users.repository";
+import {User} from "../../../../common/state/users.repository";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
-import {UserService} from "../../../common/rest/user.service";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {MessageService} from "primeng/api";
 import {PasswordModule} from "primeng/password";
 import {CheckboxModule} from "primeng/checkbox";
-import {Role, ROLE_TYPE} from "../../../common/util/enums/Role";
+import {Role, ROLE_TYPE} from "../../../../common/util/enums/Role";
+import {StudentCreationComponent} from "./role-creations/student-creation.component";
 
 @Component({
   selector: 'app-user-popup',
@@ -33,15 +31,15 @@ import {Role, ROLE_TYPE} from "../../../common/util/enums/Role";
         ReactiveFormsModule,
         CommonModule,
         PasswordModule,
-        CheckboxModule
+        CheckboxModule,
+        StudentCreationComponent
     ],
   templateUrl: './user-popup.component.html'
 })
 export class UserPopupComponent {
-    @Input() studentDialog!: boolean;
+    @Input() userDialog!: boolean;
     @Output() closeDialogEvent = new EventEmitter<void>();
-
-    destroyRef = inject(DestroyRef);
+    @Output() saveUserEvent = new EventEmitter<User>();
 
     userForm = this.createForm({
         firstName: '',
@@ -50,9 +48,7 @@ export class UserPopupComponent {
         role: '',
     });
 
-    constructor(private userService: UserService,
-                private fb: FormBuilder,
-                private messageService: MessageService) {
+    constructor(private fb: FormBuilder) {
     }
 
     hideDialog() {
@@ -60,12 +56,7 @@ export class UserPopupComponent {
     }
 
     saveStudent() {
-        this.userService.createUser(this.userForm.value as User)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Felhasználó hozzáadva', life: 3000 });
-                this.hideDialog();
-            });
+        this.saveUserEvent.emit(this.userForm.value as User);
     }
 
     createForm(model: Omit<User, 'uid' | 'token'>) {
@@ -79,6 +70,10 @@ export class UserPopupComponent {
 
     isInputInvalid(formControlName: string) {
         return this.userForm.get(formControlName)?.invalid && this.userForm.get(formControlName)?.dirty;
+    }
+
+    get selectedRole() {
+        return this.userForm.get('role')?.getRawValue();
     }
 
     protected readonly Role = Role;

@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="studentDialog" [style]="{width: '800px'}" header="Product Details" [modal]="true" class="p-fluid" (onHide)="hideDialog()">
+<p-dialog [(visible)]="userDialog" [style]="{width: '800px'}" header="Product Details" [modal]="true" class="p-fluid" (onHide)="hideDialog()">
     <ng-template pTemplate="content">
         <form [formGroup]="userForm" novalidate>
             <div class="field">
@@ -52,6 +52,8 @@
                     </div>
                 </div>
             </div>
+
+            <app-student-creation *ngIf="selectedRole === Role.STUDENT"></app-student-creation>
         </form>
     </ng-template>
 

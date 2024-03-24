@@ -30,4 +30,10 @@ export class UserService {
             this.userRepo.withRequestStatus('userLoading', () => this.userRepo.deleteUser(uid)),
         );
     }
+
+    listParents(): Observable<User[]> {
+        return this.http.get<User[]>(`${this.base}/parents`).pipe(
+            // this.userRepo.withRequestStatus('userLoading', users => this.userRepo.setUsers(users)), FIXME: create a repo for parents
+        );
+    }
 }

@@ -66,7 +66,10 @@
                 </ng-template>
             </p-table>
 
-            <app-user-popup *ngIf="userDialog" [studentDialog]="userDialog" (closeDialogEvent)="closeDialog()"></app-user-popup>
+            <app-user-popup *ngIf="userDialog"
+                            [userDialog]="userDialog"
+                            (closeDialogEvent)="closeDialog()"
+                            (saveUserEvent)="saveUser($event)"></app-user-popup>
         </div>
     </div>
 </div>
