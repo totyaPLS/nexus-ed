@@ -1,18 +1,20 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DialogModule} from "primeng/dialog";
 import {DropdownModule} from "primeng/dropdown";
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CommonModule, NgClass, NgIf} from "@angular/common";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {InputNumberModule} from "primeng/inputnumber";
 import {InputTextModule} from "primeng/inputtext";
-import {User} from "../../../../common/state/users.repository";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {PasswordModule} from "primeng/password";
 import {CheckboxModule} from "primeng/checkbox";
 import {Role, ROLE_TYPE} from "../../../../common/util/enums/Role";
 import {StudentCreationComponent} from "./role-creations/student-creation.component";
+import {SignUpForm} from "../../../../common/util/models/user-form-models";
+import {ExtractFromControl} from "../../../../common/util/type-utils";
+import {ParentDropdown, SignUpData, User} from "../../../../common/util/models/user-models";
 
 @Component({
   selector: 'app-user-popup',
@@ -36,19 +38,33 @@ import {StudentCreationComponent} from "./role-creations/student-creation.compon
     ],
   templateUrl: './user-popup.component.html'
 })
-export class UserPopupComponent {
+export class UserPopupComponent implements OnInit {
     @Input() userDialog!: boolean;
+    @Input() parents!: User[];
     @Output() closeDialogEvent = new EventEmitter<void>();
-    @Output() saveUserEvent = new EventEmitter<User>();
+    @Output() saveUserEvent = new EventEmitter<SignUpData>();
 
-    userForm = this.createForm({
-        firstName: '',
-        lastName: '',
-        password: '',
-        role: '',
-    });
+    formGroup!: FormGroup<SignUpForm>;
+    formGroupValues!: ExtractFromControl<SignUpForm>
+    roleCreationFormIsInvalid = false;
 
-    constructor(private fb: FormBuilder) {
+    ngOnInit(): void {
+        this.formGroup = new FormGroup<SignUpForm>({
+            firstName: new FormControl('', Validators.required),
+            lastName: new FormControl('', Validators.required),
+            phone: new FormControl(''),
+            publicEmail: new FormControl(''),
+            schoolEmail: new FormControl(''),
+            school: new FormControl(''),
+            residence: new FormControl(''),
+            birthplace: new FormControl(''),
+            birthdate: new FormControl(new Date()),
+            role: new FormControl(null, Validators.required),
+            password: new FormControl('', Validators.required),
+            parentId: new FormControl(''),
+            classId: new FormControl(0)
+        });
+        this.formGroupValues = this.formGroup.getRawValue() as ExtractFromControl<SignUpForm>;
     }
 
     hideDialog() {
@@ -56,26 +72,35 @@ export class UserPopupComponent {
     }
 
     saveStudent() {
-        this.saveUserEvent.emit(this.userForm.value as User);
-    }
-
-    createForm(model: Omit<User, 'uid' | 'token'>) {
-        let formGroup = this.fb.group(model);
-        formGroup.get('firstName')?.addValidators([Validators.required]);
-        formGroup.get('lastName')?.addValidators([Validators.required]);
-        formGroup.get('password')?.addValidators([Validators.required]);
-        formGroup.get('role')?.addValidators([Validators.required]);
-        return formGroup;
+        this.saveUserEvent.emit(this.formGroup.value as SignUpData);
     }
 
     isInputInvalid(formControlName: string) {
-        return this.userForm.get(formControlName)?.invalid && this.userForm.get(formControlName)?.dirty;
+        return this.formGroup.get(formControlName)?.invalid && this.formGroup.get(formControlName)?.dirty;
     }
 
     get selectedRole() {
-        return this.userForm.get('role')?.getRawValue();
+        return this.formGroup.controls.role.getRawValue();
+    }
+
+    parentChangeEvent(parentDropdown: ParentDropdown) {
+        if (parentDropdown) {
+            this.formGroup.controls.parentId.setValue(parentDropdown.uid);
+        }
+    }
+
+    formValidityChangeEvent(creationFormIsValid: boolean) {
+        this.roleCreationFormIsInvalid = creationFormIsValid;
+    }
+
+    roleCreationValid() {
+        this.roleCreationFormIsInvalid = false;
     }
 
     protected readonly Role = Role;
     protected readonly ROLE_TYPE = ROLE_TYPE;
+
+    get formGroupIsInvalid() {
+        return this.formGroup.invalid || this.roleCreationFormIsInvalid;
+    }
 }

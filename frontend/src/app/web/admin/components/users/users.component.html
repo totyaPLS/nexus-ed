@@ -53,7 +53,7 @@
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(student.uid)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteUser(student.uid)"></button>
                             </div>
                         </td>
                     </tr>
@@ -68,6 +68,7 @@
 
             <app-user-popup *ngIf="userDialog"
                             [userDialog]="userDialog"
+                            [parents]="(parents$ | async)!"
                             (closeDialogEvent)="closeDialog()"
                             (saveUserEvent)="saveUser($event)"></app-user-popup>
         </div>

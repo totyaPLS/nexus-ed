@@ -1,10 +1,11 @@
 import {Component, DestroyRef, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {UserService} from "../../../common/rest/user.service";
-import {User, UserRepository} from "../../../common/state/users.repository";
+import {UserRepository} from "../../../common/state/users.repository";
 import {distinctUntilChanged, Observable} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Table} from "primeng/table";
+import {SignUpData, User} from "../../../common/util/models/user-models";
 
 @Component({
     templateUrl: './users.component.html',
@@ -21,10 +22,9 @@ export class UsersComponent implements OnInit {
 
     destroyRef = inject(DestroyRef);
 
-    constructor(private studentService: UserService,
+    constructor(private userService: UserService,
                 private userRepo: UserRepository,
-                private messageService: MessageService,
-                private userService: UserService) {
+                private messageService: MessageService) {
         this.users$ = userRepo.users$;
         this.loading$ = this.userRepo.listLoading$.pipe(
             distinctUntilChanged(),
@@ -32,7 +32,7 @@ export class UsersComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.studentService.listUsers().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+        this.userService.listUsers().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     }
 
     next() {
@@ -73,13 +73,6 @@ export class UsersComponent implements OnInit {
         this.userDialog = false;
     }
 
-    deleteProduct(uid: string) {
-        this.studentService.deleteUser(uid)
-            .subscribe(() => {
-                this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Felhasználó törölve', life: 3000 });
-            });
-    }
-
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }
@@ -89,12 +82,23 @@ export class UsersComponent implements OnInit {
         this.filter.nativeElement.value = '';
     }
 
-    saveUser(user: User) {
-        this.userService.createUser(user)
+    deleteUser(uid: string) {
+        this.userService.deleteUser(uid)
+            .subscribe(() => {
+                this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Felhasználó törölve', life: 3000 });
+            });
+    }
+
+    saveUser(signUpData: SignUpData) {
+        this.userService.createUser(signUpData)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
                 this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Felhasználó hozzáadva', life: 3000 });
                 this.closeDialog();
             });
+    }
+
+    get parents$() {
+        return this.userRepo.getParents();
     }
 }

@@ -1,4 +1,4 @@
-package com.toth.akos.nexused.controllers;
+package com.toth.akos.nexused.rest.controllers;
 
 import com.toth.akos.nexused.config.UserAuthProvider;
 import com.toth.akos.nexused.dtos.CredentialsDTO;

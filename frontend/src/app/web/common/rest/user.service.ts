@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {User, UserRepository} from "../state/users.repository";
+import {UserRepository} from "../state/users.repository";
+import {SignUpData, User} from "../util/models/user-models";
 
 @Injectable({
     providedIn: 'root',
@@ -13,27 +13,21 @@ export class UserService {
                 private userRepo: UserRepository) {
     }
 
-    listUsers(): Observable<User[]> {
+    listUsers() {
         return this.http.get<User[]>(`${this.base}/users`).pipe(
             this.userRepo.withRequestStatus('userLoading', users => this.userRepo.setUsers(users)),
         );
     }
 
-    createUser(user: Omit<User, 'uid'>): Observable<User[]> {
+    createUser(user: SignUpData) {
         return this.http.post<User[]>(`${this.base}/register`, user).pipe(
             this.userRepo.withRequestStatus('userLoading', users => this.userRepo.setUsers(users)),
         );
     }
 
-    deleteUser(uid: string): Observable<User[]> {
+    deleteUser(uid: string) {
         return this.http.delete<User[]>(`${this.base}/users/${uid}`).pipe(
             this.userRepo.withRequestStatus('userLoading', () => this.userRepo.deleteUser(uid)),
-        );
-    }
-
-    listParents(): Observable<User[]> {
-        return this.http.get<User[]>(`${this.base}/parents`).pipe(
-            // this.userRepo.withRequestStatus('userLoading', users => this.userRepo.setUsers(users)), FIXME: create a repo for parents
         );
     }
 }

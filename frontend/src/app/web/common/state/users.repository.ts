@@ -1,39 +1,23 @@
 import {createStore} from "@ngneat/elf";
 import {
-    addEntities, deleteEntities,
+    addEntities,
+    deleteEntities,
     getAllEntities,
     selectAllEntities,
+    selectManyByPredicate,
     upsertEntities,
     withEntities
 } from "@ngneat/elf-entities";
 import {Injectable} from "@angular/core";
 import {catchError, distinctUntilChanged, EMPTY, Observable, pipe, tap} from "rxjs";
 import {
-    createRequestsStatusOperator, selectIsRequestPending, updateRequestStatus,
+    createRequestsStatusOperator,
+    selectIsRequestPending,
+    updateRequestStatus,
     withRequestsStatus
 } from "@ngneat/elf-requests";
-
-export interface User {
-    uid: string;
-    firstName: string;
-    lastName: string;
-    // phone: string;
-    // publicEmail: string;
-    // schoolEmail: string;
-    // school: string;
-    // residence: string;
-    // birthplace: string;
-    // birthdate: boolean;
-    role: string;
-    // online: boolean;
-    password: string;
-    token: string;
-}
-
-export interface Credentials {
-    uid: string;
-    password: string;
-}
+import {Role} from "../util/enums/Role";
+import {User} from "../util/models/user-models";
 
 type RequestStates =
     'users'
@@ -78,6 +62,12 @@ export class UserRepository {
     getCurrentUsers() {
         return this.store.query(
             getAllEntities(),
+        );
+    }
+
+    getParents() {
+        return this.store.pipe(
+            selectManyByPredicate(user => user.role === Role.PARENT)
         );
     }
 

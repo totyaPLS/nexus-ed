@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -59,5 +60,29 @@ public class UserService {
         }
 
         return userMapper.toUserDTO(savedUser);
+    }
+
+    public List<UserDTO> allUsers() {
+        List<User> all = userRepository.findAll();
+        return userMapper.toUserDTOs(all);
+    }
+
+    public UserDTO getUser(String id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ApplicationException("Student not found", HttpStatus.NOT_FOUND));
+        return userMapper.toUserDTO(user);
+    }
+
+    public UserDTO createUser(UserDTO userDTO) {
+        User user = userMapper.toUser(userDTO);
+        User createdStudent = userRepository.save(user);
+        return userMapper.toUserDTO(createdStudent);
+    }
+
+    public UserDTO deleteUser(String id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ApplicationException("Student not found", HttpStatus.NOT_FOUND));
+        userRepository.deleteById(id);
+        return userMapper.toUserDTO(user);
     }
 }

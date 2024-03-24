@@ -1,8 +1,8 @@
 import {Component, DestroyRef, inject} from '@angular/core';
-import {Credentials} from "../../state/users.repository";
 import {FormBuilder, Validators} from "@angular/forms";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {AuthService} from "../../rest/auth.service";
+import {Credentials} from "../../util/models/auth-models";
 
 @Component({
     selector: 'app-login',

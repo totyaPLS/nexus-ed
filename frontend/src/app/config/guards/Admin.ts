@@ -1,5 +1,5 @@
 import {CanActivateFn, Router} from '@angular/router';
-import {CustomJwtPayload} from "../../web/common/util/entities/CustomJwtPayload";
+import {CustomJwtPayload} from "../../web/common/util/models/custom-jwt-payload";
 import {jwtDecode} from "jwt-decode";
 import {Role} from "../../web/common/util/enums/Role";
 import {inject} from "@angular/core";
