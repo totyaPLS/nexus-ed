@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "diamond-ng": {
+    "nexus-ed": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/diamond-ng",
+            "outputPath": "dist/nexus-ed",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "diamond-ng:build:production"
+              "buildTarget": "nexus-ed:build:production"
             },
             "development": {
-              "buildTarget": "diamond-ng:build:development"
+              "buildTarget": "nexus-ed:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "diamond-ng:build"
+            "buildTarget": "nexus-ed:build"
           }
         },
         "test": {

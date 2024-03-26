@@ -1,5 +1,5 @@
 {
-  "name": "diamond-ng",
+  "name": "nexus-ed",
   "version": "17.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "lint:fix": "lint:fix"
+    "lint:fix": "ng lint --fix"
   },
   "private": true,
   "dependencies": {
