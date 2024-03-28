@@ -1,3 +1,5 @@
+import {Class} from "./class-models";
+
 export interface User {
     uid: string;
     firstName: string;
@@ -21,5 +23,9 @@ export interface SignUpData extends Omit<User, 'uid' | 'online' | 'token'> {
 }
 
 export interface ParentDropdown extends Pick<User, 'uid' | 'firstName' | 'lastName'> {
+    dropDownValue: string;
+}
+
+export interface ClassDropdown extends Class {
     dropDownValue: string;
 }

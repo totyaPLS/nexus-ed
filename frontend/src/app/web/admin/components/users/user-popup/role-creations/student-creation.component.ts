@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DropdownModule} from "primeng/dropdown";
 import {FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
-import {ParentDropdown, User} from "../../../../../common/util/models/user-models";
+import {ClassDropdown, ParentDropdown, User} from "../../../../../common/util/models/user-models";
+import {Class} from "../../../../../common/util/models/class-models";
 
 @Component({
     selector: 'app-student-creation',
@@ -14,11 +15,24 @@ import {ParentDropdown, User} from "../../../../../common/util/models/user-model
         <div class="grid student-creation-box">
             <div class="col-6">
                 <p-dropdown inputId="parent" [options]="parentDropdowns" optionLabel="dropDownValue" [filter]="true"
-                            filterBy="dropDownValue" [showClear]="true" placeholder="Szülő" [formControl]="parentInput"
+                            filterBy="dropDownValue" [showClear]="true" placeholder="Szülő"
+                            [formControl]="parentControl"
                             (onChange)="triggerParent()">
                     <ng-template let-parent pTemplate="item">
                         <div class="flex align-items-center">
                             <div>{{ parent.dropDownValue }}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="col-6">
+                <p-dropdown inputId="class" [options]="classDropdowns" optionLabel="dropDownValue" [filter]="true"
+                            filterBy="dropDownValue" [showClear]="true" placeholder="Osztály"
+                            [formControl]="classControl"
+                            (onChange)="triggerClass()">
+                    <ng-template let-class pTemplate="item">
+                        <div class="flex align-items-center">
+                            <div>{{ class.dropDownValue }}</div>
                         </div>
                     </ng-template>
                 </p-dropdown>
@@ -34,13 +48,21 @@ import {ParentDropdown, User} from "../../../../../common/util/models/user-model
 
 export class StudentCreationComponent implements OnInit {
     @Input() parents!: User[];
+    @Input() classes!: Class[];
     @Output() parentChangeEvent = new EventEmitter<ParentDropdown>();
-    @Output() formValidityChange = new EventEmitter<boolean>();
+    @Output() classChangeEvent = new EventEmitter<ClassDropdown>();
 
     parentDropdowns!: ParentDropdown[];
-    parentInput!: FormControl<ParentDropdown | null>;
+    classDropdowns!: ClassDropdown[];
+    parentControl!: FormControl<ParentDropdown | null>;
+    classControl!: FormControl<ClassDropdown | null>;
 
     ngOnInit() {
+        this.initParentData();
+        this.initClassData();
+    }
+
+    initParentData() {
         this.parentDropdowns = this.parents.map(parent => ({
             uid: parent.uid,
             firstName: parent.firstName,
@@ -48,18 +70,33 @@ export class StudentCreationComponent implements OnInit {
             dropDownValue: `${parent.lastName} ${parent.firstName} (${parent.uid})`
         }));
 
-        this.parentInput = new FormControl<ParentDropdown>({
+        this.parentControl = new FormControl<ParentDropdown>({
             uid: '',
             firstName: '',
             lastName: '',
             dropDownValue: ''
         }, Validators.required);
+    }
 
-        this.formValidityChange.emit(true);
+    initClassData() {
+        this.classDropdowns = this.classes.map(classVal => ({
+            ...classVal,
+            dropDownValue: `${classVal.classLevel}.${classVal.letter}`
+        }));
+
+        this.classControl = new FormControl<ClassDropdown>({
+            id: 0,
+            classLevel: 0,
+            letter: '',
+            dropDownValue: ''
+        }, Validators.required);
     }
 
     triggerParent() {
-        this.parentChangeEvent.emit(this.parentInput.getRawValue()!);
-        this.formValidityChange.emit(this.parentInput.invalid);
+        this.parentChangeEvent.emit(this.parentControl.getRawValue()!);
+    }
+
+    triggerClass() {
+        this.classChangeEvent.emit(this.classControl.getRawValue()!);
     }
 }
