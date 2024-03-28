@@ -1,6 +1,7 @@
 package com.toth.akos.nexused.dataloader;
 
 import com.toth.akos.nexused.dtos.SignUpDTO;
+import com.toth.akos.nexused.dtos.StudentDTO;
 import com.toth.akos.nexused.dtos.UserDTO;
 import com.toth.akos.nexused.entities.ClassSchool;
 import com.toth.akos.nexused.entities.User;
@@ -42,13 +43,13 @@ public class UserDataLoader implements CommandLineRunner {
     private void loadUserData() {
         if (userRepository.count() != 0) return;
 
-        registerUser(Role.ADMIN, null, 0);
+        registerUser(Role.ADMIN);
         registerFormTeachersAndClasses();
         registerParentsWithStudents();
         registerTeachers();
     }
 
-    private UserDTO registerUser(Role roleToBeRegistered, String parentId, int classId) {
+    private UserDTO registerUser(Role roleToBeRegistered) {
         String firstName = genFirstName();
         String lastName = genLastName();
         String psw = "q1w2e3r4";
@@ -63,7 +64,7 @@ public class UserDataLoader implements CommandLineRunner {
 
         SignUpDTO signUpDTO = new SignUpDTO(
                 firstName, lastName, phone, pubEmail, schoolEmail, school, residence, birthPlace, birthDate,
-                role, psw.toCharArray(), parentId, classId
+                role, psw.toCharArray()
         );
 
         return userService.register(signUpDTO);
@@ -73,7 +74,7 @@ public class UserDataLoader implements CommandLineRunner {
         char[] classLetters = {'A', 'B', 'C'};
         for (int classLevel = 9; classLevel <= 12; classLevel++) {
             for (char classLetter : classLetters) {
-                UserDTO registeredFT = registerUser(Role.FORM_TEACHER, null, 0);
+                UserDTO registeredFT = registerUser(Role.FORM_TEACHER);
                 Optional<User> foundFT = this.userRepository.findByPhoneAndAndBirthdate(registeredFT.getPhone(), registeredFT.getBirthdate());
                 if (foundFT.isPresent()) {
                     loadClassData(foundFT.get().getUid(), classLevel, classLetter);
@@ -84,7 +85,7 @@ public class UserDataLoader implements CommandLineRunner {
 
     private void registerParentsWithStudents() {
         for (int i = 0; i < USER_AMOUNT*0.4; i++) {
-            UserDTO registeredParent = registerUser(Role.PARENT, null, 0);
+            UserDTO registeredParent = registerUser(Role.PARENT);
             Optional<User> foundParent = this.userRepository.findByPhoneAndAndBirthdate(
                     registeredParent.getPhone(),
                     registeredParent.getBirthdate()
@@ -92,14 +93,15 @@ public class UserDataLoader implements CommandLineRunner {
             List<ClassSchool> classes = classRepository.findAll();
             if(foundParent.isPresent() && !classes.isEmpty()) {
                 int classId = classes.get(RANDOM.nextInt(classes.size())).getId();
-                registerUser(Role.STUDENT, foundParent.get().getUid(), classId);
+                UserDTO student = registerUser(Role.STUDENT);
+                userService.registerStudent(new StudentDTO(student.getUid(), classId, foundParent.get().getUid()));
             }
         }
     }
 
     private void registerTeachers() {
         for (int i = 0; i < USER_AMOUNT*0.2; i++) {
-            registerUser(Role.TEACHER, null, 0);
+            registerUser(Role.TEACHER);
         }
     }
 

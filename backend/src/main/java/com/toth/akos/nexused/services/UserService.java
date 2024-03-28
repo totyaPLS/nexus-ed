@@ -2,15 +2,14 @@ package com.toth.akos.nexused.services;
 
 import com.toth.akos.nexused.dtos.CredentialsDTO;
 import com.toth.akos.nexused.dtos.SignUpDTO;
+import com.toth.akos.nexused.dtos.StudentDTO;
 import com.toth.akos.nexused.dtos.UserDTO;
 import com.toth.akos.nexused.entities.Student;
-import com.toth.akos.nexused.entities.Teacher;
 import com.toth.akos.nexused.entities.User;
-import com.toth.akos.nexused.enums.Role;
 import com.toth.akos.nexused.exceptions.ApplicationException;
+import com.toth.akos.nexused.mappers.StudentMapper;
 import com.toth.akos.nexused.mappers.UserMapper;
 import com.toth.akos.nexused.repositories.StudentRepository;
-import com.toth.akos.nexused.repositories.TeacherRepository;
 import com.toth.akos.nexused.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,9 +25,9 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final StudentRepository studentRepository;
-    private final TeacherRepository teacherRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final StudentMapper studentMapper;
 
     public UserDTO login(CredentialsDTO credentialsDTO) {
         User user = userRepository.findByUid(credentialsDTO.uid())
@@ -51,15 +50,20 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(signUpDTO.password())));
         User savedUser = userRepository.save(user);
 
-        if (savedUser.getRole() == Role.STUDENT) {
-            studentRepository.save(new Student(user.getUid(), signUpDTO.classId(), signUpDTO.parentid()));
-        }
-
-        if (savedUser.getRole() == Role.TEACHER) {
-            teacherRepository.save(new Teacher(user.getUid()));
-        }
-
         return userMapper.toUserDTO(savedUser);
+    }
+
+    public StudentDTO registerStudent(StudentDTO studentDTO) {
+        Optional<Student> oStudent = studentRepository.findById(studentDTO.id());
+
+        if (oStudent.isPresent()) {
+            throw new ApplicationException("Student already exists", HttpStatus.BAD_REQUEST);
+        }
+
+        Student student = studentMapper.studentDTOToStudent(studentDTO);
+        Student savedStudent = studentRepository.save(student);
+
+        return studentMapper.toStudentDTO(savedStudent);
     }
 
     public List<UserDTO> allUsers() {
