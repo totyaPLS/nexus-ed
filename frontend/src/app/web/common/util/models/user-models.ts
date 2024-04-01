@@ -1,4 +1,5 @@
 import {Class} from "./class-models";
+import {Subject} from "./teaching-models";
 
 export interface User {
     uid: string;
@@ -17,15 +18,28 @@ export interface User {
     token: string;
 }
 
-export interface SignUpData extends Omit<User, 'uid' | 'online' | 'token'> {
+export type SignUpData = Omit<User, 'uid' | 'online' | 'token'>;
+
+export interface StudentSignUp {
     parentId: string;
     classId: number;
 }
 
-export interface ParentDropdown extends Pick<User, 'uid' | 'firstName' | 'lastName'> {
+export interface TeacherSignUp {
+    subjectId: number[];
+    classId: number[];
+}
+
+export interface UserDropdown extends Pick<User, 'uid' | 'firstName' | 'lastName'> {
     dropDownValue: string;
 }
 
 export interface ClassDropdown extends Class {
     dropDownValue: string;
 }
+
+export interface SubjectDropdown extends Subject {
+    dropDownValue: string;
+}
+
+

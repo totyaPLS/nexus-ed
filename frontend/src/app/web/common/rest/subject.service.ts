@@ -4,24 +4,22 @@ import {UserRepository} from "../state/users.repository";
 import {SignUpData, User} from "../util/models/user-models";
 import {ClassRepository} from "../state/classes.repository";
 import {Class} from "../util/models/class-models";
+import {Subject} from "../util/models/teaching-models";
+import {SubjectRepository} from "../state/subjects.repository";
 
 @Injectable({
     providedIn: 'root',
 })
-export class ClassService {
+export class SubjectService {
     private base = 'http://localhost:8080';
 
     constructor(private http: HttpClient,
-                private classRepo: ClassRepository) {
+                private subjectRepo: SubjectRepository) {
     }
 
-    listClasses() {
-        return this.http.get<Class[]>(`${this.base}/classes`).pipe(
-            this.classRepo.withRequestStatus('classes', classes => this.classRepo.setClasses(classes)),
+    listAvailableSubjects() {
+        return this.http.get<Subject[]>(`${this.base}/availableSubjects`).pipe(
+            this.subjectRepo.withRequestStatus('subjects', subjects => this.subjectRepo.setSubjects(subjects)),
         );
-    }
-
-    listTeacherClasses(classLevels: number[]) {
-        return this.http.post<Class[]>(`${this.base}/teacherClasses`, classLevels);
     }
 }

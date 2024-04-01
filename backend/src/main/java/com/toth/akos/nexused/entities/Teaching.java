@@ -11,19 +11,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @Entity
-@Table(name = "class", schema = "public", catalog = "d9bftd90039pg0")
-public class ClassSchool {
+public class Teaching {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
 
-    @Column(name = "form_teacher_id")
-    private String formTeacherId;
+    @Column(name = "teacher_id")
+    private String teacherId;
 
-    @Column(name = "class_level")
-    private int classLevel;
+    @Column(name = "subject_id")
+    private int subjectId;
 
-    @Column(name = "letter")
-    private char letter;
+    @Column(name = "class_id")
+    private int classId;
 }

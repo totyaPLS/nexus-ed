@@ -19,4 +19,9 @@ public class ClassService {
         List<ClassSchool> all = classRepository.findAll();
         return classMapper.toClassDTOs(all);
     }
+
+    public List<ClassDTO> availableClasses(List<Integer> classLevels) {
+        List<ClassSchool> all = classRepository.findAllByClassLevelIn(classLevels);
+        return classMapper.toClassDTOs(all);
+    }
 }

@@ -5,10 +5,7 @@ import {UserRepository} from "../../../common/state/users.repository";
 import {distinctUntilChanged, Observable} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Table} from "primeng/table";
-import {SignUpData, User} from "../../../common/util/models/user-models";
-import {ClassService} from "../../../common/rest/class.service";
-import {Class} from "../../../common/util/models/class-models";
-import {ClassRepository} from "../../../common/state/classes.repository";
+import {SignUpData, StudentSignUp, TeacherSignUp, User} from "../../../common/util/models/user-models";
 
 @Component({
     templateUrl: './users.component.html',
@@ -20,23 +17,16 @@ export class UsersComponent implements OnInit {
 
     loading$: Observable<boolean>;
     users$!: Observable<User[]>;
-    classes$!:  Observable<Class[]>;
     first = 0;
     rows = 10;
 
     destroyRef = inject(DestroyRef);
 
     constructor(private userService: UserService,
-                private classService: ClassService,
                 private userRepo: UserRepository,
-                private classRepo: ClassRepository,
                 private messageService: MessageService) {
         this.users$ = userRepo.users$;
-        this.classes$ = classRepo.classes$;
         this.loading$ = this.userRepo.listLoading$.pipe(
-            distinctUntilChanged(),
-        );
-        this.loading$ = this.classRepo.listLoading$.pipe(
             distinctUntilChanged(),
         );
     }
@@ -76,11 +66,7 @@ export class UsersComponent implements OnInit {
     }
 
     openNew() {
-        this.classService.listClasses().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({
-            complete: () => {
-                this.userDialog = true;
-            }
-        }));
+        this.userDialog = true;
     }
 
     closeDialog() {
@@ -111,6 +97,14 @@ export class UsersComponent implements OnInit {
                 this.closeDialog();
             });*/
         console.log(signUpData);
+    }
+
+    saveStudent(studentSignUp: StudentSignUp) {
+        console.log(studentSignUp);
+    }
+
+    saveTeacher(teacherSignUp: TeacherSignUp) {
+        console.log(teacherSignUp);
     }
 
     get parents$() {

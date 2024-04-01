@@ -11,12 +11,17 @@ import {RippleModule} from "primeng/ripple";
 import {PasswordModule} from "primeng/password";
 import {CheckboxModule} from "primeng/checkbox";
 import {Role, ROLE_TYPE} from "../../../../common/util/enums/Role";
-import {StudentCreationComponent} from "./role-creations/student-creation.component";
-import {SignUpForm} from "../../../../common/util/models/user-form-models";
-import {ExtractFromControl} from "../../../../common/util/type-utils";
-import {ClassDropdown, ParentDropdown, SignUpData, User} from "../../../../common/util/models/user-models";
+import {SignUpForm, StudentForm, TeacherForm} from "../../../../common/util/models/user-form-models";
+import {
+    SignUpData,
+    StudentSignUp, TeacherSignUp,
+    User
+} from "../../../../common/util/models/user-models";
 import {CalendarModule} from "primeng/calendar";
 import {Class} from "../../../../common/util/models/class-models";
+import {StudentCreationComponent} from "./role-creations/student-creation.component";
+import {Subject} from "../../../../common/util/models/teaching-models";
+import {TeacherCreationComponent} from "./role-creations/teacher-creation.component";
 
 @Component({
   selector: 'app-user-popup',
@@ -36,8 +41,9 @@ import {Class} from "../../../../common/util/models/class-models";
         CommonModule,
         PasswordModule,
         CheckboxModule,
+        CalendarModule,
         StudentCreationComponent,
-        CalendarModule
+        TeacherCreationComponent,
     ],
   templateUrl: './user-popup.component.html'
 })
@@ -45,15 +51,19 @@ export class UserPopupComponent implements OnInit {
     @Input() userDialog!: boolean;
     @Input() parents!: User[];
     @Input() classes!: Class[];
+    @Input() subjects!: Subject[];
     @Output() closeDialogEvent = new EventEmitter<void>();
     @Output() saveUserEvent = new EventEmitter<SignUpData>();
+    @Output() saveStudentEvent = new EventEmitter<StudentSignUp>();
+    @Output() saveTeacherEvent = new EventEmitter<TeacherSignUp>();
 
-    formGroup!: FormGroup<SignUpForm>;
-    formGroupValues!: ExtractFromControl<SignUpForm>
+    userForm!: FormGroup<SignUpForm>;
+    studentForm?: FormGroup<StudentForm>;
+    teacherForm?: FormGroup<TeacherForm>;
     schools: { name: string }[] = [];
 
     ngOnInit(): void {
-        this.formGroup = new FormGroup<SignUpForm>({
+        this.userForm = new FormGroup<SignUpForm>({
             firstName: new FormControl('', Validators.required),
             lastName: new FormControl('', Validators.required),
             /*phone: new FormControl('', Validators.required),
@@ -64,11 +74,8 @@ export class UserPopupComponent implements OnInit {
             birthplace: new FormControl('', Validators.required),
             birthdate: new FormControl(null, Validators.required),*/
             role: new FormControl(null, Validators.required),
-            password: new FormControl('', Validators.required),
-            parentId: new FormControl('', Validators.required),
-            classId: new FormControl(0, Validators.required)
+            password: new FormControl('', Validators.required)
         });
-        this.formGroupValues = this.formGroup.getRawValue() as ExtractFromControl<SignUpForm>;
         this.schools = [
             {name: 'Széchenyi István Gimnázium'},
             {name: 'Petőfi Sándor Általános Iskola'},
@@ -80,45 +87,44 @@ export class UserPopupComponent implements OnInit {
         this.closeDialogEvent.emit();
     }
 
-    saveStudent() {
-        this.saveUserEvent.emit(this.formGroup.value as SignUpData);
+    saveUser() {
+        this.saveUserEvent.emit(this.userForm.value as SignUpData);
+        if (this.studentForm) {
+            const studentValues: StudentSignUp = {
+                parentId: this.studentForm.controls.parentControl.value!.uid,
+                classId: this.studentForm.controls.classControl.value!.id
+            }
+            this.saveStudentEvent.emit(studentValues);
+        }
+        if (this.teacherForm) {
+            const teacherValues: TeacherSignUp = {
+                subjectId: this.teacherForm.controls.subjectControl.value!.map(subject => subject.id),
+                classId: this.teacherForm.controls.classControl.value!.map(aClass => aClass.id)
+            }
+            this.saveTeacherEvent.emit(teacherValues);
+        }
     }
 
     isInputInvalid(formControlName: string) {
-        return this.formGroup.get(formControlName)?.invalid && this.formGroup.get(formControlName)?.dirty;
+        return this.userForm.get(formControlName)?.invalid && this.userForm.get(formControlName)?.dirty;
     }
 
     get selectedRole() {
-        return this.formGroup.controls.role.getRawValue();
+        return this.userForm.controls.role.getRawValue();
     }
 
-    parentChangeEvent(parentDropdown: ParentDropdown) {
-        if (parentDropdown) {
-            this.formGroup.controls.parentId.setValue(parentDropdown.uid);
-        } else {
-            this.formGroup.controls.parentId.setValue(null);
-        }
+    studentChangeEvent(studentForm: FormGroup<StudentForm>) {
+        this.studentForm = studentForm;
     }
 
-    classChangeEvent(classDropdown: ClassDropdown) {
-        if (classDropdown) {
-            this.formGroup.controls.classId.setValue(classDropdown.id);
-        } else {
-            this.formGroup.controls.classId.setValue(null);
-        }
-    }
-
-    roleCreationValid() {
-        /*this.formGroup.controls.parentId.clearValidators();
-        this.formGroup.controls.parentId.updateValueAndValidity();
-        this.formGroup.controls.classId.clearValidators();
-        this.formGroup.controls.classId.updateValueAndValidity();*/
+    teacherChangeEvent(teacherForm: FormGroup<TeacherForm>) {
+        this.teacherForm = teacherForm;
     }
 
     protected readonly Role = Role;
     protected readonly ROLE_TYPE = ROLE_TYPE;
 
     get formGroupIsInvalid() {
-        return this.formGroup.invalid;
+        return this.userForm.invalid || this.studentForm?.invalid || this.teacherForm?.invalid;
     }
 }

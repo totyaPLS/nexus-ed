@@ -1,8 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, DestroyRef, EventEmitter, inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {DropdownModule} from "primeng/dropdown";
-import {FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
-import {ClassDropdown, ParentDropdown, User} from "../../../../../common/util/models/user-models";
-import {Class} from "../../../../../common/util/models/class-models";
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {ClassDropdown, UserDropdown, User} from "../../../../../common/util/models/user-models";
+import {StudentForm} from "../../../../../common/util/models/user-form-models";
+import {ClassService} from "../../../../../common/rest/class.service";
+import {ClassRepository} from "../../../../../common/state/classes.repository";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
     selector: 'app-student-creation',
@@ -12,32 +15,34 @@ import {Class} from "../../../../../common/util/models/class-models";
         ReactiveFormsModule
     ],
     template: `
-        <div class="grid student-creation-box">
-            <div class="col-6">
-                <p-dropdown inputId="parent" [options]="parentDropdowns" optionLabel="dropDownValue" [filter]="true"
-                            filterBy="dropDownValue" [showClear]="true" placeholder="Szülő"
-                            [formControl]="parentControl"
-                            (onChange)="triggerParent()">
-                    <ng-template let-parent pTemplate="item">
-                        <div class="flex align-items-center">
-                            <div>{{ parent.dropDownValue }}</div>
-                        </div>
-                    </ng-template>
-                </p-dropdown>
+        <form [formGroup]="studentForm">
+            <div class="grid student-creation-box">
+                <div class="col-6">
+                    <p-dropdown inputId="parent" [options]="parentDropdowns" optionLabel="dropDownValue" [filter]="true"
+                                filterBy="dropDownValue" [showClear]="true" placeholder="Szülő"
+                                formControlName="parentControl"
+                                (onChange)="triggerForm()">
+                        <ng-template let-parent pTemplate="item">
+                            <div class="flex align-items-center">
+                                <div>{{ parent.dropDownValue }}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+                <div class="col-6">
+                    <p-dropdown inputId="class" [options]="classDropdowns" optionLabel="dropDownValue" [filter]="true"
+                                filterBy="dropDownValue" [showClear]="true" placeholder="Osztály"
+                                formControlName="classControl"
+                                (onChange)="triggerForm()">
+                        <ng-template let-class pTemplate="item">
+                            <div class="flex align-items-center">
+                                <div>{{ class.dropDownValue }}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
             </div>
-            <div class="col-6">
-                <p-dropdown inputId="class" [options]="classDropdowns" optionLabel="dropDownValue" [filter]="true"
-                            filterBy="dropDownValue" [showClear]="true" placeholder="Osztály"
-                            [formControl]="classControl"
-                            (onChange)="triggerClass()">
-                    <ng-template let-class pTemplate="item">
-                        <div class="flex align-items-center">
-                            <div>{{ class.dropDownValue }}</div>
-                        </div>
-                    </ng-template>
-                </p-dropdown>
-            </div>
-        </div>
+        </form>
     `,
     styles: [`
         .student-creation-box {
@@ -46,57 +51,52 @@ import {Class} from "../../../../../common/util/models/class-models";
     `]
 })
 
-export class StudentCreationComponent implements OnInit {
+export class StudentCreationComponent implements OnInit, OnDestroy {
     @Input() parents!: User[];
-    @Input() classes!: Class[];
-    @Output() parentChangeEvent = new EventEmitter<ParentDropdown>();
-    @Output() classChangeEvent = new EventEmitter<ClassDropdown>();
+    @Output() studentFormEvent = new EventEmitter<FormGroup<StudentForm>>();
 
-    parentDropdowns!: ParentDropdown[];
+    parentDropdowns!: UserDropdown[];
     classDropdowns!: ClassDropdown[];
-    parentControl!: FormControl<ParentDropdown | null>;
-    classControl!: FormControl<ClassDropdown | null>;
+    studentForm: FormGroup<StudentForm>;
 
-    ngOnInit() {
-        this.initParentData();
-        this.initClassData();
+    destroyRef = inject(DestroyRef);
+
+    constructor(
+        private classService: ClassService,
+        private classRepo: ClassRepository
+    ) {
+        this.studentForm = new FormGroup<StudentForm>({
+            parentControl: new FormControl<UserDropdown | null>(null, Validators.required),
+            classControl: new FormControl<ClassDropdown | null>(null, Validators.required)
+        });
     }
 
-    initParentData() {
+    ngOnInit() {
+        this.initDropdowns();
+        this.studentFormEvent.emit(this.studentForm);
+    }
+
+    initDropdowns() {
+        this.classService.listClasses().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(classes =>
+            this.classDropdowns = classes.map(classVal => ({
+                ...classVal,
+                dropDownValue: `${classVal.classLevel}.${classVal.letter}`
+            }))
+        );
+
         this.parentDropdowns = this.parents.map(parent => ({
             uid: parent.uid,
             firstName: parent.firstName,
             lastName: parent.lastName,
             dropDownValue: `${parent.lastName} ${parent.firstName} (${parent.uid})`
         }));
-
-        this.parentControl = new FormControl<ParentDropdown>({
-            uid: '',
-            firstName: '',
-            lastName: '',
-            dropDownValue: ''
-        }, Validators.required);
     }
 
-    initClassData() {
-        this.classDropdowns = this.classes.map(classVal => ({
-            ...classVal,
-            dropDownValue: `${classVal.classLevel}.${classVal.letter}`
-        }));
-
-        this.classControl = new FormControl<ClassDropdown>({
-            id: 0,
-            classLevel: 0,
-            letter: '',
-            dropDownValue: ''
-        }, Validators.required);
+    triggerForm() {
+        this.studentFormEvent.emit(this.studentForm);
     }
 
-    triggerParent() {
-        this.parentChangeEvent.emit(this.parentControl.getRawValue()!);
-    }
-
-    triggerClass() {
-        this.classChangeEvent.emit(this.classControl.getRawValue()!);
+    ngOnDestroy(): void {
+        this.studentFormEvent.emit(undefined);
     }
 }

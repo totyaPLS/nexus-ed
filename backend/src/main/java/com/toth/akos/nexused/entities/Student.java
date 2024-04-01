@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Student {
     @Id
-    @Column(name = "id")
+    @Column(name = "student_id")
     private String id;
 
     @Column(name = "class_id")

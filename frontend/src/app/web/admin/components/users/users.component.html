@@ -69,9 +69,10 @@
             <app-user-popup *ngIf="userDialog"
                             [userDialog]="userDialog"
                             [parents]="(parents$ | async)!"
-                            [classes]="(classes$ | async)!"
                             (closeDialogEvent)="closeDialog()"
                             (saveUserEvent)="saveUser($event)"
+                            (saveStudentEvent)="saveStudent($event)"
+                            (saveTeacherEvent)="saveTeacher($event)"
                             [nexusLoading]="(loading$ | async)!"></app-user-popup>
         </div>
     </div>

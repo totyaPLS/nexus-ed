@@ -37,13 +37,13 @@ create table class (
 );
 
 create table document (
-	id integer primary key references file,
+	file_id integer primary key references file,
 	subject_id integer not null references subject,
 	class_id integer not null references class
 );
 
 create table student (
-	id varchar(10) primary key references system_user,
+	student_id varchar(10) primary key references system_user,
 	class_id integer not null references class,
 	parent_id varchar(10) references system_user
 );
@@ -57,28 +57,23 @@ create table announcement (
 	published timestamp not null
 );
 
-create table class_teaching (
-	id varchar(10) not null references system_user,
-	class_id integer not null references class,
-    primary key (id, class_id)
-);
-
 create table grade (
 	id serial primary key,
 	student_id varchar(10) not null references system_user,
 	teacher_id varchar(10) not null references system_user,
-	grade smallint not null,
+	grade integer not null,
 	weight double precision not null
 );
 
-create table subject_teaching (
-	id varchar(10) not null references system_user,
+create table teaching (
+    id serial primary key,
+	teacher_id varchar(10) not null references system_user,
 	subject_id integer not null references subject,
-    primary key (id, subject_id)
+    class_id integer not null references class
 );
 
 create table task (
-	id integer primary key references announcement,
+	announcement_id integer primary key references announcement,
 	deadline timestamp not null,
 	status varchar(100) not null,
 	type varchar(100) not null
@@ -94,7 +89,7 @@ create table comment (
 );
 
 create table submittable_task (
-	id integer primary key,
+	id serial primary key,
 	student_id varchar(10) not null references system_user,
 	grade_id integer references grade,
 	task_id integer not null references task,
@@ -104,23 +99,17 @@ create table submittable_task (
 );
 
 create table submittable_task_file (
-	id integer primary key references file,
+	file_id integer primary key references file,
 	submittable_task integer not null references submittable_task
-);
-
-create table timetable (
-	id serial primary key,
-	class_id integer not null unique references class
 );
 
 create table lesson (
 	id serial primary key,
-	timetable_id integer not null references timetable,
-	subject_id integer not null references subject,
+	teaching_id integer not null references teaching,
 	topic varchar(255),
-	sequence smallint not null,
-	start_time timestamp not null unique,
-	end_time timestamp not null unique
+	sequence integer not null,
+	start_time date not null unique,
+	end_time date not null unique
 );
 
 create table absence (

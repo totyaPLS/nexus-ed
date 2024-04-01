@@ -1,4 +1,4 @@
-package com.toth.akos.nexused.dataloader;
+package com.toth.akos.nexused.db.seeders;
 
 import com.toth.akos.nexused.dtos.SignUpDTO;
 import com.toth.akos.nexused.dtos.StudentDTO;
@@ -12,6 +12,7 @@ import com.toth.akos.nexused.repositories.UserRepository;
 import com.toth.akos.nexused.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,8 @@ import java.util.*;
 
 @AllArgsConstructor
 @Component
-public class UserDataLoader implements CommandLineRunner {
+@Order(value = 1)
+public class UserDbSeeder implements CommandLineRunner {
     private static final Random RANDOM = new Random();
     private static final int USER_AMOUNT = 50;
     private static final String NORMAL_REGEX = "\\p{M}";

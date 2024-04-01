@@ -6,24 +6,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
 @Entity
-@Table(name = "class", schema = "public", catalog = "d9bftd90039pg0")
-public class ClassSchool {
+public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private int id;
 
-    @Column(name = "form_teacher_id")
-    private String formTeacherId;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "class_level")
-    private int classLevel;
-
-    @Column(name = "letter")
-    private char letter;
+    @Column(name = "class_difficulty")
+    private int classDifficulty;
 }

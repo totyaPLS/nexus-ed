@@ -1,7 +1,7 @@
 <p-dialog [(visible)]="userDialog" [style]="{width: '800px'}" header="Felhasználó felvétele a rendszerbe" [modal]="true"
           class="p-fluid" (onHide)="hideDialog()">
     <ng-template pTemplate="content">
-        <form [formGroup]="formGroup" novalidate>
+        <form [formGroup]="userForm" novalidate>
 
             <div class="grid">
                 <div class="field col-6">
@@ -81,7 +81,7 @@
             <div class="grid formgrid">
                 <div class="col-12 md:col-2">
                     <div class="field-radiobutton">
-                        <p-radioButton [value]="Role.ADMIN" formControlName="role" id="admin" (onClick)="roleCreationValid()"></p-radioButton>
+                        <p-radioButton [value]="Role.ADMIN" formControlName="role" id="admin"></p-radioButton>
                         <label for="admin">{{ ROLE_TYPE.ADMIN }}</label>
                     </div>
                 </div>
@@ -114,15 +114,18 @@
             <app-student-creation
                 *ngIf="selectedRole === Role.STUDENT"
                 [parents]="parents"
-                [classes]="classes"
-                (parentChangeEvent)="parentChangeEvent($event)"
-                (classChangeEvent)="classChangeEvent($event)">
+                (studentFormEvent)="studentChangeEvent($event)">
             </app-student-creation>
+
+            <app-teacher-creation
+                *ngIf="selectedRole === Role.TEACHER"
+                (teacherFormEvent)="teacherChangeEvent($event)"
+            ></app-teacher-creation>
         </form>
     </ng-template>
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Mégse" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button type="submit" pButton pRipple label="Mentés" icon="pi pi-check" class="p-button-text" [disabled]="formGroupIsInvalid" (click)="saveStudent()"></button>
+        <button type="submit" pButton pRipple label="Mentés" icon="pi pi-check" class="p-button-text" [disabled]="formGroupIsInvalid" (click)="saveUser()"></button>
     </ng-template>
 </p-dialog>
