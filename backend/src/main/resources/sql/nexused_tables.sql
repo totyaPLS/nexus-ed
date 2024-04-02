@@ -31,26 +31,26 @@ create table system_user (
 
 create table class (
 	id serial primary key,
-	form_teacher_id varchar(10) not null references system_user,
+	form_teacher_id varchar(10) references system_user on delete set null,
 	class_level integer not null,
 	letter char not null
 );
 
 create table document (
-	file_id integer primary key references file,
+	file_id integer primary key references file on delete cascade,
 	subject_id integer not null references subject,
 	class_id integer not null references class
 );
 
 create table student (
-	student_id varchar(10) primary key references system_user,
+	student_id varchar(10) primary key references system_user on delete cascade,
 	class_id integer not null references class,
-	parent_id varchar(10) references system_user
+	parent_id varchar(10) references system_user on delete cascade
 );
 
 create table announcement (
 	id serial primary key,
-	teacher_id varchar(10) not null references system_user,
+	teacher_id varchar(10) not null references system_user on delete cascade,
 	subject_id integer not null references subject,
 	title varchar(255) not null,
 	description text,
@@ -59,21 +59,21 @@ create table announcement (
 
 create table grade (
 	id serial primary key,
-	student_id varchar(10) not null references system_user,
-	teacher_id varchar(10) not null references system_user,
+	student_id varchar(10) not null references system_user on delete cascade,
+	teacher_id varchar(10) not null references system_user on delete set null,
 	grade integer not null,
 	weight double precision not null
 );
 
 create table teaching (
     id serial primary key,
-	teacher_id varchar(10) not null references system_user,
+	teacher_id varchar(10) not null references system_user on delete cascade,
 	subject_id integer not null references subject,
     class_id integer not null references class
 );
 
 create table task (
-	announcement_id integer primary key references announcement,
+	announcement_id integer primary key references announcement on delete cascade,
 	deadline timestamp not null,
 	status varchar(100) not null,
 	type varchar(100) not null
@@ -81,31 +81,31 @@ create table task (
 
 create table comment (
 	id serial primary key,
-	person_id varchar(10) not null references system_user,
-	task_id integer references task,
-	announcement_id integer references announcement,
+	person_id varchar(10) not null references system_user on delete cascade,
+	task_id integer references task on delete cascade,
+	announcement_id integer references announcement on delete cascade,
 	text varchar(255) not null,
 	published timestamp not null
 );
 
 create table submittable_task (
 	id serial primary key,
-	student_id varchar(10) not null references system_user,
-	grade_id integer references grade,
-	task_id integer not null references task,
+	student_id varchar(10) not null references system_user on delete cascade,
+	grade_id integer references grade on delete set null,
+	task_id integer not null references task on delete cascade,
 	graded timestamp not null,
 	text text,
 	submitted timestamp
 );
 
 create table submittable_task_file (
-	file_id integer primary key references file,
-	submittable_task integer not null references submittable_task
+	file_id integer primary key references file on delete cascade,
+	submittable_task integer not null references submittable_task on delete cascade
 );
 
 create table lesson (
 	id serial primary key,
-	teaching_id integer not null references teaching,
+	teaching_id integer not null references teaching on delete cascade,
 	topic varchar(255),
 	sequence integer not null,
 	start_time date not null unique,
@@ -114,8 +114,8 @@ create table lesson (
 
 create table absence (
 	id serial primary key,
-	student_id varchar(10) not null references system_user,
-	lesson_id integer not null references lesson,
+	student_id varchar(10) not null references system_user on delete cascade,
+	lesson_id integer not null references lesson on delete cascade,
 	status varchar(100) not null,
 	modification_date timestamp not null
 );
