@@ -21,7 +21,7 @@ export class UserService {
 
     createUser(user: SignUpData) {
         return this.http.post<User>(`${this.base}/register`, user).pipe(
-            this.userRepo.withRequestStatus('userLoading', users => this.userRepo.setUser(users)),
+            this.userRepo.withRequestStatus('userLoading', createdUser => this.userRepo.setUser(createdUser)),
         );
     }
 
@@ -33,13 +33,13 @@ export class UserService {
 
     createTeacher(teacherSignUp: TeacherSignUp) {
         return this.http.post<User>(`${this.base}/teacher`, teacherSignUp).pipe(
-            this.userRepo.withRequestStatus('userLoading', () => {}),
+            this.userRepo.withRequestStatus('userLoading', createdUser => this.userRepo.setUser(createdUser)),
         );
     }
 
     createStudent(studentSignUp: StudentSignUp) {
         return this.http.post<User>(`${this.base}/student`, studentSignUp).pipe(
-            this.userRepo.withRequestStatus('userLoading', () => {}),
+            this.userRepo.withRequestStatus('userLoading', createdUser => this.userRepo.setUser(createdUser)),
         );
     }
 
