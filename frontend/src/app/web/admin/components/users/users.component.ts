@@ -1,11 +1,12 @@
-import {Component, DestroyRef, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, DestroyRef, effect, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {UserService} from "../../../common/rest/user.service";
 import {UserRepository} from "../../../common/state/users.repository";
-import {distinctUntilChanged, Observable} from "rxjs";
+import {distinctUntilChanged, Observable, of} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Table} from "primeng/table";
 import {SignUpData, StudentSignUp, TeacherSignUp, User} from "../../../common/util/models/user-models";
+import {Role} from "../../../common/util/enums/Role";
 
 @Component({
     templateUrl: './users.component.html',
@@ -90,21 +91,30 @@ export class UsersComponent implements OnInit {
     }
 
     saveUser(signUpData: SignUpData) {
-        /*this.userService.createUser(signUpData)
+        this.userService.createUser(signUpData)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() => {
                 this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Felhasználó hozzáadva', life: 3000 });
                 this.closeDialog();
-            });*/
-        console.log(signUpData);
+            });
     }
 
     saveStudent(studentSignUp: StudentSignUp) {
-        console.log(studentSignUp);
+        this.userService.createStudent(studentSignUp)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(() => {
+                this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Tanuló hozzáadva', life: 3000 });
+                this.closeDialog();
+            })
     }
 
     saveTeacher(teacherSignUp: TeacherSignUp) {
-        console.log(teacherSignUp);
+        this.userService.createTeacher(teacherSignUp)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(() => {
+                this.messageService.add({ severity: 'success', summary: 'Sikeres', detail: 'Oktató hozzáadva', life: 3000 });
+                this.closeDialog();
+            })
     }
 
     get parents$() {

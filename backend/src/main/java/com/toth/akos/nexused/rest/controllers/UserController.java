@@ -1,6 +1,7 @@
 package com.toth.akos.nexused.rest.controllers;
 
 import com.toth.akos.nexused.dtos.StudentDTO;
+import com.toth.akos.nexused.dtos.TeacherDTO;
 import com.toth.akos.nexused.dtos.UserDTO;
 import com.toth.akos.nexused.services.UserService;
 import jakarta.validation.Valid;
@@ -37,9 +38,16 @@ public class UserController {
         return ResponseEntity.ok(userService.deleteUser(uid));
     }
 
-    @PostMapping("/student")
-    public ResponseEntity<StudentDTO> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
-        StudentDTO createdStudent = userService.registerStudent(studentDTO);
-        return ResponseEntity.created(URI.create("/student/" + createdStudent.id())).body(createdStudent);
+    @PostMapping("/teacher")
+    public ResponseEntity<UserDTO> createStudent(@Valid @RequestBody TeacherDTO teacherDTO) {
+        UserDTO createdTeacher = userService.createTeacher(teacherDTO);
+        return ResponseEntity.created(URI.create("/users/" + createdTeacher.getUid())).body(createdTeacher);
     }
+
+    @PostMapping("/student")
+    public ResponseEntity<UserDTO> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
+        UserDTO createdStudent = userService.createStudent(studentDTO);
+        return ResponseEntity.created(URI.create("/users/" + createdStudent.getUid())).body(createdStudent);
+    }
+
 }

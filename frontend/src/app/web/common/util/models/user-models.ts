@@ -20,14 +20,14 @@ export interface User {
 
 export type SignUpData = Omit<User, 'uid' | 'online' | 'token'>;
 
-export interface StudentSignUp {
+export interface StudentSignUp extends SignUpData {
     parentId: string;
     classId: number;
 }
 
-export interface TeacherSignUp {
-    subjectId: number[];
-    classId: number[];
+export interface TeacherSignUp extends SignUpData {
+    subjectIds: number[];
+    classIds: number[];
 }
 
 export interface UserDropdown extends Pick<User, 'uid' | 'firstName' | 'lastName'> {
@@ -40,6 +40,10 @@ export interface ClassDropdown extends Class {
 
 export interface SubjectDropdown extends Subject {
     dropDownValue: string;
+}
+
+export interface SchoolDropdown {
+    name: string;
 }
 
 

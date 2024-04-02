@@ -4,7 +4,6 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {ClassDropdown, UserDropdown, User} from "../../../../../common/util/models/user-models";
 import {StudentForm} from "../../../../../common/util/models/user-form-models";
 import {ClassService} from "../../../../../common/rest/class.service";
-import {ClassRepository} from "../../../../../common/state/classes.repository";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
@@ -61,10 +60,7 @@ export class StudentCreationComponent implements OnInit, OnDestroy {
 
     destroyRef = inject(DestroyRef);
 
-    constructor(
-        private classService: ClassService,
-        private classRepo: ClassRepository
-    ) {
+    constructor(private classService: ClassService) {
         this.studentForm = new FormGroup<StudentForm>({
             parentControl: new FormControl<UserDropdown | null>(null, Validators.required),
             classControl: new FormControl<ClassDropdown | null>(null, Validators.required)

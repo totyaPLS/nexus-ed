@@ -1,15 +1,14 @@
 package com.toth.akos.nexused.services;
 
-import com.toth.akos.nexused.dtos.CredentialsDTO;
-import com.toth.akos.nexused.dtos.SignUpDTO;
-import com.toth.akos.nexused.dtos.StudentDTO;
-import com.toth.akos.nexused.dtos.UserDTO;
+import com.toth.akos.nexused.dtos.*;
 import com.toth.akos.nexused.entities.Student;
+import com.toth.akos.nexused.entities.Teaching;
 import com.toth.akos.nexused.entities.User;
 import com.toth.akos.nexused.exceptions.ApplicationException;
 import com.toth.akos.nexused.mappers.StudentMapper;
 import com.toth.akos.nexused.mappers.UserMapper;
 import com.toth.akos.nexused.repositories.StudentRepository;
+import com.toth.akos.nexused.repositories.TeachingRepository;
 import com.toth.akos.nexused.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +24,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final StudentRepository studentRepository;
+    private final TeachingRepository teachingRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
     private final StudentMapper studentMapper;
@@ -43,7 +43,7 @@ public class UserService {
         Optional<User> oUser = userRepository.findByUid(signUpDTO.publicEmail());
 
         if (oUser.isPresent()) {
-            throw new ApplicationException("Login already exists", HttpStatus.BAD_REQUEST);
+            throw new ApplicationException("User already exists", HttpStatus.BAD_REQUEST);
         }
 
         User user = userMapper.signUpDTOToUser(signUpDTO);
@@ -53,17 +53,22 @@ public class UserService {
         return userMapper.toUserDTO(savedUser);
     }
 
-    public StudentDTO registerStudent(StudentDTO studentDTO) {
-        Optional<Student> oStudent = studentRepository.findById(studentDTO.id());
-
-        if (oStudent.isPresent()) {
-            throw new ApplicationException("Student already exists", HttpStatus.BAD_REQUEST);
+    public UserDTO createTeacher(TeacherDTO teacherDTO) {
+        SignUpDTO teacherSignUpDTO = userMapper.teacherDTOToSignUpDTO(teacherDTO);
+        UserDTO registeredTeacher = register(teacherSignUpDTO);
+        for (int subjectId : teacherDTO.subjectIds()) {
+            for (int classId : teacherDTO.classIds()) {
+                teachingRepository.save(new Teaching(0, registeredTeacher.getUid(), subjectId, classId));
+            }
         }
+        return registeredTeacher;
+    }
 
-        Student student = studentMapper.studentDTOToStudent(studentDTO);
-        Student savedStudent = studentRepository.save(student);
-
-        return studentMapper.toStudentDTO(savedStudent);
+    public UserDTO createStudent(StudentDTO studentDTO) {
+        SignUpDTO studentSignUpDTO = userMapper.studentDTOToSignUpDTO(studentDTO);
+        UserDTO registeredStudent = register(studentSignUpDTO);
+        studentRepository.save(new Student(registeredStudent.getUid(), studentDTO.classId(), studentDTO.parentId()));
+        return registeredStudent;
     }
 
     public List<UserDTO> allUsers() {

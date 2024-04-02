@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {UserRepository} from "../state/users.repository";
-import {SignUpData, User} from "../util/models/user-models";
+import {SignUpData, StudentSignUp, TeacherSignUp, User} from "../util/models/user-models";
 
 @Injectable({
     providedIn: 'root',
@@ -20,8 +20,8 @@ export class UserService {
     }
 
     createUser(user: SignUpData) {
-        return this.http.post<User[]>(`${this.base}/register`, user).pipe(
-            this.userRepo.withRequestStatus('userLoading', users => this.userRepo.setUsers(users)),
+        return this.http.post<User>(`${this.base}/register`, user).pipe(
+            this.userRepo.withRequestStatus('userLoading', users => this.userRepo.setUser(users)),
         );
     }
 
@@ -30,4 +30,18 @@ export class UserService {
             this.userRepo.withRequestStatus('userLoading', () => this.userRepo.deleteUser(uid)),
         );
     }
+
+    createTeacher(teacherSignUp: TeacherSignUp) {
+        return this.http.post<User>(`${this.base}/teacher`, teacherSignUp).pipe(
+            this.userRepo.withRequestStatus('userLoading', () => {}),
+        );
+    }
+
+    createStudent(studentSignUp: StudentSignUp) {
+        return this.http.post<User>(`${this.base}/student`, studentSignUp).pipe(
+            this.userRepo.withRequestStatus('userLoading', () => {}),
+        );
+    }
+
+
 }

@@ -22,7 +22,7 @@
                 <small class="p-error block" *ngIf="isInputInvalid('password')">A jelszó megadása kötelező.</small>
             </div>
 
-            <!--<div class="grid">
+            <div class="grid">
                 <div class="field col-6">
                     <label for="first-name">Telefonszám</label>
                     <input type="text" pInputText id="phone" formControlName="phone"/>
@@ -75,7 +75,7 @@
                     <input type="text" pInputText id="residence" formControlName="residence"/>
                     <small class="p-error block" *ngIf="isInputInvalid('residence')">A lakhely megadása kötelező.</small>
                 </div>
-            </div>-->
+            </div>
 
             <h5>Jogosultságok</h5>
             <div class="grid formgrid">
@@ -101,12 +101,6 @@
                     <div class="field-radiobutton">
                         <p-radioButton [value]="Role.TEACHER" formControlName="role" id="teacher"></p-radioButton>
                         <label for="teacher">{{ ROLE_TYPE.TEACHER }}</label>
-                    </div>
-                </div>
-                <div class="col-12 md:col-4">
-                    <div class="field-radiobutton">
-                        <p-radioButton [value]="Role.FORM_TEACHER" formControlName="role" id="form-teacher"></p-radioButton>
-                        <label for="form-teacher">{{ ROLE_TYPE.FORM_TEACHER }}</label>
                     </div>
                 </div>
             </div>

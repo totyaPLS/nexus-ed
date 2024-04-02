@@ -66,13 +66,13 @@ export class UserPopupComponent implements OnInit {
         this.userForm = new FormGroup<SignUpForm>({
             firstName: new FormControl('', Validators.required),
             lastName: new FormControl('', Validators.required),
-            /*phone: new FormControl('', Validators.required),
+            phone: new FormControl('', Validators.required),
             publicEmail: new FormControl('', Validators.required),
             schoolEmail: new FormControl('', Validators.required),
-            school: new FormControl('', Validators.required),
+            school: new FormControl(null, Validators.required),
             residence: new FormControl('', Validators.required),
             birthplace: new FormControl('', Validators.required),
-            birthdate: new FormControl(null, Validators.required),*/
+            birthdate: new FormControl(null, Validators.required),
             role: new FormControl(null, Validators.required),
             password: new FormControl('', Validators.required)
         });
@@ -88,21 +88,39 @@ export class UserPopupComponent implements OnInit {
     }
 
     saveUser() {
-        this.saveUserEvent.emit(this.userForm.value as SignUpData);
+        const formValues = this.userForm.getRawValue();
+        const signUpData: SignUpData = {
+            firstName: formValues.firstName!,
+            lastName: formValues.lastName!,
+            phone: formValues.phone!,
+            publicEmail: formValues.publicEmail!,
+            schoolEmail: formValues.schoolEmail!,
+            school: formValues.school!.name,
+            residence: formValues.residence!,
+            birthplace: formValues.birthplace!,
+            birthdate: formValues.birthdate!,
+            role: formValues.role!,
+            password: formValues.password!
+        };
         if (this.studentForm) {
             const studentValues: StudentSignUp = {
+                ...signUpData,
                 parentId: this.studentForm.controls.parentControl.value!.uid,
                 classId: this.studentForm.controls.classControl.value!.id
             }
             this.saveStudentEvent.emit(studentValues);
+            return;
         }
         if (this.teacherForm) {
             const teacherValues: TeacherSignUp = {
-                subjectId: this.teacherForm.controls.subjectControl.value!.map(subject => subject.id),
-                classId: this.teacherForm.controls.classControl.value!.map(aClass => aClass.id)
+                ...signUpData,
+                subjectIds: this.teacherForm.controls.subjectControl.value!.map(subject => subject.id),
+                classIds: this.teacherForm.controls.classControl.value!.map(aClass => aClass.id)
             }
             this.saveTeacherEvent.emit(teacherValues);
+            return;
         }
+        this.saveUserEvent.emit(signUpData);
     }
 
     isInputInvalid(formControlName: string) {

@@ -7,6 +7,7 @@ import com.toth.akos.nexused.entities.ClassSchool;
 import com.toth.akos.nexused.entities.User;
 import com.toth.akos.nexused.enums.Role;
 import com.toth.akos.nexused.exceptions.ApplicationException;
+import com.toth.akos.nexused.mappers.UserMapper;
 import com.toth.akos.nexused.repositories.ClassRepository;
 import com.toth.akos.nexused.repositories.UserRepository;
 import com.toth.akos.nexused.services.UserService;
@@ -32,6 +33,7 @@ public class UserDbSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final ClassRepository classRepository;
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @Override
     public void run(String... args) {
@@ -52,6 +54,11 @@ public class UserDbSeeder implements CommandLineRunner {
     }
 
     private UserDTO registerUser(Role roleToBeRegistered) {
+        SignUpDTO signUpDTO = genUserData(roleToBeRegistered);
+        return userService.register(signUpDTO);
+    }
+
+    private SignUpDTO genUserData(Role roleToBeRegistered) {
         String firstName = genFirstName();
         String lastName = genLastName();
         String psw = "q1w2e3r4";
@@ -64,19 +71,17 @@ public class UserDbSeeder implements CommandLineRunner {
         Role role = roleToBeRegistered;
         LocalDate birthDate = genBirthDate(role);
 
-        SignUpDTO signUpDTO = new SignUpDTO(
+        return new SignUpDTO(
                 firstName, lastName, phone, pubEmail, schoolEmail, school, residence, birthPlace, birthDate,
                 role, psw.toCharArray()
         );
-
-        return userService.register(signUpDTO);
     }
 
     private void registerFormTeachersAndClasses() {
         char[] classLetters = {'A', 'B', 'C'};
         for (int classLevel = 9; classLevel <= 12; classLevel++) {
             for (char classLetter : classLetters) {
-                UserDTO registeredFT = registerUser(Role.FORM_TEACHER);
+                UserDTO registeredFT = registerUser(Role.TEACHER);
                 Optional<User> foundFT = this.userRepository.findByPhoneAndAndBirthdate(registeredFT.getPhone(), registeredFT.getBirthdate());
                 if (foundFT.isPresent()) {
                     loadClassData(foundFT.get().getUid(), classLevel, classLetter);
@@ -88,15 +93,12 @@ public class UserDbSeeder implements CommandLineRunner {
     private void registerParentsWithStudents() {
         for (int i = 0; i < USER_AMOUNT*0.4; i++) {
             UserDTO registeredParent = registerUser(Role.PARENT);
-            Optional<User> foundParent = this.userRepository.findByPhoneAndAndBirthdate(
-                    registeredParent.getPhone(),
-                    registeredParent.getBirthdate()
-            );
             List<ClassSchool> classes = classRepository.findAll();
-            if(foundParent.isPresent() && !classes.isEmpty()) {
+            if(!classes.isEmpty()) {
                 int classId = classes.get(RANDOM.nextInt(classes.size())).getId();
-                UserDTO student = registerUser(Role.STUDENT);
-                userService.registerStudent(new StudentDTO(student.getUid(), classId, foundParent.get().getUid()));
+                SignUpDTO studentSignUpDTO = genUserData(Role.STUDENT);
+                StudentDTO studentDTO = userMapper.userDTOToStudentDTO(studentSignUpDTO, classId, registeredParent.getUid());
+                userService.createStudent(studentDTO);
             }
         }
     }
@@ -236,11 +238,6 @@ public class UserDbSeeder implements CommandLineRunner {
         int endYear = 2008;
 
         if (role == Role.PARENT) {
-            startYear = 1950;
-            endYear = 1985;
-        }
-
-        if (role == Role.TEACHER || role == Role.FORM_TEACHER) {
             startYear = 1950;
             endYear = 1985;
         }

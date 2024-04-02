@@ -4,7 +4,7 @@ import com.toth.akos.nexused.enums.Role;
 
 import java.time.LocalDate;
 
-public record StudentDTO (
+public record TeacherDTO(
         String firstName,
         String lastName,
         String phone,
@@ -16,6 +16,6 @@ public record StudentDTO (
         LocalDate birthdate,
         Role role,
         char[] password,
-        int classId,
-        String parentId
+        int[] subjectIds,
+        int[] classIds
 ){}

@@ -2,16 +2,14 @@ export enum Role {
     ADMIN = 'ADMIN',
     STUDENT = 'STUDENT',
     PARENT = 'PARENT',
-    TEACHER = 'TEACHER',
-    FORM_TEACHER = 'FORM_TEACHER'
+    TEACHER = 'TEACHER'
 }
 
 export const ROLE_TYPE = {
     [Role.ADMIN]: 'Admin',
     [Role.STUDENT]: 'Tanuló',
     [Role.PARENT]: 'Szülő',
-    [Role.TEACHER]: 'Tanár',
-    [Role.FORM_TEACHER]: 'Tanár és Osztályfőnök',
+    [Role.TEACHER]: 'Tanár'
 } as const;
 
 export function getRoleName(value: Role | null) {
