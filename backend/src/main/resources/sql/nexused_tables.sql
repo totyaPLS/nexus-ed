@@ -108,8 +108,8 @@ create table lesson (
 	teaching_id integer not null references teaching on delete cascade,
 	topic varchar(255),
 	sequence integer not null,
-	start_time date not null unique,
-	end_time date not null unique
+	start_time timestamp without time zone not null unique,
+	end_time timestamp without time zone not null unique
 );
 
 create table absence (
