@@ -107,9 +107,11 @@ create table lesson (
 	id serial primary key,
 	teaching_id integer not null references teaching on delete cascade,
 	topic varchar(255),
-	sequence integer not null,
-	start_time timestamp without time zone not null unique,
-	end_time timestamp without time zone not null unique
+	start timestamp with time zone,
+	"end" timestamp with time zone,
+    background_color varchar(255),
+    border_color varchar(255),
+    text_color varchar(255)
 );
 
 create table absence (
