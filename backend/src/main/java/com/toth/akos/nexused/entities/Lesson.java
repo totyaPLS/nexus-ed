@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,12 +28,18 @@ public class Lesson {
     @Column(name = "topic")
     private String topic;
 
-    @Column(name = "sequence")
-    private int sequence;
+    @Column(name = "start")
+    private Instant start;
 
-    @Column(name = "start_time")
-    private LocalDate startTime;
+    @Column(name = "end")
+    private Instant end;
 
-    @Column(name = "end_time")
-    private LocalDate endTime;
+    @Column(name = "background_color")
+    private String backgroundColor;
+
+    @Column(name = "border_color")
+    private String borderColor;
+
+    @Column(name = "text_color")
+    private String text_color;
 }
