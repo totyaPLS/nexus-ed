@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     List<Subject> findAllByIdNotIn(List<Integer> ids);
+
+    List<Subject> findAllByClassDifficulty(Integer classDifficulty);
 }

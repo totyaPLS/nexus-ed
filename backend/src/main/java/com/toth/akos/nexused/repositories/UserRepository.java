@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByUid(String uid);
     Optional<User> findByRole(Role role);
-    long countByRole(Role role);
+    int countByRole(Role role);
     List<User> findAllByRole(Role role);
     Optional<User> findByPhoneAndAndBirthdate(String phone, LocalDate birthdate);
 }

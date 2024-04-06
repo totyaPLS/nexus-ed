@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ClassRepository extends JpaRepository<ClassSchool, Integer> {
     List<ClassSchool> findAllByClassLevelIn(List<Integer> classLevels);
+
+    List<ClassSchool> findAllByClassLevel(Integer classLevel);
 }
