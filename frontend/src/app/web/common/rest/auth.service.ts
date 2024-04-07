@@ -4,6 +4,8 @@ import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {Credentials} from "../util/models/auth-models";
 import {User} from "../util/models/user-models";
+import {Role} from "../util/enums/Role";
+import {el} from "@fullcalendar/core/internal-common";
 
 @Injectable({
     providedIn: 'root',
@@ -31,7 +33,11 @@ export class AuthService {
         let users$ = this.http.post<User>(`${this.loginBase}/login`, credentials);
         users$.subscribe(response => {
             this.setAuthToken(response.token);
-            this.router.navigate(['/users']);
+            if (response.role === Role.ADMIN) {
+                this.router.navigate(['/users']);
+            } else {
+                this.router.navigate(['/timetable']);
+            }
         });
         return users$;
     }

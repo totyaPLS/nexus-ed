@@ -19,8 +19,4 @@ export class SubjectService {
             this.subjectRepo.withRequestStatus('subjects', subjects => this.subjectRepo.setSubjects(subjects)),
         );
     }
-
-    listLessons() {
-        return this.http.get<Lesson[]>(`${this.base}/lessons`);
-    }
 }

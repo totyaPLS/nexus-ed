@@ -1,18 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 // @fullcalendar plugins
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import huLocale from '@fullcalendar/core/locales/hu';
 import {Lesson} from "../../util/models/timetable-models";
-import {SubjectService} from "../../rest/subject.service";
+import {LessonsRepository} from "../../state/lessons.repository";
+import {distinctUntilChanged, Observable} from "rxjs";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {LessonService} from "../../rest/lesson.service";
 
 @Component({
     templateUrl: './calendar.app.component.html',
     styleUrls: ['./calendar.app.component.scss']
 })
 export class CalendarAppComponent implements OnInit {
-    lessons: Lesson[] = [];
+    loading$: Observable<boolean>;
+    lessons$!: Observable<Lesson[]>;
     today: string = '';
     calendarOptions: any;
     showDialog: boolean = false;
@@ -20,12 +24,24 @@ export class CalendarAppComponent implements OnInit {
     view: string = '';
     changedEvent: any;
 
-    constructor(subjectService: SubjectService) {
-        subjectService.listLessons().subscribe();
+    destroyRef = inject(DestroyRef);
+
+    constructor(private lessonService: LessonService,
+                private lessonsRepository: LessonsRepository) {
+        this.lessons$ = lessonsRepository.lessons$;
+        this.loading$ = this.lessonsRepository.listLoading$.pipe(
+            distinctUntilChanged(),
+        );
     }
 
     ngOnInit(): void {
         this.setCurrentDate();
+
+        this.lessonService.listLessons().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+            lessons => {
+                this.calendarOptions = {...this.calendarOptions, ...{events: lessons}};
+            }
+        );
 
         this.calendarOptions = {
             plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -38,9 +54,8 @@ export class CalendarAppComponent implements OnInit {
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            events: this.lessons,
-            editable: false,
-            selectable: false,
+            editable: true,
+            selectable: true,
             selectMirror: true,
             dayMaxEvents: true,
             eventClick: (e: MouseEvent) => this.onEventClick(e),

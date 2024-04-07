@@ -4,6 +4,7 @@ import {AppLayoutComponent} from "./layout/app.layout.component";
 import {Admin} from "./config/guards/Admin";
 import {Guest} from "./config/guards/Guest";
 import {AuthGuard} from "./config/guards/AuthGuard";
+import {AllExceptAdmin} from "./config/guards/AllExceptAdmin";
 
 const routerOptions: ExtraOptions = {
     anchorScrolling: 'enabled'
@@ -23,7 +24,8 @@ const routes: Routes = [
         children: [
             {
                 path: 'timetable',
-                loadChildren: () => import('./web/common/pages/timetable/calendar.app.module').then(m => m.CalendarAppModule)
+                loadChildren: () => import('./web/common/pages/timetable/calendar.app.module').then(m => m.CalendarAppModule),
+                canActivate: [AllExceptAdmin]
             },
             {
                 path: 'users',

@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,8 +14,8 @@ public class LessonDTO {
     private int teachingId;
     private String topic;
     private String title;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private String start;
+    private String end;
     private String backgroundColor;
     private String borderColor;
     private String textColor;

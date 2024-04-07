@@ -2,15 +2,16 @@ package com.toth.akos.nexused.services;
 
 import com.toth.akos.nexused.dtos.LessonDTO;
 import com.toth.akos.nexused.dtos.SubjectDTO;
-import com.toth.akos.nexused.entities.*;
+import com.toth.akos.nexused.entities.Lesson;
+import com.toth.akos.nexused.entities.Student;
+import com.toth.akos.nexused.entities.Subject;
+import com.toth.akos.nexused.entities.Teaching;
 import com.toth.akos.nexused.exceptions.ApplicationException;
 import com.toth.akos.nexused.mappers.LessonMapper;
 import com.toth.akos.nexused.mappers.SubjectMapper;
 import com.toth.akos.nexused.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class SubjectService {
     private final LessonRepository lessonRepository;
     private final SubjectMapper subjectMapper;
     private final LessonMapper lessonMapper;
+    private final AuthService authService;
 
     public List<SubjectDTO> listAvailableSubjects() {
         List<Teaching> teachings = teachingRepository.findAll();
@@ -43,25 +45,22 @@ public class SubjectService {
     }
 
     public List<LessonDTO> listLessons() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println();
-        List<LessonDTO> lessons = new ArrayList<>();
-        // TODO
-        /*switch (foundUser.getRole()) {
-            case TEACHER -> lessons = listTeacherLessons(foundUser.getUid());
-            case STUDENT -> lessons = listStudentLessons(foundUser.getUid());
-            case PARENT -> lessons = listParentLessons(foundUser.getUid());
+        List<LessonDTO> lessons;
+        switch (authService.getPrincipalRole()) {
+            case TEACHER -> lessons = listTeacherLessons();
+            case STUDENT -> lessons = listStudentLessons();
+            case PARENT -> lessons = listParentLessons();
             default -> throw new ApplicationException("No lessons found by this user's role", HttpStatus.NOT_FOUND);
-        }*/
+        }
         return lessons;
     }
 
-    private List<LessonDTO> listTeacherLessons(String uid) {
-        return null;
+    private List<LessonDTO> listTeacherLessons() {
+        return null; // TODO
     }
 
-    private List<LessonDTO> listStudentLessons(String uid) {
-        Optional<Student> oStudent = studentRepository.findById(uid);
+    private List<LessonDTO> listStudentLessons() {
+        Optional<Student> oStudent = studentRepository.findById(authService.getPrincipalUid());
         if (oStudent.isEmpty()) {
             throw new ApplicationException("Student not found", HttpStatus.NOT_FOUND);
         }
@@ -81,8 +80,8 @@ public class SubjectService {
         return lessonDTOs;
     }
 
-    private List<LessonDTO> listParentLessons(String uid) {
-        return null;
+    private List<LessonDTO> listParentLessons() {
+        return null; // TODO
     }
 
     private Subject getSubjectById(int subjectId) {
