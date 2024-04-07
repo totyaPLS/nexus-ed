@@ -6,7 +6,7 @@ import {inject} from "@angular/core";
 
 export const Admin: CanActivateFn = (route, state) => {
     const router = inject(Router);
-    const token = localStorage.getItem('auth_token');
+    const token = sessionStorage.getItem('auth_token');
 
     if (!token) {
         router.navigate(['/login']);
@@ -15,7 +15,7 @@ export const Admin: CanActivateFn = (route, state) => {
 
     const decodedCredential = jwtDecode<CustomJwtPayload>(token);
     if (decodedCredential.role !== Role.ADMIN) {
-        router.navigate(['/login']);
+        router.navigate(['/notfound']);
         return false;
     }
 

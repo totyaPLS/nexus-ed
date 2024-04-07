@@ -41,7 +41,7 @@ export class AppTopbarComponent {
     }
 
     logout() {
-        localStorage.removeItem('auth_token');
+        sessionStorage.removeItem('auth_token');
         this.router.navigateByUrl('/login');
     }
 }

@@ -16,14 +16,14 @@ export class AuthService {
     }
 
     getAuthToken(): string | null {
-        return window.localStorage.getItem('auth_token');
+        return sessionStorage.getItem('auth_token');
     }
 
     setAuthToken(token: string | null): void {
         if (token !== null) {
-            window.localStorage.setItem('auth_token', token);
+            sessionStorage.setItem('auth_token', token);
         } else {
-            window.localStorage.removeItem('auth_token');
+            sessionStorage.removeItem('auth_token');
         }
     }
 

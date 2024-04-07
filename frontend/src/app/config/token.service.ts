@@ -7,15 +7,15 @@ export class TokenService {
     private tokenKey = 'auth_token';
 
     setToken(token: string) {
-        localStorage.setItem(this.tokenKey, token);
+        sessionStorage.setItem(this.tokenKey, token);
     }
 
     getToken() {
-        return localStorage.getItem(this.tokenKey);
+        return sessionStorage.getItem(this.tokenKey);
     }
 
     removeToken() {
-        localStorage.removeItem(this.tokenKey);
+        sessionStorage.removeItem(this.tokenKey);
     }
 
     isTokenExpired() {
