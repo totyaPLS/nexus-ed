@@ -107,8 +107,8 @@ create table lesson (
 	id serial primary key,
 	teaching_id integer not null references teaching on delete cascade,
 	topic varchar(255),
-	start timestamp with time zone,
-	"end" timestamp with time zone,
+	start_time timestamp with time zone,
+	end_time timestamp with time zone,
     background_color varchar(255),
     border_color varchar(255),
     text_color varchar(255)

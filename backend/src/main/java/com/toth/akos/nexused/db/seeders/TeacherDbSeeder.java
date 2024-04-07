@@ -38,7 +38,7 @@ public class TeacherDbSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (userRepository.findByRole(Role.TEACHER).isPresent()) return;
+        if (!userRepository.findByRole(Role.TEACHER).isEmpty()) return;
         registerTeachers();
         assignFormTeachers();
     }

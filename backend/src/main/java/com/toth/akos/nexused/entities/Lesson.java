@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,11 +25,11 @@ public class Lesson {
     @Column(name = "topic")
     private String topic;
 
-    @Column(name = "start")
-    private Instant start;
+    @Column(name = "start_time")
+    private LocalDateTime start;
 
-    @Column(name = "end")
-    private Instant end;
+    @Column(name = "end_time")
+    private LocalDateTime end;
 
     @Column(name = "background_color")
     private String backgroundColor;
@@ -41,5 +38,5 @@ public class Lesson {
     private String borderColor;
 
     @Column(name = "text_color")
-    private String text_color;
+    private String textColor;
 }
