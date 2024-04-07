@@ -1,5 +1,6 @@
 package com.toth.akos.nexused.rest.controllers;
 
+import com.toth.akos.nexused.dtos.LessonDTO;
 import com.toth.akos.nexused.dtos.SubjectDTO;
 import com.toth.akos.nexused.services.SubjectService;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +18,10 @@ public class SubjectController {
     @GetMapping("/availableSubjects")
     public ResponseEntity<List<SubjectDTO>> availableSubjects() {
         return ResponseEntity.ok(subjectService.listAvailableSubjects());
+    }
+
+    @GetMapping("/lessons")
+    public ResponseEntity<List<LessonDTO>> getLessons() {
+        return ResponseEntity.ok(subjectService.listLessons());
     }
 }

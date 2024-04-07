@@ -1,13 +1,24 @@
 package com.toth.akos.nexused.dtos;
 
-import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record LessonDTO(
-        int id,
-        int teachingId,
-        String topic,
-        int sequence,
-        LocalDate startTime,
-        LocalDate endTime
-) {
+import java.time.LocalDateTime;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class LessonDTO {
+    private int id;
+    private int teachingId;
+    private String topic;
+    private String title;
+    private LocalDateTime start;
+    private LocalDateTime end;
+    private String backgroundColor;
+    private String borderColor;
+    private String textColor;
 }

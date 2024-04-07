@@ -13,7 +13,7 @@ import com.toth.akos.nexused.repositories.ClassRepository;
 import com.toth.akos.nexused.repositories.SubjectRepository;
 import com.toth.akos.nexused.repositories.TeachingRepository;
 import com.toth.akos.nexused.repositories.UserRepository;
-import com.toth.akos.nexused.services.DbLoaderService;
+import com.toth.akos.nexused.services.DbSeederService;
 import com.toth.akos.nexused.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -32,7 +32,7 @@ public class TeacherDbSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final TeachingRepository teachingRepository;
     private final ClassRepository classRepository;
-    private final DbLoaderService dbLoaderService;
+    private final DbSeederService dbLoaderService;
     private final UserService userService;
     private final UserMapper userMapper;
 

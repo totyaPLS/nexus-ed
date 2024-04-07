@@ -5,6 +5,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import huLocale from '@fullcalendar/core/locales/hu';
 import {Lesson} from "../../util/models/timetable-models";
+import {SubjectService} from "../../rest/subject.service";
 
 @Component({
     templateUrl: './calendar.app.component.html',
@@ -19,13 +20,12 @@ export class CalendarAppComponent implements OnInit {
     view: string = '';
     changedEvent: any;
 
-    constructor() {
-        // TODO: init lessons
+    constructor(subjectService: SubjectService) {
+        subjectService.listLessons().subscribe();
     }
 
     ngOnInit(): void {
-        // this.setCurrentDate();
-        this.today = "2022-05-11";
+        this.setCurrentDate();
 
         this.calendarOptions = {
             plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],

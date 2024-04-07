@@ -9,7 +9,7 @@ import com.toth.akos.nexused.exceptions.ApplicationException;
 import com.toth.akos.nexused.mappers.UserMapper;
 import com.toth.akos.nexused.repositories.ClassRepository;
 import com.toth.akos.nexused.repositories.UserRepository;
-import com.toth.akos.nexused.services.DbLoaderService;
+import com.toth.akos.nexused.services.DbSeederService;
 import com.toth.akos.nexused.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -30,7 +30,7 @@ public class UserDbSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final ClassRepository classRepository;
     private final UserService userService;
-    private final DbLoaderService dbLoaderService;
+    private final DbSeederService dbLoaderService;
     private final UserMapper userMapper;
 
     @Override

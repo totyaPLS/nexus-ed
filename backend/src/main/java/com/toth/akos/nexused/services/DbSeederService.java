@@ -1,7 +1,6 @@
 package com.toth.akos.nexused.services;
 
 import com.toth.akos.nexused.dtos.SignUpDTO;
-import com.toth.akos.nexused.entities.ClassSchool;
 import com.toth.akos.nexused.enums.Role;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +10,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 @Service
-public class DbLoaderService {
+public class DbSeederService {
     private static final Random RANDOM = new Random();
     private static final String NORMAL_REGEX = "\\p{M}";
 
