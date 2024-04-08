@@ -32,6 +32,10 @@ const routes: Routes = [
                 loadChildren: () => import('./web/admin/components/users/users.module').then(m => m.UsersModule),
                 canActivate: [Admin]
             },
+            {
+                path: 'myProfile',
+                loadChildren: () => import('./web/common/pages/profile/profile.module').then(m => m.ProfileModule)
+            },
         ]
     },
     { path: 'notfound', loadChildren: () => import('./web/common/pages/notfound/notfound.module').then(m => m.NotfoundModule) },

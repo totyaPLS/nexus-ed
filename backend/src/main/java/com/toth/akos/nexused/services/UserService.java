@@ -5,7 +5,6 @@ import com.toth.akos.nexused.entities.Student;
 import com.toth.akos.nexused.entities.Teaching;
 import com.toth.akos.nexused.entities.User;
 import com.toth.akos.nexused.exceptions.ApplicationException;
-import com.toth.akos.nexused.mappers.StudentMapper;
 import com.toth.akos.nexused.mappers.UserMapper;
 import com.toth.akos.nexused.repositories.StudentRepository;
 import com.toth.akos.nexused.repositories.TeachingRepository;
@@ -27,7 +26,7 @@ public class UserService {
     private final TeachingRepository teachingRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
-    private final StudentMapper studentMapper;
+    private final AuthService authService;
 
     public UserDTO login(CredentialsDTO credentialsDTO) {
         User user = userRepository.findByUid(credentialsDTO.uid())
@@ -76,9 +75,9 @@ public class UserService {
         return userMapper.toUserDTOs(all);
     }
 
-    public UserDTO getUser(String id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ApplicationException("Student not found", HttpStatus.NOT_FOUND));
+    public UserDTO getLoggedInUser() {
+        User user = userRepository.findById(authService.getPrincipalUid())
+                .orElseThrow(() -> new ApplicationException("User not found", HttpStatus.NOT_FOUND));
         return userMapper.toUserDTO(user);
     }
 

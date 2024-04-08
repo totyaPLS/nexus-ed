@@ -43,5 +43,11 @@ export class UserService {
         );
     }
 
+    getLoggedInUserData() {
+        return this.http.get<User>(`${this.base}/loggedInUser`).pipe(
+            this.userRepo.withRequestStatus('userLoading', user => this.userRepo.setUser(user)),
+        );
+    }
+
 
 }

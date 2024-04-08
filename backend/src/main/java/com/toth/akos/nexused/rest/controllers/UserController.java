@@ -22,9 +22,9 @@ public class UserController {
         return ResponseEntity.ok(userService.allUsers());
     }
 
-    @GetMapping("/users/{uid}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable String uid) {
-        return ResponseEntity.ok(userService.getUser(uid));
+    @GetMapping("/loggedInUser")
+    public ResponseEntity<UserDTO> getLoggedInUser() {
+        return ResponseEntity.ok(userService.getLoggedInUser());
     }
 
     @PostMapping("/users")

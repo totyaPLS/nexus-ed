@@ -2,8 +2,7 @@ import {createStore} from "@ngneat/elf";
 import {
     addEntities,
     deleteEntities,
-    getAllEntities,
-    selectAllEntities,
+    selectAllEntities, selectFirst,
     selectManyByPredicate,
     upsertEntities,
     withEntities
@@ -59,9 +58,9 @@ export class UserRepository {
         );
     }
 
-    getCurrentUsers() {
-        return this.store.query(
-            getAllEntities(),
+    getFirstUser() {
+        return this.store.pipe(
+            selectFirst()
         );
     }
 
@@ -80,6 +79,7 @@ export class UserRepository {
     setUser(user: User) {
         this.store.update(
             upsertEntities(user, {prepend: true}),
+            updateRequestStatus('userLoading', 'success'),
         );
     }
 
