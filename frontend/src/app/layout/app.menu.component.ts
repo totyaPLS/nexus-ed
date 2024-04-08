@@ -1,14 +1,33 @@
-import {OnInit, Component} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {distinctUntilChanged, Observable} from "rxjs";
+import {SubjectService} from "../web/common/rest/subject.service";
+import {SubjectRepository} from "../web/common/state/subjects.repository";
+import {Subject} from "../web/common/util/models/teaching-models";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
     selector: 'app-menu',
     templateUrl: './app.menu.component.html'
 })
 export class AppMenuComponent implements OnInit {
+    loading$: Observable<boolean>;
+    subjects$!: Observable<Subject[]>;
+
+    destroyRef = inject(DestroyRef);
+
+    constructor(private subjectService: SubjectService,
+                private subjectRepository: SubjectRepository) {
+        this.subjects$ = subjectRepository.subjects$;
+        this.loading$ = this.subjectRepository.listLoading$.pipe(
+            distinctUntilChanged(),
+        );
+    }
 
     model: any[] = [];
 
     ngOnInit() {
+        this.subjectService.listSubjectsForMenu().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+
         this.model = [
             {
                 label: 'Órarend',

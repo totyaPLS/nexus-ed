@@ -12,6 +12,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast'
 import { FullCalendarModule } from '@fullcalendar/angular';
+import {NexLoadingModule} from "../../../../config/loading/nex-loading.module";
 @NgModule({
     imports: [
         CommonModule,
@@ -25,7 +26,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
         InputTextModule,
         DropdownModule,
         ToastModule,
-        RippleModule
+        RippleModule,
+        NexLoadingModule
     ],
     declarations: [CalendarAppComponent]
 })

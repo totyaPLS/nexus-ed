@@ -8,9 +8,9 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
         ProgressSpinnerModule
     ],
   template: `
-      <div class="blocked-bg">
+      <div class="blocked-bg flex justify-content-center align-items-center">
           <div class="spinner-box">
-              <p-progressSpinner styleClass="w-4rem h-4rem" ariaLabel="loading"></p-progressSpinner>
+              <p-progressSpinner styleClass="w-3rem h-3rem" strokeWidth="5"></p-progressSpinner>
           </div>
       </div>
   `,
@@ -21,13 +21,19 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: rgba(150, 150, 150, 0.3);
+          background-color: rgba(150, 150, 150, 0.25);
       }
 
-      .spinner-box {
-          position: absolute;
-          top: 45%;
-          left: 45%;
+      .flex {
+          display: flex;
+      }
+
+      .justify-content-center {
+          justify-content: center;
+      }
+
+      .align-items-center {
+          align-items: center;
       }
   `]
 })

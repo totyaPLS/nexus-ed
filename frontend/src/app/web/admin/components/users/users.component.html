@@ -25,7 +25,6 @@
                 currentPageReportTemplate="{first}-{last} megjelenítése a(z) {totalRecords} bejegyzésből"
                 (onPage)="pageChange($event)"
                 [rowsPerPageOptions]="[10, 25, 50]"
-                [nexusLoading]="(loading$ | async)!"
                 [globalFilterFields]="['uid','firstName','lastName']"
             >
                 <ng-template pTemplate="caption">
@@ -72,8 +71,7 @@
                             (closeDialogEvent)="closeDialog()"
                             (saveUserEvent)="saveUser($event)"
                             (saveStudentEvent)="saveStudent($event)"
-                            (saveTeacherEvent)="saveTeacher($event)"
-                            [nexusLoading]="(loading$ | async)!"></app-user-popup>
+                            (saveTeacherEvent)="saveTeacher($event)"></app-user-popup>
         </div>
     </div>
 </div>

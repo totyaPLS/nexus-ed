@@ -19,4 +19,10 @@ export class SubjectService {
             this.subjectRepo.withRequestStatus('subjects', subjects => this.subjectRepo.setSubjects(subjects)),
         );
     }
+
+    listSubjectsForMenu() {
+        return this.http.get<Subject[]>(`${this.base}/subjects`).pipe(
+            this.subjectRepo.withRequestStatus('subjects', subjects => this.subjectRepo.setSubjects(subjects)),
+        );
+    }
 }

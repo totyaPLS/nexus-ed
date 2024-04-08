@@ -10,6 +10,7 @@ import {ToastModule} from "primeng/toast";
 import {CommonModule} from "@angular/common";
 import {AuthInterceptorService} from "./config/auth-interceptor.service";
 import {NexRoleValidationModule} from "./config/auth/nex-role-validation.module";
+import {NexLoadingModule} from "./config/loading/nex-loading.module";
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import {NexRoleValidationModule} from "./config/auth/nex-role-validation.module"
         MessageModule,
         ToastModule,
         CommonModule,
-        NexRoleValidationModule.forRoot()
+        NexRoleValidationModule.forRoot(),
+        NexLoadingModule.forRoot()
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
