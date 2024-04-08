@@ -14,6 +14,8 @@ public class LessonDTO {
     private int teachingId;
     private String topic;
     private String title;
+    private int subjectId;
+    private String classroom;
     private String start;
     private String end;
     private String backgroundColor;

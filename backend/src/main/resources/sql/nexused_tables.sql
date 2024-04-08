@@ -109,6 +109,7 @@ create table lesson (
 	topic varchar(255),
 	start_time timestamp with time zone,
 	end_time timestamp with time zone,
+    classroom varchar(255),
     background_color varchar(255),
     border_color varchar(255),
     text_color varchar(255)

@@ -31,6 +31,9 @@ public class Lesson {
     @Column(name = "end_time")
     private LocalDateTime end;
 
+    @Column(name = "classroom")
+    private String classroom;
+
     @Column(name = "background_color")
     private String backgroundColor;
 

@@ -21,7 +21,6 @@ export class CalendarAppComponent implements OnInit {
     calendarOptions: any;
     showDialog: boolean = false;
     clickedEvent: any = null;
-    view: string = '';
     changedEvent: any;
 
     destroyRef = inject(DestroyRef);
@@ -48,15 +47,23 @@ export class CalendarAppComponent implements OnInit {
             locale: huLocale,
             height: 720,
             initialDate: this.today,
-            initialView: 'timeGridWeek',
+            initialView: 'timeGridWeekdays',
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            editable: true,
-            selectable: true,
-            selectMirror: true,
+            views: {
+                timeGridWeekdays: {
+                    type: 'timeGrid',
+                    dayCount: 5,
+                    slotMinTime: "06:00:00",
+                    slotMaxTime: "18:00:00"
+                }
+            },
+            editable: false,
+            selectable: false,
+            selectMirror: false,
             dayMaxEvents: true,
             eventClick: (e: MouseEvent) => this.onEventClick(e),
         };
@@ -65,7 +72,6 @@ export class CalendarAppComponent implements OnInit {
     onEventClick(e: any) {
         this.clickedEvent = e.event;
         let plainEvent = e.event.toPlainObject({ collapseExtendedProps: true, collapseColor: true });
-        this.view = 'display';
         this.showDialog = true;
 
         this.changedEvent = { ...plainEvent, ...this.clickedEvent };

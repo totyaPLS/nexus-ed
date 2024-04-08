@@ -55,8 +55,9 @@ public class LessonDbSeeder implements CommandLineRunner {
                 LocalDateTime lessonEnds = lessonStarts.plusMinutes(45);
                 List<Teaching> todaysTeachings = weekdayTeachings.get(convertDayOfWeekToInt(currentDate));
                 for (Teaching todaysTeaching : todaysTeachings) {
+                    String randomClassRoom = String.valueOf(RANDOM.nextInt(130 - 100) + 100);
                     Lesson lesson = new Lesson(
-                            0, todaysTeaching.getId(), null, lessonStarts, lessonEnds,
+                            0, todaysTeaching.getId(), null, lessonStarts, lessonEnds, randomClassRoom,
                             "#FFC7E8", "#FFC7E8", "#212121"
                     );
                     timetable.add(lesson);
