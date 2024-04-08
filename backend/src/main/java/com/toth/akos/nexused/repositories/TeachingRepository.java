@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface TeachingRepository extends JpaRepository<Teaching, Integer> {
     List<Teaching> findAllByClassId(Integer classId);
+
+    List<Teaching> findAllByTeacherId(String teacherId);
 }
