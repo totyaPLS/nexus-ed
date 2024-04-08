@@ -9,6 +9,7 @@ import {MessageModule} from "primeng/message";
 import {ToastModule} from "primeng/toast";
 import {CommonModule} from "@angular/common";
 import {AuthInterceptorService} from "./config/auth-interceptor.service";
+import {NexRoleValidationModule} from "./config/auth/nex-role-validation.module";
 
 @NgModule({
     declarations: [
@@ -19,7 +20,8 @@ import {AuthInterceptorService} from "./config/auth-interceptor.service";
         AppLayoutModule,
         MessageModule,
         ToastModule,
-        CommonModule
+        CommonModule,
+        NexRoleValidationModule.forRoot()
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
