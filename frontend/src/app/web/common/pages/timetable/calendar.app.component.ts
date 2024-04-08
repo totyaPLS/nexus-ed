@@ -57,6 +57,8 @@ export class CalendarAppComponent implements OnInit {
                 timeGridWeekdays: {
                     type: 'timeGrid',
                     dayCount: 5,
+                    duration: { days: 7 },
+                    hiddenDays: [0, 6],
                     slotMinTime: "06:00:00",
                     slotMaxTime: "18:00:00"
                 }
