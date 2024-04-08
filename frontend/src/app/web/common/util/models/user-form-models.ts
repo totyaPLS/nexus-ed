@@ -11,7 +11,7 @@ export interface SignUpForm {
     school: FormControl<SchoolDropdown | null>,
     residence: FormControl<string | null>,
     birthplace: FormControl<string | null>,
-    birthdate: FormControl<Date | null>,
+    birthdate: FormControl<string | null>,
     role: FormControl<Role | null>,
     password: FormControl<string | null>
 }

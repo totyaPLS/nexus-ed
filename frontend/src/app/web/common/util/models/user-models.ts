@@ -11,7 +11,7 @@ export interface User {
     school: string;
     residence: string;
     birthplace: string;
-    birthdate: Date;
+    birthdate: string;
     role: string;
     online: boolean;
     password: string;

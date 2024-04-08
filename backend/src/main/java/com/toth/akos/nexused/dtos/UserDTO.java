@@ -23,7 +23,7 @@ public class UserDTO {
     private String school;
     private String residence;
     private String birthplace;
-    private LocalDate birthdate;
+    private String birthdate;
     private Role role;
     private boolean online;
     private String token;
