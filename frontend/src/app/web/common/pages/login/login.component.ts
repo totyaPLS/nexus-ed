@@ -1,8 +1,8 @@
 import {Component, DestroyRef, inject} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {AuthService} from "../../rest/auth.service";
 import {Credentials} from "../../util/models/auth-models";
+import {TokenService} from "../../../../config/token.service";
 
 @Component({
     selector: 'app-login',
@@ -27,13 +27,13 @@ export class LoginComponent {
         password: ''
     });
 
-    constructor(private authService: AuthService,
+    constructor(private tokenService: TokenService,
                 private fb: FormBuilder) {
     }
 
 
     login() {
-        this.authService.login(this.loginForm.value as Credentials).pipe(takeUntilDestroyed(this.destroyRef));
+        this.tokenService.login(this.loginForm.value as Credentials).pipe(takeUntilDestroyed(this.destroyRef));
     }
 
     createForm(credentials: Credentials) {

@@ -35,7 +35,7 @@ const routes: Routes = [
         ]
     },
     { path: 'notfound', loadChildren: () => import('./web/common/pages/notfound/notfound.module').then(m => m.NotfoundModule) },
-    { path: '**', redirectTo: '/login' }
+    { path: '**', redirectTo: '/notfound' }
 ];
 
 @NgModule({
