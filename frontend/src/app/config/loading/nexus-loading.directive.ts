@@ -13,6 +13,7 @@ import {Observable} from "rxjs";
 export class NexusLoadingDirective implements OnInit {
 
     @Input('nexusLoading') isLoading!: Observable<boolean>;
+    private childElement: HTMLElement | null = null;
 
     constructor(private viewContainerRef: ViewContainerRef,
                 private elementRef: ElementRef) {
@@ -26,11 +27,16 @@ export class NexusLoadingDirective implements OnInit {
         this.isLoading.subscribe(loading => {
             if (loading) {
                 const componentRef = this.viewContainerRef.createComponent(NexusLoadingComponent);
-                const childElement = componentRef.location.nativeElement;
+                this.childElement = componentRef.location.nativeElement;
                 const parentElement = this.elementRef.nativeElement;
                 parentElement.style.position = 'relative';
-                parentElement.appendChild(childElement);
+                parentElement.appendChild(this.childElement);
             } else {
+                if (this.childElement) {
+                    this.childElement.remove();
+                    const parentElement = this.elementRef.nativeElement;
+                    parentElement.style.position = '';
+                }
                 this.viewContainerRef.clear();
             }
         });
