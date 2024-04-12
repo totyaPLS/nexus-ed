@@ -2,7 +2,7 @@ import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {distinctUntilChanged, Observable} from "rxjs";
 import {SubjectService} from "../web/common/rest/subject.service";
 import {SubjectRepository} from "../web/common/state/subjects.repository";
-import {Subject} from "../web/common/util/models/teaching-models";
+import {MenuItem, Subject, SubjectMenuItem} from "../web/common/util/models/teaching-models";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
@@ -26,8 +26,6 @@ export class AppMenuComponent implements OnInit {
     model: any[] = [];
 
     ngOnInit() {
-        this.subjectService.listSubjectsForMenu().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
-
         this.model = [
             {
                 label: 'Órarend',
@@ -37,35 +35,7 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Tantárgyak',
                 icon: 'pi pi-book',
-                items: [
-                    {
-                        label: 'Irodalom',
-                        icon: 'pi pi-fw pi-chevron-right',
-                        items: [
-                            {
-                                label: '12. évfolyam',
-                                icon: 'pi pi-fw pi-circle',
-                                items: [
-                                    {
-                                        label: 'A. osztály',
-                                        icon: 'pi pi-fw pi-circle-fill',
-                                        routerLink: ['/subjects/class12/a']
-                                    },
-                                    {
-                                        label: 'B. osztály',
-                                        icon: 'pi pi-fw pi-circle-fill',
-                                        routerLink: ['/subjects/class12/a']
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Nyelvtan',
-                        icon: 'pi pi-fw pi-chevron-right',
-                        routerLink: ['/subjects/grammar']
-                    }
-                ]
+                items: null,
             },
             { separator: true },
             {
@@ -85,5 +55,29 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi pi-envelope',
             },
         ];
+        this.subjectService.listSubjectsForMenu().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+            value => {
+                this.model.forEach(menuItem => {
+                    if (menuItem.label === 'Tantárgyak') {
+                        menuItem.items = this.convertToMenuItem(value);
+                    }
+                });
+            }
+        );
+    }
+
+    convertToMenuItem(subjectClassesTree: SubjectMenuItem[]): MenuItem[] {
+        return subjectClassesTree.map(subjectClass => {
+            const menuItem: MenuItem = {
+                label: `${subjectClass.subject.name} ${subjectClass.subject.classDifficulty}. évf.`,
+                icon: 'pi pi-fw pi-chevron-right',
+                items: subjectClass.classes.map(aClass => ({
+                    label: `${aClass.classLevel}.${aClass.letter}`,
+                    icon: 'pi pi-fw pi-circle',
+                    routerLink: [`/subjects/${subjectClass.subject.id}/${aClass.id}`]
+                }))
+            };
+            return menuItem;
+        });
     }
 }

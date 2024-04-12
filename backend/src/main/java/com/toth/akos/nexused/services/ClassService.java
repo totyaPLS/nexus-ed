@@ -24,4 +24,8 @@ public class ClassService {
         List<ClassSchool> all = classRepository.findAllByClassLevelIn(classLevels);
         return classMapper.toClassDTOs(all);
     }
+
+    public List<ClassSchool> getAllByIds(Iterable<Integer> classIds) {
+        return classRepository.findAllById(classIds);
+    }
 }

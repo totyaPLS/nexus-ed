@@ -8,26 +8,22 @@ import com.toth.akos.nexused.entities.Teaching;
 import com.toth.akos.nexused.exceptions.ApplicationException;
 import com.toth.akos.nexused.mappers.LessonMapper;
 import com.toth.akos.nexused.repositories.LessonRepository;
-import com.toth.akos.nexused.repositories.StudentRepository;
-import com.toth.akos.nexused.repositories.TeachingRepository;
-import com.toth.akos.nexused.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class LessonService {
-    private final TeachingRepository teachingRepository;
-    private final StudentRepository studentRepository;
     private final LessonRepository lessonRepository;
-    private final LessonMapper lessonMapper;
+    private final TeachingService teachingService;
+    private final StudentService studentService;
     private final AuthService authService;
     private final SubjectService subjectService;
+    private final LessonMapper lessonMapper;
 
     public List<LessonDTO> listLessons() {
         List<LessonDTO> lessons;
@@ -41,23 +37,19 @@ public class LessonService {
     }
 
     private List<LessonDTO> listTeacherLessons() {
-        List<Teaching> teachings = teachingRepository.findAllByTeacherId(authService.getPrincipalUid());
+        List<Teaching> teachings = teachingService.getAllByTeacherId();
         return extractLessonsFromTeachings(teachings);
     }
 
     private List<LessonDTO> listStudentLessons() {
-        Optional<Student> oStudent = studentRepository.findById(authService.getPrincipalUid());
-        if (oStudent.isEmpty()) {
-            throw new ApplicationException("Student not found", HttpStatus.NOT_FOUND);
-        }
-
-        int classId = oStudent.get().getClassId();
-        List<Teaching> teachings = teachingRepository.findAllByClassId(classId);
+        Student student = studentService.getLoggedInStudent();
+        int classId = student.getClassId();
+        List<Teaching> teachings = teachingService.getAllByClassId(classId);
         return extractLessonsFromTeachings(teachings);
     }
 
     private List<LessonDTO> listParentLessons() {
-        List<Student> students = studentRepository.findAllByParentId(authService.getPrincipalUid());
+        List<Student> students = studentService.getAllByParentId();
         if (students.isEmpty()) {
             throw new ApplicationException("No students found for this parent", HttpStatus.NOT_FOUND);
         }
@@ -65,7 +57,7 @@ public class LessonService {
         List<LessonDTO> lessonDTOs = new ArrayList<>();
         for (Student student : students) {
             int classId = student.getClassId();
-            List<Teaching> teachings = teachingRepository.findAllByClassId(classId);
+            List<Teaching> teachings = teachingService.getAllByClassId(classId);
             lessonDTOs.addAll(extractLessonsFromTeachings(teachings));
         }
         return lessonDTOs;

@@ -5,6 +5,7 @@ import {Admin} from "./config/guards/Admin";
 import {Guest} from "./config/guards/Guest";
 import {AuthGuard} from "./config/guards/AuthGuard";
 import {AllExceptAdmin} from "./config/guards/AllExceptAdmin";
+import {SubjectGuard} from "./config/guards/SubjectGuard";
 
 const routerOptions: ExtraOptions = {
     anchorScrolling: 'enabled'
@@ -33,8 +34,13 @@ const routes: Routes = [
                 canActivate: [Admin]
             },
             {
-                path: 'myProfile',
+                path: 'my-profile',
                 loadChildren: () => import('./web/common/pages/profile/profile.module').then(m => m.ProfileModule)
+            },
+            {
+                path: 'subjects/:subjectId/:classId',
+                loadChildren: () => import('./web/common/pages/profile/profile.module').then(m => m.ProfileModule),
+                canActivate: [AllExceptAdmin, SubjectGuard]
             },
         ]
     },

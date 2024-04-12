@@ -1,6 +1,7 @@
 package com.toth.akos.nexused.rest.controllers;
 
 import com.toth.akos.nexused.dtos.SubjectDTO;
+import com.toth.akos.nexused.dtos.SubjectMenuItemDTO;
 import com.toth.akos.nexused.services.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,5 +18,10 @@ public class SubjectController {
     @GetMapping("/availableSubjects")
     public ResponseEntity<List<SubjectDTO>> availableSubjects() {
         return ResponseEntity.ok(subjectService.listAvailableSubjects());
+    }
+
+    @GetMapping("/subjects")
+    public ResponseEntity<List<SubjectMenuItemDTO>> getSubjects() {
+        return ResponseEntity.ok(subjectService.listSubjects());
     }
 }
