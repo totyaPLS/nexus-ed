@@ -52,6 +52,7 @@ create table announcement (
 	id serial primary key,
 	teacher_id varchar(10) not null references system_user on delete cascade,
 	subject_id integer not null references subject,
+    class_id integer not null references class,
 	title varchar(255) not null,
 	description text,
 	published timestamp not null
@@ -119,6 +120,7 @@ create table absence (
 	id serial primary key,
 	student_id varchar(10) not null references system_user on delete cascade,
 	lesson_id integer not null references lesson on delete cascade,
+    class_id integer not null references class,
 	status varchar(100) not null,
 	modification_date timestamp not null
 );
