@@ -39,7 +39,7 @@ const routes: Routes = [
             },
             {
                 path: 'subjects/:subjectId/:classId',
-                loadChildren: () => import('./web/common/pages/profile/profile.module').then(m => m.ProfileModule),
+                loadChildren: () => import('./web/common/pages/subject/subject.module').then(m => m.SubjectModule),
                 canActivate: [AllExceptAdmin, SubjectGuard]
             },
         ]
