@@ -14,6 +14,7 @@ export interface SubjectMenuItem {
 
 export interface MenuItem {
     label: string;
-    icon: string;
-    items: Omit<MenuItem, 'items'>[];
+    icon?: string;
+    items?: Omit<MenuItem, 'items'>[];
+    routerLink?: string[];
 }

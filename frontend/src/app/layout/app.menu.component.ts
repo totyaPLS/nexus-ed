@@ -68,15 +68,24 @@ export class AppMenuComponent implements OnInit {
 
     convertToMenuItem(subjectClassesTree: SubjectMenuItem[]): MenuItem[] {
         return subjectClassesTree.map(subjectClass => {
-            const menuItem: MenuItem = {
-                label: `${subjectClass.subject.name} ${subjectClass.subject.classDifficulty}. évf.`,
-                icon: 'pi pi-fw pi-chevron-right',
-                items: subjectClass.classes.map(aClass => ({
-                    label: `${aClass.classLevel}.${aClass.letter}`,
-                    icon: 'pi pi-fw pi-circle',
-                    routerLink: [`/subjects/${subjectClass.subject.id}/${aClass.id}`]
-                }))
-            };
+            let menuItem: MenuItem;
+            if (subjectClass.classes.length <= 1) {
+                menuItem = {
+                    label: subjectClass.subject.name,
+                    routerLink: subjectClass.classes.map(aClass => (
+                        `/subjects/${subjectClass.subject.id}/${aClass.id}`
+                    ))
+                };
+            } else {
+                menuItem = {
+                    label: `${subjectClass.subject.name} ${subjectClass.subject.classDifficulty}. évf.`,
+                    items: subjectClass.classes.map(aClass => ({
+                        label: `${aClass.classLevel}.${aClass.letter}`,
+                        icon: 'pi pi-fw pi-circle',
+                        routerLink: [`/subjects/${subjectClass.subject.id}/${aClass.id}`]
+                    }))
+                };
+            }
             return menuItem;
         });
     }
