@@ -9,4 +9,6 @@ public interface TeachingRepository extends JpaRepository<Teaching, Integer> {
     List<Teaching> findAllByClassId(Integer classId);
 
     List<Teaching> findAllByTeacherId(String teacherId);
+
+    List<Teaching> findAllByClassIdIn(List<Integer> classIds);
 }

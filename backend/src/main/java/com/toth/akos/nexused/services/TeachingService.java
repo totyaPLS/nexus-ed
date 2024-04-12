@@ -24,4 +24,8 @@ public class TeachingService {
     public List<Teaching> getAllByClassId(int classId) {
         return teachingRepository.findAllByClassId(classId);
     }
+
+    public List<Teaching> getAllByClassIds(List<Integer> classIds) {
+        return teachingRepository.findAllByClassIdIn(classIds);
+    }
 }

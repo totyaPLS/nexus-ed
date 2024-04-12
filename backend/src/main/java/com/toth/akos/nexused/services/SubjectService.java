@@ -4,6 +4,7 @@ import com.toth.akos.nexused.dtos.ClassDTO;
 import com.toth.akos.nexused.dtos.SubjectDTO;
 import com.toth.akos.nexused.dtos.SubjectMenuItemDTO;
 import com.toth.akos.nexused.entities.ClassSchool;
+import com.toth.akos.nexused.entities.Student;
 import com.toth.akos.nexused.entities.Subject;
 import com.toth.akos.nexused.entities.Teaching;
 import com.toth.akos.nexused.exceptions.ApplicationException;
@@ -62,19 +63,48 @@ public class SubjectService {
 
     private List<SubjectMenuItemDTO> listTeacherSubjectsMenus() {
         List<Teaching> teachings = teachingService.getAllByTeacherId();
-        Map<Integer, List<ClassDTO>> subjectToClasses = new HashMap<>();
-        List<ClassDTO> classes = extractClassesFromTeachings(teachings);
+        return createSubjectMenuFromTeachings(teachings);
+    }
 
-        // Populating subjectToClasses map
+    private List<SubjectMenuItemDTO> listStudentSubjectsMenus() {
+        int studentClassId = this.studentService.getLoggedInStudent().getClassId();
+        List<Teaching> teachings = teachingService.getAllByClassId(studentClassId);
+        return createSubjectMenuFromTeachings(teachings);
+    }
+
+    private List<SubjectMenuItemDTO> listParentSubjectsMenus() {
+        List<Student> students = studentService.getAllByParentId();
+        List<Integer> classIds = students.stream().map(Student::getClassId).collect(Collectors.toList());
+        List<Teaching> teachings = teachingService.getAllByClassIds(classIds);
+        return createSubjectMenuFromTeachings(teachings);
+    }
+
+    private List<SubjectDTO> extractSubjectsFromTeachings(List<Teaching> teachings) {
+        Set<Integer> subjectIds = teachings.stream().map(Teaching::getSubjectId).collect(Collectors.toSet());
+        List<Subject> subjects = subjectRepository.findAllById(subjectIds);
+        return subjectMapper.toSubjectDTOs(subjects);
+    }
+
+    private List<ClassDTO> extractClassesFromTeachings(List<Teaching> teachings) {
+        Set<Integer> classIds = teachings.stream().map(Teaching::getClassId).collect(Collectors.toSet());
+        List<ClassSchool> classes = classService.getAllByIds(classIds);
+        return classMapper.toClassDTOs(classes);
+    }
+
+    private List<SubjectMenuItemDTO> createSubjectMenuFromTeachings(List<Teaching> teachings) {
+        Map<Integer, List<ClassDTO>> subjectMenus = new HashMap<>();
+
+        // Populating subjectMenus map
+        List<ClassDTO> classes = extractClassesFromTeachings(teachings);
         for (Teaching teaching : teachings) {
             int subjectId = teaching.getSubjectId();
             int classId = teaching.getClassId();
-            if (!subjectToClasses.containsKey(subjectId)) {
-                subjectToClasses.put(subjectId, new ArrayList<>());
+            if (!subjectMenus.containsKey(subjectId)) {
+                subjectMenus.put(subjectId, new ArrayList<>());
             }
             for (ClassDTO aClass : classes) {
                 if (aClass.id() == classId) {
-                    subjectToClasses.get(subjectId).add(aClass);
+                    subjectMenus.get(subjectId).add(aClass);
                     break;
                 }
             }
@@ -83,7 +113,7 @@ public class SubjectService {
         // Creating SubjectClassesTree objects
         List<SubjectDTO> subjects = extractSubjectsFromTeachings(teachings);
         List<SubjectMenuItemDTO> result = new ArrayList<>();
-        for (Map.Entry<Integer, List<ClassDTO>> entry : subjectToClasses.entrySet()) {
+        for (Map.Entry<Integer, List<ClassDTO>> entry : subjectMenus.entrySet()) {
             int subjectId = entry.getKey();
             SubjectDTO subject = null;
             for (SubjectDTO s : subjects) {
@@ -97,25 +127,5 @@ public class SubjectService {
             }
         }
         return result;
-    }
-
-    private List<SubjectMenuItemDTO> listStudentSubjectsMenus() {
-        return null;
-    }
-
-    private List<SubjectMenuItemDTO> listParentSubjectsMenus() {
-        return null;
-    }
-
-    private List<SubjectDTO> extractSubjectsFromTeachings(List<Teaching> teachings) {
-        Set<Integer> subjectIds = teachings.stream().map(Teaching::getSubjectId).collect(Collectors.toSet());
-        List<Subject> subjects = subjectRepository.findAllById(subjectIds);
-        return subjectMapper.toSubjectDTOs(subjects);
-    }
-
-    private List<ClassDTO> extractClassesFromTeachings(List<Teaching> teachings) {
-        Set<Integer> classIds = teachings.stream().map(Teaching::getClassId).collect(Collectors.toSet());
-        List<ClassSchool> classes = classService.getAllByIds(classIds);
-        return classMapper.toClassDTOs(classes);
     }
 }
