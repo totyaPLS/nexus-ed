@@ -17,4 +17,5 @@ export interface MenuItem {
     icon?: string;
     items?: Omit<MenuItem, 'items'>[];
     routerLink?: string[];
+    queryParams?: any[];
 }

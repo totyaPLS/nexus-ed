@@ -74,7 +74,11 @@ export class AppMenuComponent implements OnInit {
                     label: subjectClass.subject.name,
                     routerLink: subjectClass.classes.map(aClass => (
                         `/subjects/${subjectClass.subject.id}/${aClass.id}`
-                    ))
+                    )),
+                    queryParams: subjectClass.classes.map(aClass => (
+                        // `{ subjectName: ${subjectClass.subject.name}, level: ${aClass.classLevel}, letter: ${aClass.letter} }`
+                        "{ param1: 'value1', param2: 'value2' }" // FIXME
+                    )),
                 };
             } else {
                 menuItem = {

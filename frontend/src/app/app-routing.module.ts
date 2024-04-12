@@ -40,6 +40,7 @@ const routes: Routes = [
             {
                 path: 'subjects/:subjectId/:classId',
                 loadChildren: () => import('./web/common/pages/subject/subject.module').then(m => m.SubjectModule),
+                data: { breadcrumb: 'Tantárgyak' },
                 canActivate: [AllExceptAdmin, SubjectGuard]
             },
         ]
