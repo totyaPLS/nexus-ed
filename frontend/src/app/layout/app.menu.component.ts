@@ -2,8 +2,10 @@ import {Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {distinctUntilChanged, Observable} from "rxjs";
 import {SubjectService} from "../web/common/rest/subject.service";
 import {SubjectRepository} from "../web/common/state/subjects.repository";
-import {MenuItem, Subject, SubjectMenuItem} from "../web/common/util/models/teaching-models";
+import {Subject} from "../web/common/util/models/teaching-models";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {HttpParams} from "@angular/common/http";
+import {MenuItem, SubjectMenuItem} from "../web/common/util/models/menu-models";
 
 @Component({
     selector: 'app-menu',
@@ -69,16 +71,16 @@ export class AppMenuComponent implements OnInit {
     convertToMenuItem(subjectClassesTree: SubjectMenuItem[]): MenuItem[] {
         return subjectClassesTree.map(subjectClass => {
             let menuItem: MenuItem;
-            if (subjectClass.classes.length <= 1) {
+            if (subjectClass.classes.length === 1) {
                 menuItem = {
                     label: subjectClass.subject.name,
                     routerLink: subjectClass.classes.map(aClass => (
                         `/subjects/${subjectClass.subject.id}/${aClass.id}`
                     )),
-                    queryParams: subjectClass.classes.map(aClass => (
-                        // `{ subjectName: ${subjectClass.subject.name}, level: ${aClass.classLevel}, letter: ${aClass.letter} }`
-                        "{ param1: 'value1', param2: 'value2' }" // FIXME
-                    )),
+                    queryParams: [
+                        subjectClass.subject.name,
+                        subjectClass.classes[0].classLevel
+                    ],
                 };
             } else {
                 menuItem = {
@@ -86,11 +88,29 @@ export class AppMenuComponent implements OnInit {
                     items: subjectClass.classes.map(aClass => ({
                         label: `${aClass.classLevel}.${aClass.letter}`,
                         icon: 'pi pi-fw pi-circle',
-                        routerLink: [`/subjects/${subjectClass.subject.id}/${aClass.id}`]
+                        routerLink: [`/subjects/${subjectClass.subject.id}/${aClass.id}`],
+                        queryParams: [
+                            subjectClass.subject.name,
+                            aClass.classLevel,
+                            aClass.letter
+                        ],
                     }))
                 };
             }
             return menuItem;
         });
+    }
+
+    private getUrl() {
+        const queryParams: { [key: string]: string } = { name: 'apple' };
+
+        let params = new HttpParams();
+        for (const key in queryParams) {
+            if (queryParams.hasOwnProperty(key)) {
+                params = params.append(key, queryParams[key]);
+            }
+        }
+
+        return `?${params.toString()}`;
     }
 }

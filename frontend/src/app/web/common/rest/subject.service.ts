@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Subject, SubjectMenuItem} from "../util/models/teaching-models";
+import {Subject} from "../util/models/teaching-models";
 import {SubjectRepository} from "../state/subjects.repository";
 import {Lesson} from "../util/models/timetable-models";
 import {SubjectMenuRepository} from "../state/subject-menus.repository";
+import {SubjectMenuItem} from "../util/models/menu-models";
 
 @Injectable({
     providedIn: 'root',

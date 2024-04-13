@@ -12,7 +12,8 @@ import {
     updateRequestStatus,
     withRequestsStatus
 } from "@ngneat/elf-requests";
-import {SubjectMenuItem} from "../util/models/teaching-models";
+
+import {SubjectMenuItem} from "../util/models/menu-models";
 
 type RequestStates = 'menuItems';
 

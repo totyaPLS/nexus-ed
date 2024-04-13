@@ -1,18 +1,18 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRoute, ActivatedRouteSnapshot, Resolve} from '@angular/router';
+import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 
 @Injectable()
 export class BreadcrumbResolver implements Resolve<string> {
 
-    constructor(private activatedRoute: ActivatedRoute) {}
+    constructor() {}
 
     resolve(route: ActivatedRouteSnapshot) {
-        let breadcrumbTitle = 'fasfdsdf';
-        breadcrumbTitle = route.queryParamMap.get('subjectName')!;
-        console.log(breadcrumbTitle); // TODO
-        /*this.activatedRoute.queryParams.subscribe(value => {
-            breadcrumbTitle = value['subjectName']
-        });*/
-        return breadcrumbTitle;
+        const subjectName = route.queryParamMap.get('0')!;
+        const classLevel = route.queryParamMap.get('1');
+        const classLetter = route.queryParamMap.get('2');
+        if (classLevel && classLetter) {
+            return `${subjectName} ${classLevel}.${classLetter}`;
+        }
+        return subjectName;
     }
 }
