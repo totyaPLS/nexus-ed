@@ -7,10 +7,12 @@ import {User} from "../web/common/util/models/user-models";
 import {Role} from "../web/common/util/enums/Role";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {localStorageStrategy} from "@ngneat/elf-persist-state";
 
 @Injectable({providedIn: 'root'})
 export class TokenService {
-    private tokenKey = 'auth_token';
+    private sessionSTokenKey = 'auth_token';
+    private localSTokenKey = 'subject_menu';
     private loginBase = 'http://localhost:8080';
 
     constructor(private http: HttpClient,
@@ -18,15 +20,16 @@ export class TokenService {
     }
 
     setToken(token: string) {
-        sessionStorage.setItem(this.tokenKey, token);
+        sessionStorage.setItem(this.sessionSTokenKey, token);
     }
 
     getToken() {
-        return sessionStorage.getItem(this.tokenKey);
+        return sessionStorage.getItem(this.sessionSTokenKey);
     }
 
-    removeToken() {
-        sessionStorage.removeItem(this.tokenKey);
+    removeTokens() {
+        sessionStorage.removeItem(this.sessionSTokenKey);
+        localStorageStrategy.removeItem(this.localSTokenKey);
     }
 
     isTokenExpired() {

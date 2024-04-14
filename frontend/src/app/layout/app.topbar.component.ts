@@ -1,7 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { AppSidebarComponent } from './app.sidebar.component';
+import {Component, ElementRef, ViewChild} from '@angular/core';
+import {LayoutService} from 'src/app/layout/service/app.layout.service';
+import {AppSidebarComponent} from './app.sidebar.component';
 import {Router} from "@angular/router";
+import {TokenService} from "../config/token.service";
 
 @Component({
     selector: 'app-topbar',
@@ -12,8 +13,10 @@ export class AppTopbarComponent {
 
     @ViewChild(AppSidebarComponent) appSidebar!: AppSidebarComponent;
 
-    constructor(public layoutService: LayoutService, public el: ElementRef,
-                private router: Router) {}
+    constructor(public layoutService: LayoutService,
+                public el: ElementRef,
+                private router: Router,
+                private tokenService: TokenService) {}
 
     onMenuButtonClick() {
         this.layoutService.onMenuToggle();
@@ -41,7 +44,7 @@ export class AppTopbarComponent {
     }
 
     logout() {
-        sessionStorage.removeItem('auth_token');
+        this.tokenService.removeTokens();
         this.router.navigateByUrl('/login');
     }
 }

@@ -9,7 +9,7 @@ export const AuthGuard: CanActivateFn = (route, state) => {
     const token = sessionStorage.getItem('auth_token');
 
     if (tokenService.isTokenExpired()) {
-        tokenService.removeToken();
+        tokenService.removeTokens();
         router.navigate(['/login']);
         return false;
     }

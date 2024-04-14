@@ -1,19 +1,17 @@
 import {createStore} from "@ngneat/elf";
-import {
-    getAllEntities,
-    selectAllEntities, upsertEntities,
-    withEntities
-} from "@ngneat/elf-entities";
+import {getAllEntities, selectAllEntities, upsertEntities, withEntities} from "@ngneat/elf-entities";
 import {Injectable} from "@angular/core";
 import {catchError, distinctUntilChanged, EMPTY, Observable, pipe, tap} from "rxjs";
 import {
     createRequestsStatusOperator,
     selectIsRequestPending,
     updateRequestStatus,
+    withRequestsCache,
     withRequestsStatus
 } from "@ngneat/elf-requests";
 
 import {SubjectMenuItem} from "../util/models/menu-models";
+import {localStorageStrategy, persistState} from "@ngneat/elf-persist-state";
 
 type RequestStates = 'menuItems';
 
@@ -25,14 +23,22 @@ export class SubjectMenuRepository {
     listLoading$: Observable<boolean>;
 
     private readonly store;
+    private persist;
     private readonly trackRequestStatus;
+    // public readonly skipWhileCached;
 
     constructor() {
         this.store = createStore({name: 'menuItems'},
             withEntities<SubjectMenuItem>(),
             withRequestsStatus<RequestStates>(),
+            withRequestsCache<'menuItems'>()
         );
+        this.persist = persistState(this.store, {
+            key: 'subject_menu',
+            storage: localStorageStrategy,
+        });
         this.trackRequestStatus = createRequestsStatusOperator(this.store);
+        // this.skipWhileCached = createRequestsCacheOperator(this.store);
         this.menuItems = this.store.pipe(selectAllEntities());
         this.listLoading$ = this.store.pipe(
             this.isRequestPending('menuItems'),
@@ -50,8 +56,13 @@ export class SubjectMenuRepository {
         this.store.update(
             upsertEntities(menuItems),
             updateRequestStatus('menuItems', 'success'),
+            // updateRequestCache('menuItems'),
         );
     }
+
+    /*withCache = <T>(cacheKey: EntityCaches, returnSource: () => Observable<T | null>) => pipe(
+        this.skipWhileCached<T>(cacheKey, {returnSource: returnSource().pipe(take(1))}),
+    );*/
 
     private isRequestPending = (key: RequestStates) => pipe(
         selectIsRequestPending(key),

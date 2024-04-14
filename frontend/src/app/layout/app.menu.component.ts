@@ -32,6 +32,7 @@ export class AppMenuComponent implements OnInit {
             {
                 label: 'Órarend',
                 icon: 'pi pi-calendar',
+                routerLink: ['/timetable'],
             },
             { separator: true },
             {

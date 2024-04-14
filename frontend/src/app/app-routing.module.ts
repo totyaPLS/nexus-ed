@@ -43,6 +43,12 @@ const routes: Routes = [
                 data: { breadcrumb: 'Tantárgyak' },
                 canActivate: [AllExceptAdmin, SubjectGuard]
             },
+            {
+                path: 'subjects/:subjectId/:classId/tasks',
+                loadChildren: () => import('./web/common/pages/profile/profile.module').then(m => m.ProfileModule),
+                data: { breadcrumb: 'Feladatok' },
+                canActivate: [AllExceptAdmin]
+            },
         ]
     },
     { path: 'notfound', loadChildren: () => import('./web/common/pages/notfound/notfound.module').then(m => m.NotfoundModule) },
