@@ -1,9 +1,13 @@
-<div class="layout-dashboard">
+<div class="layout-dashboard" [nexusLoading]="loading$">
     <div class="grid">
-        <div class="col-12 md:col-6 xl:col-3">
-            <div class="card shadow-1 flex flex-column" [style.borderColor]="'#3B82F6'" [style]="{'border-color': '#3B82F6', 'border-left': '4px solid'}">
-
-            </div>
+        <div class="col-12 xl:col-6">
+            <app-announcement-block [announcements]="(announcements$ | async)!"></app-announcement-block>
+        </div>
+        <div class="col-12 xl:col-6">
+            <app-task-block [tasks]="(tasks$ | async)!"></app-task-block>
+        </div>
+        <div class="col-12 xl:col-6">
+            <app-absence-block [absences]="(absences$ | async)!"></app-absence-block>
         </div>
     </div>
 </div>

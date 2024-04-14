@@ -18,7 +18,7 @@ public class AnnouncementService {
     private final AnnouncementMapper mapper;
 
     public List<AnnouncementDTO> getAllBySubjectIdAndClassId(int subjectId, int classId) {
-        List<Announcement> announcements = announcementRepository.findAllBySubjectIdAndClassId(subjectId, classId);
+        List<Announcement> announcements = announcementRepository.findAnnouncementsNotInTaskBySubjectIdAndClassId(subjectId, classId);
         return mapper.toAnnouncementDTOs(announcements);
     }
 }

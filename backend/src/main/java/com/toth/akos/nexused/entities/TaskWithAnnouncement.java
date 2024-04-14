@@ -13,7 +13,9 @@ import java.time.LocalDateTime;
 @Builder
 @Data
 @Entity
-public class Task {
+@Table(name = "task")
+@SecondaryTable(name = "announcement", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
+public class TaskWithAnnouncement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "announcement_id")
@@ -24,4 +26,8 @@ public class Task {
 
     @Column(name = "type")
     private String type;
+
+    @OneToOne
+    @JoinColumn(name = "announcement_id")
+    private Announcement announcement;
 }

@@ -76,7 +76,6 @@ create table teaching (
 create table task (
 	announcement_id integer primary key references announcement on delete cascade,
 	deadline timestamp not null,
-	status varchar(100) not null,
 	type varchar(100) not null
 );
 

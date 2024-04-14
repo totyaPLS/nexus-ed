@@ -11,11 +11,30 @@ import {AnnouncementService} from "../../rest/announcement.service";
 import {TaskService} from "../../rest/task.service";
 import {AbsenceService} from "../../rest/absence.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {TableModule} from "primeng/table";
+import {DropdownModule} from "primeng/dropdown";
+import {AsyncPipe} from "@angular/common";
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
+import {NexLoadingModule} from "../../../../config/loading/nex-loading.module";
+import {AnnouncementBlockComponent} from "./blocks/announcement-block.component";
+import {TaskBlockComponent} from "./blocks/task-block.component";
+import {AbsenceBlockComponent} from "./blocks/absence-block.component";
 
 @Component({
   selector: 'app-subject',
   standalone: true,
-  imports: [],
+    imports: [
+        TableModule,
+        DropdownModule,
+        AsyncPipe,
+        ButtonModule,
+        RippleModule,
+        NexLoadingModule,
+        AnnouncementBlockComponent,
+        TaskBlockComponent,
+        AbsenceBlockComponent
+    ],
   templateUrl: './subject.component.html',
   styleUrl: './subject.component.scss'
 })

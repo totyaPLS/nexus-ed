@@ -1,0 +1,34 @@
+<div class="card" [style.borderColor]="'#EF4444'" [style]="{'border-color': '#EF4444', 'border-left': '4px solid'}">
+    <div class="flex justify-content-between">
+        <h4>Hiányzások</h4>
+        <button pButton pRipple type="button" label="Felvétel" icon="pi pi-plus"
+                class="p-button-rounded p-button-secondary" iconPos="right"></button>
+    </div>
+
+    <p>Legutóbbi hiányzások az elmúlt időszakból.</p>
+
+    <p-table [value]="absences" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:50%;min-width:6rem;">Tanuló neve</th>
+                <th style="width:25%;min-width:10rem;">Státusz</th>
+                <th style="width:25%;min-width:10rem;">Hiányzás időpontja</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-absence>
+            <tr>
+                <td>
+                    <span class="p-column-title">Tanuló neve</span>
+                    {{absence.title}}</td>
+                <td>
+                    <span class="p-column-title">Státusz</span>
+                    {{absence.description}}
+                </td>
+                <td>
+                    <span class="p-column-title">Hiányzás időpontja</span>
+                    {{absence.description}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

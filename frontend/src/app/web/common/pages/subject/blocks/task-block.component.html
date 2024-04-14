@@ -1,0 +1,35 @@
+<div class="card" [style.borderColor]="'#F59E0B'" [style]="{'border-color': '#F59E0B', 'border-left': '4px solid'}">
+    <div class="flex justify-content-between">
+        <h4>Feladatok</h4>
+        <button pButton pRipple type="button" label="Felvétel" icon="pi pi-plus"
+                class="p-button-rounded p-button-secondary" iconPos="right"></button>
+    </div>
+
+    <p>A tantárgyhoz tartozó feladatok beadása.</p>
+
+    <p-table [value]="tasks" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:50%;min-width:6rem;">Feladat</th>
+                <th style="width:25%;min-width:10rem;">Típus</th>
+                <th style="width:25%;min-width:4rem;">Határidő</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-task>
+            <tr>
+                <td>
+                    <span class="p-column-title">Feladat</span>
+                    {{task.title}}
+                </td>
+                <td>
+                    <span class="p-column-title">Típus</span>
+                    <span [class]="'product-badge type-' + task.type.toLowerCase()">{{task.type}}</span>
+                </td>
+                <td>
+                    <span class="p-column-title">Határidő</span>
+                    {{task.deadline}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,32 @@
+<div class="card" [style.borderColor]="'#3B82F6'" [style]="{'border-color': '#3B82F6', 'border-left': '4px solid'}">
+    <div class="flex justify-content-between">
+        <h4>Közlemények</h4>
+        <button pButton pRipple type="button" label="Felvétel" icon="pi pi-plus"
+                class="p-button-rounded p-button-secondary" iconPos="right"></button>
+    </div>
+
+    <p>A szaktanár által közzétett legfrissebb információk.</p>
+
+    <p-table [value]="announcements" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:50%;min-width:6rem;">Cím</th>
+                <th style="width:30%;min-width:10rem;">Leírás</th>
+                <th style="width:5%;min-width:4rem;">Törlés</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-announcement>
+            <tr>
+                <td>
+                    <span class="p-column-title">Cím</span>
+                    {{announcement.title}}</td>
+                <td>
+                    <span class="p-column-title">Leírás</span>
+                    {{announcement.description}}</td>
+                <td style="text-align: center">
+                    <button pButton class="p-button-danger" type="button" icon="pi pi-trash"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
