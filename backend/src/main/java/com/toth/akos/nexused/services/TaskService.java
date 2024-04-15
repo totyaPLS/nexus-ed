@@ -2,7 +2,6 @@ package com.toth.akos.nexused.services;
 
 import com.toth.akos.nexused.dtos.TaskDTO;
 import com.toth.akos.nexused.entities.Task;
-import com.toth.akos.nexused.entities.TaskWithAnnouncement;
 import com.toth.akos.nexused.exceptions.ApplicationException;
 import com.toth.akos.nexused.mappers.TaskMapper;
 import com.toth.akos.nexused.repositories.TaskRepository;
@@ -22,16 +21,15 @@ import java.util.Optional;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final TaskMapper mapper;
-    private final AnnouncementService announcementService;
 
     public List<TaskDTO> getAllBySubjectIdAndClassId(int subjectId, int classId) {
         Pageable pageable = PageRequest.of(0, 5);
-        Page<TaskWithAnnouncement> taskWithAnnouncementsPage =
+        Page<Task> tasksPage =
                 taskRepository.findTasksBySubjectIdAndClassId(subjectId, classId, pageable);
-        List<TaskWithAnnouncement> taskWithAnnouncements = taskWithAnnouncementsPage.getContent();
+        List<Task> tasks = tasksPage.getContent();
         List<TaskDTO> taskDTOs = new ArrayList<>();
-        for (TaskWithAnnouncement taskWithAnnouncement : taskWithAnnouncements) {
-            taskDTOs.add(mapper.toTaskDTO(taskWithAnnouncement));
+        for (Task task : tasks) {
+            taskDTOs.add(mapper.toTaskDTO(task));
         }
         return taskDTOs;
     }

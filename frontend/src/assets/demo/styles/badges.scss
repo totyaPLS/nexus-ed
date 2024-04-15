@@ -1,4 +1,4 @@
-.product-badge {
+.task-badge {
     border-radius: var(--border-radius);
     padding: .25em .5rem;
     text-transform: uppercase;
@@ -6,36 +6,78 @@
     font-size: 12px;
     letter-spacing: .3px;
 
-    &.status-instock {
+    &.type-optional {
         background: var(--green-200);
         color: var(--green-800);
     }
 
-    &.status-outofstock {
+    &.type-test {
         background: var(--pink-200);
         color: var(--pink-800);
     }
 
-    &.status-lowstock {
+    &.type-homework {
         background: var(--yellow-200);
         color: var(--yellow-800);
     }
 }
 
-.product-badge-text {
+.task-badge-text {
     font-weight: 700;
     font-size: 12px;
     letter-spacing: .3px;
 
-    &.status-instock {
+    &.type-optional {
         color: var(--green-500);
     }
 
-    &.status-outofstock {
+    &.type-test {
         color: var(--pink-500);
     }
 
-    &.status-lowstock {
+    &.type-homework {
+        color: var(--yellow-500);
+    }
+}
+
+.absence-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+
+    &.type-excused {
+        background: var(--green-200);
+        color: var(--green-800);
+    }
+
+    &.type-unexcused {
+        background: var(--pink-200);
+        color: var(--pink-800);
+    }
+
+    &.type-pending {
+        background: var(--yellow-200);
+        color: var(--yellow-800);
+    }
+}
+
+.absence-badge-text {
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+
+    &.type-excused {
+        color: var(--green-500);
+    }
+
+    &.type-unexcused {
+        color: var(--pink-500);
+    }
+
+    &.type-pending {
         color: var(--yellow-500);
     }
 }

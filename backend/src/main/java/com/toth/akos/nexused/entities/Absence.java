@@ -19,10 +19,10 @@ public class Absence {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "student_id")
+    @Column(name = "student_id", insertable = false, updatable = false)
     private String studentId;
 
-    @Column(name = "lesson_id")
+    @Column(name = "lesson_id", insertable = false, updatable = false)
     private int lessonId;
 
     @Column(name = "class_id")
@@ -36,4 +36,12 @@ public class Absence {
 
     @Column(name = "modification_date")
     private LocalDateTime modificationDate;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "lesson_id")
+    private Lesson lesson;
 }
