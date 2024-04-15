@@ -3,6 +3,9 @@ import {TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {Announcement} from "../../../util/models/announcement-models";
+import {RouterLink} from "@angular/router";
+import {DatePipe} from "@angular/common";
+import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
 
 @Component({
   selector: 'app-announcement-block',
@@ -10,7 +13,10 @@ import {Announcement} from "../../../util/models/announcement-models";
     imports: [
         TableModule,
         ButtonModule,
-        RippleModule
+        RippleModule,
+        RouterLink,
+        DatePipe,
+        NexRoleValidationModule
     ],
   templateUrl: './announcement-block.component.html',
   styleUrl: './announcement-block.component.scss'

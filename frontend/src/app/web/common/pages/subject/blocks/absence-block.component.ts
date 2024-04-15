@@ -5,6 +5,7 @@ import {RippleModule} from "primeng/ripple";
 import {Absence} from "../../../util/models/absence-models";
 import {ABSENCE_STATUS, getEnumName} from "../../../util/enums/Subject";
 import {DatePipe} from "@angular/common";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-absence-block',
@@ -13,7 +14,8 @@ import {DatePipe} from "@angular/common";
         TableModule,
         ButtonModule,
         RippleModule,
-        DatePipe
+        DatePipe,
+        RouterLink
     ],
   templateUrl: './absence-block.component.html',
   styleUrl: './absence-block.component.scss'

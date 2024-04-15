@@ -5,6 +5,7 @@ import {RippleModule} from "primeng/ripple";
 import {Task} from "../../../util/models/task-models";
 import {DatePipe} from "@angular/common";
 import {getEnumName, TASK_TYPE} from "../../../util/enums/Subject";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-task-block',
@@ -13,7 +14,8 @@ import {getEnumName, TASK_TYPE} from "../../../util/enums/Subject";
         TableModule,
         ButtonModule,
         RippleModule,
-        DatePipe
+        DatePipe,
+        RouterLink
     ],
   templateUrl: './task-block.component.html',
   styleUrl: './task-block.component.scss'
