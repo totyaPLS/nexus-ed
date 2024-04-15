@@ -1,5 +1,5 @@
 import {createStore} from "@ngneat/elf";
-import {getAllEntities, selectAllEntities, upsertEntities, withEntities} from "@ngneat/elf-entities";
+import {getAllEntities, selectAllEntities, setEntities, upsertEntities, withEntities} from "@ngneat/elf-entities";
 import {Injectable} from "@angular/core";
 import {catchError, distinctUntilChanged, EMPTY, Observable, pipe, tap} from "rxjs";
 import {
@@ -42,7 +42,7 @@ export class TaskRepository {
 
     setTasks(tasks: Task[]) {
         this.store.update(
-            upsertEntities(tasks),
+            setEntities(tasks),
             updateRequestStatus('tasks', 'success'),
         );
     }
