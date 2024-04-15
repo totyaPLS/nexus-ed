@@ -7,6 +7,9 @@ import com.toth.akos.nexused.mappers.TaskMapper;
 import com.toth.akos.nexused.repositories.AnnouncementRepository;
 import com.toth.akos.nexused.repositories.TaskRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +21,10 @@ public class AnnouncementService {
     private final AnnouncementMapper mapper;
 
     public List<AnnouncementDTO> getAllBySubjectIdAndClassId(int subjectId, int classId) {
-        List<Announcement> announcements = announcementRepository.findAnnouncementsNotInTaskBySubjectIdAndClassId(subjectId, classId);
+        Pageable pageable = PageRequest.of(0, 5);
+        Page<Announcement> announcementsPage =
+                announcementRepository.findAnnouncementsNotInTaskBySubjectIdAndClassId(subjectId, classId, pageable);
+        List<Announcement> announcements = announcementsPage.getContent();
         return mapper.toAnnouncementDTOs(announcements);
     }
 }
