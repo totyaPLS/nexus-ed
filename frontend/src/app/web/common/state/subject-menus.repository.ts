@@ -11,7 +11,6 @@ import {
 } from "@ngneat/elf-requests";
 
 import {SubjectMenuItem} from "../util/models/menu-models";
-import {localStorageStrategy, persistState} from "@ngneat/elf-persist-state";
 
 type RequestStates = 'menuItems';
 
@@ -23,7 +22,6 @@ export class SubjectMenuRepository {
     listLoading$: Observable<boolean>;
 
     private readonly store;
-    private persist;
     private readonly trackRequestStatus;
     // public readonly skipWhileCached;
 
@@ -33,10 +31,6 @@ export class SubjectMenuRepository {
             withRequestsStatus<RequestStates>(),
             withRequestsCache<'menuItems'>()
         );
-        this.persist = persistState(this.store, {
-            key: 'subject_menu',
-            storage: localStorageStrategy,
-        });
         this.trackRequestStatus = createRequestsStatusOperator(this.store);
         // this.skipWhileCached = createRequestsCacheOperator(this.store);
         this.menuItems = this.store.pipe(selectAllEntities());

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {jwtDecode} from "jwt-decode";
 import {CustomJwtPayload} from "../web/common/util/models/custom-jwt-payload";
 import {Credentials} from "../web/common/util/models/auth-models";
@@ -7,12 +7,10 @@ import {User} from "../web/common/util/models/user-models";
 import {Role} from "../web/common/util/enums/Role";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {localStorageStrategy} from "@ngneat/elf-persist-state";
 
 @Injectable({providedIn: 'root'})
 export class TokenService {
     private sessionSTokenKey = 'auth_token';
-    private localSTokenKey = 'subject_menu';
     private loginBase = 'http://localhost:8080';
 
     constructor(private http: HttpClient,
@@ -29,7 +27,6 @@ export class TokenService {
 
     removeTokens() {
         sessionStorage.removeItem(this.sessionSTokenKey);
-        localStorageStrategy.removeItem(this.localSTokenKey);
     }
 
     isTokenExpired() {

@@ -8,14 +8,9 @@ import {CustomJwtPayload} from "../../web/common/util/models/custom-jwt-payload"
 export class NexusRoleService {
     decodedCredential!: CustomJwtPayload;
 
-    constructor() {
-        const token = sessionStorage.getItem('auth_token');
-        if (token) {
-            this.decodedCredential = jwtDecode<CustomJwtPayload>(token);
-        }
-    }
-
     calculateAccess(requiredRoles: NexusedRoles[]): Observable<boolean> {
+        const token = sessionStorage.getItem('auth_token')!;
+        this.decodedCredential = jwtDecode<CustomJwtPayload>(token)
         if (!this.decodedCredential) return of(false);
         return of(!!requiredRoles.find(role => role === this.decodedCredential.role));
     }
