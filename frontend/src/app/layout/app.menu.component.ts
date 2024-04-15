@@ -78,10 +78,6 @@ export class AppMenuComponent implements OnInit {
                     routerLink: subjectClass.classes.map(aClass => (
                         `/subjects/${subjectClass.subject.id}/${aClass.id}`
                     )),
-                    queryParams: [
-                        subjectClass.subject.name,
-                        subjectClass.classes[0].classLevel
-                    ],
                 };
             } else {
                 menuItem = {
@@ -90,11 +86,6 @@ export class AppMenuComponent implements OnInit {
                         label: `${aClass.classLevel}.${aClass.letter}`,
                         icon: 'pi pi-fw pi-circle',
                         routerLink: [`/subjects/${subjectClass.subject.id}/${aClass.id}`],
-                        queryParams: [
-                            subjectClass.subject.name,
-                            aClass.classLevel,
-                            aClass.letter
-                        ],
                     }))
                 };
             }

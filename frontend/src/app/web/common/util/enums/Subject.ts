@@ -22,6 +22,18 @@ export const ABSENCE_STATUS = {
     [AbsenceStatus.PENDING]: 'Igazolásra vár',
 };
 
+export enum Detail {
+    ANNOUNCEMENTS = 'announcements',
+    TASKS = 'tasks',
+    ABSENCES = 'absences',
+}
+
+export const DETAIL = {
+    [Detail.ANNOUNCEMENTS]: 'Közlemények',
+    [Detail.TASKS]: 'Feladatok',
+    [Detail.ABSENCES]: 'Hiányzások',
+};
+
 export function getEnumName<T extends string>(
     value: T | null,
     enumMap: Record<T, string>
