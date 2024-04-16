@@ -6,6 +6,7 @@ import {Task} from "../../../util/models/task-models";
 import {DatePipe} from "@angular/common";
 import {getEnumName, TASK_TYPE} from "../../../util/enums/Subject";
 import {RouterLink} from "@angular/router";
+import {Announcement} from "../../../util/models/announcement-models";
 
 @Component({
   selector: 'app-task-block',
@@ -21,7 +22,7 @@ import {RouterLink} from "@angular/router";
   styleUrl: './task-block.component.scss'
 })
 export class TaskBlockComponent {
-    @Input() tasks!: Task[];
+    @Input() tasks!: Announcement[];
     protected readonly getEnumName = getEnumName;
     protected readonly TASK_TYPE = TASK_TYPE;
 }

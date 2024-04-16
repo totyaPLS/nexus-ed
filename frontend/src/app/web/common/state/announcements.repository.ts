@@ -1,5 +1,5 @@
 import {createStore} from "@ngneat/elf";
-import {getAllEntities, selectAllEntities, setEntities, upsertEntities, withEntities} from "@ngneat/elf-entities";
+import {getAllEntities, selectManyByPredicate, setEntities, withEntities} from "@ngneat/elf-entities";
 import {Injectable} from "@angular/core";
 import {catchError, distinctUntilChanged, EMPTY, Observable, pipe, tap} from "rxjs";
 import {
@@ -15,6 +15,7 @@ type RequestStates = 'announcements';
 @Injectable({providedIn: 'root'})
 export class AnnouncementRepository {
     announcements$: Observable<Announcement[]>;
+    tasks$: Observable<Announcement[]>;
 
     //loading states
     listLoading$: Observable<boolean>;
@@ -28,7 +29,12 @@ export class AnnouncementRepository {
             withRequestsStatus<RequestStates>(),
         );
         this.trackRequestStatus = createRequestsStatusOperator(this.store);
-        this.announcements$ = this.store.pipe(selectAllEntities());
+        this.announcements$ = this.store.pipe(
+            selectManyByPredicate(announcement => announcement.task === null)
+        );
+        this.tasks$ = this.store.pipe(
+            selectManyByPredicate(announcement => announcement.task !== null)
+        );
         this.listLoading$ = this.store.pipe(
             this.isRequestPending('announcements'),
         );

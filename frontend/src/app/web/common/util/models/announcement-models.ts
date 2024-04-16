@@ -1,3 +1,5 @@
+import {Task} from "./task-models";
+
 export interface Announcement {
     id: number;
     teacherId: string;
@@ -6,4 +8,5 @@ export interface Announcement {
     title: string;
     description: string;
     published: string;
+    task: Task;
 }

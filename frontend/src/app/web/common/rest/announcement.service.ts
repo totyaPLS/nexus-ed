@@ -13,8 +13,8 @@ export class AnnouncementService {
                 private announcementRepo: AnnouncementRepository) {
     }
 
-    listTeacherAnnouncements(subjectId: number, classId: number) {
-        return this.http.get<Announcement[]>(`${this.base}/teacherAnnouncements/${subjectId}/${classId}`).pipe(
+    listAnnouncements(subjectId: number, classId: number) {
+        return this.http.get<Announcement[]>(`${this.base}/allAnnouncement/${subjectId}/${classId}`).pipe(
             this.announcementRepo.withRequestStatus(
                 'announcements',
                 announcements => this.announcementRepo.setAnnouncements(announcements)

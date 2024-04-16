@@ -7,5 +7,6 @@ public record AnnouncementDTO(
     int classId,
     String title,
     String description,
-    String published
+    String published,
+    TaskDTO task
 ){}

@@ -2,10 +2,10 @@ import {CanActivateFn, Router} from '@angular/router';
 import {DETAIL, getEnumName} from "../../web/common/util/enums/Subject";
 import {inject} from "@angular/core";
 
-export const SubjectDetailGuard: CanActivateFn = (route, state) => {
+export const AnnouncementTypeGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
 
-    const pageName = route.paramMap.get('detail')!;
+    const pageName = route.paramMap.get('announcementType')!;
 
     if (getEnumName(pageName, DETAIL)) {
         return true;

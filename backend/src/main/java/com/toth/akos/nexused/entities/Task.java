@@ -24,8 +24,4 @@ public class Task {
 
     @Column(name = "type")
     private String type;
-
-    @OneToOne
-    @JoinColumn(name = "announcement_id")
-    private Announcement announcement;
 }

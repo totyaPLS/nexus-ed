@@ -15,21 +15,21 @@
                 <th style="width:25%;min-width:4rem;">Határidő</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-task>
+        <ng-template pTemplate="body" let-taskAnnouncement>
             <tr>
                 <td>
                     <span class="p-column-title">Feladat</span>
-                    {{task.title}}
+                    {{taskAnnouncement.title}}
                 </td>
                 <td>
                     <span class="p-column-title">Típus</span>
-                    <span [class]="'task-badge type-' + task.type.toLowerCase()">
-                        {{getEnumName(task.type, TASK_TYPE)}}
+                    <span [class]="'task-badge type-' + taskAnnouncement.task.type.toLowerCase()">
+                        {{getEnumName(taskAnnouncement.task.type, TASK_TYPE)}}
                     </span>
                 </td>
                 <td>
                     <span class="p-column-title">Határidő</span>
-                    {{task.deadline | date: 'yyyy.MM.dd hh:mm'}}
+                    {{taskAnnouncement.task.deadline | date: 'yyyy.MM.dd hh:mm'}}
                 </td>
             </tr>
         </ng-template>

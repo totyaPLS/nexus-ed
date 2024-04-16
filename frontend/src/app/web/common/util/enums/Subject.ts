@@ -22,16 +22,14 @@ export const ABSENCE_STATUS = {
     [AbsenceStatus.PENDING]: 'Igazolásra vár',
 };
 
-export enum Detail {
+export enum AnnouncementType {
     ANNOUNCEMENTS = 'announcements',
     TASKS = 'tasks',
-    ABSENCES = 'absences',
 }
 
 export const DETAIL = {
-    [Detail.ANNOUNCEMENTS]: 'Közlemények',
-    [Detail.TASKS]: 'Feladatok',
-    [Detail.ABSENCES]: 'Hiányzások',
+    [AnnouncementType.ANNOUNCEMENTS]: 'Közlemények',
+    [AnnouncementType.TASKS]: 'Feladatok',
 };
 
 export function getEnumName<T extends string>(

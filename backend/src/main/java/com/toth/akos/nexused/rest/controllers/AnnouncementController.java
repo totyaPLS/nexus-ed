@@ -1,6 +1,5 @@
 package com.toth.akos.nexused.rest.controllers;
 
-import com.toth.akos.nexused.dtos.AbsenceDTO;
 import com.toth.akos.nexused.dtos.AnnouncementDTO;
 import com.toth.akos.nexused.services.AnnouncementService;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +15,21 @@ import java.util.List;
 public class AnnouncementController {
     private final AnnouncementService announcementService;
 
-    @GetMapping("/teacherAnnouncements/{subjectId}/{classId}")
-    public ResponseEntity<List<AnnouncementDTO>> teacherAnnouncements(
+    @GetMapping("/allAnnouncement/{subjectId}/{classId}")
+    public ResponseEntity<List<AnnouncementDTO>> allAnnouncement(
             @PathVariable Integer subjectId, @PathVariable Integer classId) {
-        return ResponseEntity.ok(announcementService.getAllBySubjectIdAndClassId(subjectId, classId));
+        return ResponseEntity.ok(announcementService.getAllAnnouncementBySubjectIdAndClassId(subjectId, classId));
+    }
+
+    @GetMapping("/announcements/{subjectId}/{classId}")
+    public ResponseEntity<List<AnnouncementDTO>> announcements(
+            @PathVariable Integer subjectId, @PathVariable Integer classId) {
+        return ResponseEntity.ok(announcementService.getAnnouncementsBySubjectIdAndClassId(subjectId, classId));
+    }
+
+    @GetMapping("/taskAnnouncements/{subjectId}/{classId}")
+    public ResponseEntity<List<AnnouncementDTO>> taskAnnouncements(
+            @PathVariable Integer subjectId, @PathVariable Integer classId) {
+        return ResponseEntity.ok(announcementService.getTaskAnnouncementsBySubjectIdAndClassId(subjectId, classId));
     }
 }

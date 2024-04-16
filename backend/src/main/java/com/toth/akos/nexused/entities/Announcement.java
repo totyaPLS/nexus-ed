@@ -36,4 +36,8 @@ public class Announcement {
 
     @Column(name = "class_id")
     private int classId;
+
+    @OneToOne
+    @JoinColumn(name = "id")
+    private Task task;
 }

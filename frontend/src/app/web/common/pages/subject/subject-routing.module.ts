@@ -2,15 +2,15 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {SubjectComponent} from "./subject.component";
 import {BreadcrumbResolver} from "../../../../config/breadcrumb.resolver";
-import {SubjectDetailGuard} from "../../../../config/guards/SubjectDetailGuard";
+import {AnnouncementTypeGuard} from "../../../../config/guards/AnnouncementTypeGuard";
 
 const routes: Routes = [
     { path: '', resolve: { breadcrumb: BreadcrumbResolver }, component: SubjectComponent},
     {
-        path: ':detail',
+        path: ':announcementType',
         resolve: { breadcrumb: BreadcrumbResolver },
         loadChildren: () => import('./announcements/announcements.module').then(m => m.AnnouncementsModule),
-        canActivate: [SubjectDetailGuard]
+        canActivate: [AnnouncementTypeGuard]
     }
 ];
 
