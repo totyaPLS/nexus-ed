@@ -4,7 +4,6 @@ import {combineLatestWith, distinctUntilChanged, map, Observable, Subscription} 
 import {Announcement} from "../../util/models/announcement-models";
 import {Absence} from "../../util/models/absence-models";
 import {AnnouncementRepository} from "../../state/announcements.repository";
-import {TaskRepository} from "../../state/tasks.repository";
 import {AbsenceRepository} from "../../state/absences.repository";
 import {AnnouncementService} from "../../rest/announcement.service";
 import {AbsenceService} from "../../rest/absence.service";
@@ -49,7 +48,6 @@ export class SubjectComponent implements OnInit, OnDestroy {
         destroyRef = inject(DestroyRef);
 
     constructor(private announcementRepo: AnnouncementRepository,
-                private taskRepo: TaskRepository,
                 private absenceRepo: AbsenceRepository,
                 private announcementService: AnnouncementService,
                 private absenceService: AbsenceService,
@@ -59,7 +57,6 @@ export class SubjectComponent implements OnInit, OnDestroy {
         this.absences$ = this.absenceRepo.absences$;
         this.loading$ = this.announcementRepo.listLoading$.pipe(
             combineLatestWith(
-                this.taskRepo.listLoading$,
                 this.absenceRepo.listLoading$
             ),
             map(loadingValues => loadingValues.some(v => v)),
@@ -72,7 +69,7 @@ export class SubjectComponent implements OnInit, OnDestroy {
             this.subjectId = parseInt(this.route.snapshot.paramMap.get('subjectId')!);
             this.classId = parseInt(this.route.snapshot.paramMap.get('classId')!);
 
-            this.announcementService.listAnnouncements(this.subjectId, this.classId)
+            this.announcementService.listAllAnnouncement(this.subjectId, this.classId)
                 .pipe(takeUntilDestroyed(this.destroyRef))
                 .subscribe();
 

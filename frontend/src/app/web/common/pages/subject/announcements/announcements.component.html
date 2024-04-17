@@ -1,1 +1,24 @@
-<p>Detail works!</p>
+<p-accordion [multiple]="true" [activeIndex]="[0]">
+    <p-accordionTab *ngFor="let item of (announcements$ | async)" header="{{item.title}}">
+        <div class="announcement">
+            <div *ngIf="item.task" class="infos">
+                <div class="box">
+                    <p>Beadási határidő: <span>{{item.task.deadline | date: 'yyyy.MM.dd hh:mm'}}</span></p>
+                    <span *ngIf="isTaskExpired(item.task.deadline)" class="task-badge type-expired">Lejárt</span>
+                    <p>Feladat típusa: <span>{{getEnumName(item.task.type, TASK_TYPE)}}</span></p>
+                </div>
+            </div>
+            <div class="description">
+                <div [innerHTML]="item.description"></div>
+            </div>
+            <div *ngIf="item.task" class="flex justify-content-center">
+                <button pButton pRipple type="button" label="Beadott feladatok" class="p-button-raised p-button-warning"
+                        routerLink="not-found"></button>
+            </div>
+            <div class="creation-date">
+                <span><i>{{item.published | date: 'yyyy.MM.dd hh:mm'}}</i></span>
+            </div>
+        </div>
+        <div class="comments"></div>
+    </p-accordionTab>
+</p-accordion>

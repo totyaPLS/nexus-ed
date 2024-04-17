@@ -19,7 +19,8 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
     );
 
     @Query("SELECT a " +
-            "FROM Announcement a LEFT JOIN Task t ON a.id = t.announcementId " +
+            "FROM Announcement a " +
+            "LEFT JOIN Task t ON a.id = t.announcementId " +
             "WHERE t.announcementId IS NULL AND a.subjectId = :subjectId AND a.classId = :classId")
     Page<Announcement> findAnnouncementsNotInTaskBySubjectIdAndClassId(
             @Param("subjectId") int subjectId,
@@ -28,7 +29,8 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
     );
 
     @Query("SELECT a " +
-            "FROM Announcement a LEFT JOIN Task t ON a.id = t.announcementId " +
+            "FROM Announcement a " +
+            "LEFT JOIN Task t ON a.id = t.announcementId " +
             "WHERE t.announcementId IS NOT NULL AND a.subjectId = :subjectId AND a.classId = :classId")
     Page<Announcement> findAnnouncementsInTaskBySubjectIdAndClassId(
             @Param("subjectId") int subjectId,

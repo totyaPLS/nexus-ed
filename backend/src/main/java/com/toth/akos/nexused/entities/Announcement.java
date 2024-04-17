@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,4 +41,8 @@ public class Announcement {
     @OneToOne
     @JoinColumn(name = "id")
     private Task task;
+
+    @OneToMany
+    @JoinColumn(name = "announcement_id")
+    private List<Comment> comment;
 }

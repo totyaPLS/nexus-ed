@@ -1,4 +1,10 @@
-import {Task} from "./task-models";
+import {Comment} from "./comment-models";
+
+export interface Task {
+    announcementId: number;
+    deadline: string;
+    type: string;
+}
 
 export interface Announcement {
     id: number;
@@ -8,5 +14,6 @@ export interface Announcement {
     title: string;
     description: string;
     published: string;
-    task: Task;
+    task?: Task;
+    comments?: Comment[];
 }

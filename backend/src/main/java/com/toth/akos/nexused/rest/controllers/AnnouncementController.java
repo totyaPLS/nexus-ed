@@ -27,7 +27,7 @@ public class AnnouncementController {
         return ResponseEntity.ok(announcementService.getAnnouncementsBySubjectIdAndClassId(subjectId, classId));
     }
 
-    @GetMapping("/taskAnnouncements/{subjectId}/{classId}")
+    @GetMapping("/tasks/{subjectId}/{classId}")
     public ResponseEntity<List<AnnouncementDTO>> taskAnnouncements(
             @PathVariable Integer subjectId, @PathVariable Integer classId) {
         return ResponseEntity.ok(announcementService.getTaskAnnouncementsBySubjectIdAndClassId(subjectId, classId));

@@ -82,7 +82,6 @@ create table task (
 create table comment (
 	id serial primary key,
 	person_id varchar(10) not null references system_user on delete cascade,
-	task_id integer references task on delete cascade,
 	announcement_id integer references announcement on delete cascade,
 	text varchar(255) not null,
 	published timestamp not null

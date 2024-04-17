@@ -20,6 +20,11 @@
         background: var(--yellow-200);
         color: var(--yellow-800);
     }
+
+    &.type-expired {
+        background: var(--pink-200);
+        color: var(--pink-800);
+    }
 }
 
 .task-badge-text {
@@ -37,6 +42,10 @@
 
     &.type-homework {
         color: var(--yellow-500);
+    }
+
+    &.type-expired {
+        color: var(--pink-500);
     }
 }
 

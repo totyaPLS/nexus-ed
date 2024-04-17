@@ -1,5 +1,5 @@
 import {createStore} from "@ngneat/elf";
-import {getAllEntities, selectAllEntities, setEntities, upsertEntities, withEntities} from "@ngneat/elf-entities";
+import {getAllEntities, selectAllEntities, setEntities, withEntities} from "@ngneat/elf-entities";
 import {Injectable} from "@angular/core";
 import {catchError, distinctUntilChanged, EMPTY, Observable, pipe, tap} from "rxjs";
 import {
@@ -8,13 +8,13 @@ import {
     updateRequestStatus,
     withRequestsStatus
 } from "@ngneat/elf-requests";
-import {Task} from "../util/models/task-models";
+import {Comment} from "../util/models/comment-models";
 
-type RequestStates = 'tasks';
+type RequestStates = 'comments';
 
 @Injectable({providedIn: 'root'})
-export class TaskRepository {
-    tasks$: Observable<Task[]>;
+export class CommentRepository {
+    comments$: Observable<Comment[]>;
 
     //loading states
     listLoading$: Observable<boolean>;
@@ -23,27 +23,27 @@ export class TaskRepository {
     private readonly trackRequestStatus;
 
     constructor() {
-        this.store = createStore({name: 'tasks'},
-            withEntities<Task, 'announcementId'>({idKey: "announcementId"}),
+        this.store = createStore({name: 'comments'},
+            withEntities<Comment>(),
             withRequestsStatus<RequestStates>(),
         );
         this.trackRequestStatus = createRequestsStatusOperator(this.store);
-        this.tasks$ = this.store.pipe(selectAllEntities());
+        this.comments$ = this.store.pipe(selectAllEntities());
         this.listLoading$ = this.store.pipe(
-            this.isRequestPending('tasks'),
+            this.isRequestPending('comments'),
         );
     }
 
-    getTasks() {
+    getComments() {
         return this.store.query(
             getAllEntities(),
         );
     }
 
-    setTasks(tasks: Task[]) {
+    setComments(comments: Comment[]) {
         this.store.update(
-            setEntities(tasks),
-            updateRequestStatus('tasks', 'success'),
+            setEntities(comments),
+            updateRequestStatus('comments', 'success'),
         );
     }
 
