@@ -1,8 +1,90 @@
-<div class="grid">
-    <div class="col-12">
-        <div class="card">
-            <h4>Empty Page</h4>
-            <p>This is your empty page template to start building beautiful applications.</p>
-        </div>
+<div class="col-md-3 pt-0" [style]="{'width': '80%', margin: 'auto'}">
+    <div class="upper">
+        <img alt="Card"
+            src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg"
+            class="card-img-top">
     </div>
+    <div class="lower">
+
+        <div class="card-person-info" >
+            <div id="card-person-container">
+
+                <p-card id="leftCard" *ngIf="user$ | async as user" [style]="{'height': '100%'}">
+                     <div class="card-person-img" >
+                    <img alt="Card"
+                        src="https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg">
+                </div>
+                    <div id="profile" class="text-center">
+                        <h2>{{user.lastName + ' ' + user.firstName}}</h2>
+
+                    </div>
+                    <p-divider></p-divider>
+                    <div id="profileInfoBtns">
+                    <p-button label="Alap adatok"  icon="pi pi-id-card" [style]="{'width': '100%'}" [text]='true'  severity="secondary"
+                            (click)="changePanel('default')"></p-button>
+                        <p-button  label="Oktatás" icon="pi pi-book" [text]='true'  severity="secondary"
+                          [style]="{'width': '100%'}"
+                            (click)="changePanel('info')"></p-button>
+                        <p-button  label="Elérhetőség"  icon="pi pi-phone"[style]="{'width': '100%'}" [text]='true'  severity="secondary"
+                            (click)="changePanel('contact')"></p-button>
+                    </div>
+                </p-card>
+            </div>
+
+            <p-card id="rightCard" *ngIf="user$ | async as user" [style]="{'height': '100%'}">
+                <div *ngIf="panel == 'default'; else panel2Content">
+                    <table id="dataTable" >
+                        <tr>
+                            <td>Hivatalos email:</td>
+                            <td>{{user.schoolEmail}}</td>
+                            <div class="icons">
+                                <i class="pi pi-pencil" (click)="editProfile(user.uid)"></i>
+                                <i class="pi pi-eye" (click)="revealInfo(user.uid)"></i>
+                            </div>
+                        </tr>
+                        <tr>
+                            <td>Publikus email:</td>
+                            <td>{{user.publicEmail}}</td>
+                            <div class="icons">
+                                <i class="pi pi-pencil" (click)="editProfile(user.uid)"></i>
+                                <i class="pi pi-eye" (click)="revealInfo(user.uid)"></i>
+                            </div>
+
+                        </tr>
+                        <tr>
+                            <td>Munkahelyi telefonszám:</td>
+                            <td>{{user.phone}}</td>
+                            <div class="icons">
+                                <i class="pi pi-pencil" (click)="editProfile(user.uid)"></i>
+                                <i class="pi pi-eye" (click)="revealInfo(user.uid)"></i>
+                            </div>
+                        </tr>
+                        <tr>
+                            <td>Publikus telefonszám:</td>
+                            <td>{{user.phone}}</td>
+                            <div class="icons">
+                                <i class="pi pi-pencil" (click)="editProfile(user.uid)"></i>
+                                <i class="pi pi-eye" (click)="revealInfo(user.uid)"></i>
+                            </div>
+                        </tr>
+
+
+
+                    </table>
+                </div>
+                <ng-template #panel2Content>
+                    <div *ngIf="panel == 'info'; else panel3Content">
+
+                    </div>
+                </ng-template>
+                <ng-template #panel3Content>
+                
+                </ng-template>
+             
+            </p-card>
+        </div>
+
+    </div>
+
+
 </div>

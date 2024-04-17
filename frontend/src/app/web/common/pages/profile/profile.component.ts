@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
     user$: Observable<User | undefined>;
 
     destroyRef = inject(DestroyRef);
+    panel: string = 'default';
 
     constructor(private userService: UserService,
                 private userRepo: UserRepository) {
@@ -23,8 +24,23 @@ export class ProfileComponent implements OnInit {
         );
     }
 
+
+
     ngOnInit(): void {
         this.userService.getLoggedInUserData().pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(user => console.log(user));
     }
+
+    editProfile(uid: string): void {
+        console.log('edit profile');
+    }
+
+    revealInfo(uid : string): void {
+        console.log('reveal info');
+    }
+
+    changePanel(panel: string): void {
+        this.panel = panel;
+    }
+
 }

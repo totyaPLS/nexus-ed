@@ -1,0 +1,77 @@
+//class card-img-top
+
+.card-img-top {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 0 0 5px 5px;
+}
+
+
+.card-person-img{
+    width: 8dvw;
+    height: 8dvw;
+    min-width: 75px;
+    min-height: 75px;
+    transform: translateY(-110%) translateX(calc(50% - 2.6dvw));
+    position: fixed;
+    z-index: 2;
+    overflow: hidden;
+    border-radius:50%;
+    border: 5px solid white;
+    filter: drop-shadow(0 0 0.3rem black);
+
+}
+.card-person-img img{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+
+}
+
+.card-person-info{
+  display: flex;
+
+
+}
+#card-person-container{
+   width: 20%;
+   min-width: 140px;
+   height: 55dvh;
+}
+
+#rightCard{
+    width: 80%;
+    height: 55dvh;
+}
+.icons{
+    display: flex;
+    gap: 10px;
+  
+}
+.icons i{
+    font-size: 1.3rem;
+    color: #6c757d;
+ 
+}
+.icons i:hover{
+    color: #007bff;
+    cursor: pointer;
+    animation: pulse 2s infinite;
+}
+#dataTable{
+  width: 100%;
+
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
