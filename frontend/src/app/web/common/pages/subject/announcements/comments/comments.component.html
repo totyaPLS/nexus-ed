@@ -1,0 +1,22 @@
+<div [nexusLoading]="(loading$)">
+    <ul class="list-none p-0 m-0">
+        <li *ngFor="let comment of comments" class="flex p-3 mb-3 border-1 surface-border border-round">
+            <img src="./assets/images/avatar/profile.png"
+                 class="w-3rem h-3rem mr-3 flex-shrink-0" alt="profile picture"/>
+            <div>
+                <span class="font-semibold text-900">{{comment.personId}}</span>
+                <p class="font-semibold text-600 m-0 text-sm">{{comment.published | date: 'yyyy.MM.dd hh:mm'}}</p>
+                <p class="line-height-3 mb-0 my-3">{{comment.text}}</p>
+            </div>
+        </li>
+    </ul>
+    <form>
+        <div class="mb-3 p-fluid">
+            <textarea rows="6" pInputTextarea placeholder="Hozzászólás írása" [formControl]="commentControl"></textarea>
+        </div>
+        <div class="flex justify-content-end">
+            <button pButton pRipple label="Hozzászólás" type="button" [disabled]="isCommentEmpty" (click)="triggerComment()">
+            </button>
+        </div>
+    </form>
+</div>

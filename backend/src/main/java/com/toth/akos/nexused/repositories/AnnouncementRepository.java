@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface AnnouncementRepository extends JpaRepository<Announcement, Integer> {
 
     @Query("SELECT a " +
@@ -37,4 +39,10 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
             @Param("classId") int classId,
             Pageable pageable
     );
+
+    @Query("SELECT a " +
+            "FROM Announcement a " +
+            "LEFT JOIN Task t ON a.id = t.announcementId " +
+            "WHERE a.id = :announcementId")
+    Optional<Announcement> findAnnouncementById(@Param("announcementId") int announcementId);
 }

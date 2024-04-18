@@ -19,6 +19,13 @@
                 <span><i>{{item.published | date: 'yyyy.MM.dd hh:mm'}}</i></span>
             </div>
         </div>
-        <div class="comments"></div>
+        <div class="comments">
+            <app-comments
+                [announcementId]="item.id"
+                [comments]="item.comments"
+                [loading$]="loading$"
+                (commentClicked)="addComment($event)">
+            </app-comments>
+        </div>
     </p-accordionTab>
 </p-accordion>

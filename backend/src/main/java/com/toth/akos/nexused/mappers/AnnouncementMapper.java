@@ -9,4 +9,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AnnouncementMapper {
     List<AnnouncementDTO> toAnnouncementDTOs(List<Announcement> announcements);
+
+    AnnouncementDTO toAnnouncementDTO(Announcement announcement);
 }

@@ -1,5 +1,12 @@
 import {createStore} from "@ngneat/elf";
-import {getAllEntities, selectManyByPredicate, setEntities, withEntities} from "@ngneat/elf-entities";
+import {
+    getAllEntities,
+    selectManyByPredicate,
+    setEntities,
+    updateEntities,
+    upsertEntities,
+    withEntities
+} from "@ngneat/elf-entities";
 import {Injectable} from "@angular/core";
 import {catchError, distinctUntilChanged, EMPTY, Observable, pipe, tap} from "rxjs";
 import {
@@ -49,6 +56,13 @@ export class AnnouncementRepository {
     setAnnouncements(announcements: Announcement[]) {
         this.store.update(
             setEntities(announcements),
+            updateRequestStatus('announcements', 'success'),
+        );
+    }
+
+    upsertAnnouncements(announcement: Announcement) {
+        this.store.update(
+            upsertEntities(announcement), // TODO: the data isn't updating between parent-child
             updateRequestStatus('announcements', 'success'),
         );
     }

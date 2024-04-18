@@ -9,4 +9,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
     List<CommentDTO> toCommentDTOs(List<Comment> comments);
+
+    Comment toComment(CommentDTO commentDTO);
 }

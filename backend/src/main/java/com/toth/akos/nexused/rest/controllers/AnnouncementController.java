@@ -1,13 +1,14 @@
 package com.toth.akos.nexused.rest.controllers;
 
 import com.toth.akos.nexused.dtos.AnnouncementDTO;
+import com.toth.akos.nexused.dtos.CommentDTO;
 import com.toth.akos.nexused.services.AnnouncementService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -31,5 +32,12 @@ public class AnnouncementController {
     public ResponseEntity<List<AnnouncementDTO>> taskAnnouncements(
             @PathVariable Integer subjectId, @PathVariable Integer classId) {
         return ResponseEntity.ok(announcementService.getTaskAnnouncementsBySubjectIdAndClassId(subjectId, classId));
+    }
+
+    @PostMapping("/uploadComment")
+    public ResponseEntity<AnnouncementDTO> uploadComment(
+            @Valid @RequestBody CommentDTO commentDTO) {
+        AnnouncementDTO updatedAnnouncementDTO = announcementService.uploadComment(commentDTO);
+        return ResponseEntity.created(URI.create("/announcements/" + updatedAnnouncementDTO.getId())).body(updatedAnnouncementDTO);
     }
 }

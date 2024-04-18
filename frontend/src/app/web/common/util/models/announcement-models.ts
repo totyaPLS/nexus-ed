@@ -15,5 +15,5 @@ export interface Announcement {
     description: string;
     published: string;
     task?: Task;
-    comments?: Comment[];
+    comments: Comment[];
 }
