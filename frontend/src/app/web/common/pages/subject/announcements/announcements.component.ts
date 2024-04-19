@@ -5,7 +5,7 @@ import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {AnnouncementService} from "../../../rest/announcement.service";
 import {distinctUntilChanged, Observable} from "rxjs";
 import {Announcement} from "../../../util/models/announcement-models";
-import {AnnouncementType, getEnumName, TASK_TYPE} from "../../../util/enums/Subject";
+import {SubjectDetailType, getEnumName, TASK_TYPE} from "../../../util/enums/Subject";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {CommentsComponent} from "./comments/comments.component";
@@ -36,7 +36,6 @@ import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-valid
 export class AnnouncementsComponent implements OnInit {
     protected readonly getEnumName = getEnumName;
     protected readonly TASK_TYPE = TASK_TYPE;
-    protected readonly AnnouncementType = AnnouncementType;
 
     subjectId!: number;
     classId!: number;
@@ -54,10 +53,10 @@ export class AnnouncementsComponent implements OnInit {
         this.classId = JSON.parse(this.route.snapshot.paramMap.get('classId')!);
         this.announcementType = this.route.snapshot.paramMap.get('announcementType')!;
 
-        if (this.announcementType === AnnouncementType.ANNOUNCEMENTS) {
+        if (this.announcementType === SubjectDetailType.ANNOUNCEMENTS) {
             this.announcements$ = this.announcementRepo.announcements$;
         }
-        if (this.announcementType === AnnouncementType.TASKS) {
+        if (this.announcementType === SubjectDetailType.TASKS) {
             this.announcements$ = this.announcementRepo.tasks$;
         }
         this.loading$ = this.announcementRepo.listLoading$.pipe(
