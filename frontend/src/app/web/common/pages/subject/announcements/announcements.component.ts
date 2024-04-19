@@ -5,7 +5,7 @@ import {ActivatedRoute, RouterLink} from "@angular/router";
 import {AnnouncementService} from "../../../rest/announcement.service";
 import {distinctUntilChanged, Observable} from "rxjs";
 import {Announcement} from "../../../util/models/announcement-models";
-import {getEnumName, TASK_TYPE} from "../../../util/enums/Subject";
+import {AnnouncementType, getEnumName, TASK_TYPE} from "../../../util/enums/Subject";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {CommentsComponent} from "./comments/comments.component";
@@ -46,16 +46,25 @@ export class AnnouncementsComponent implements OnInit {
     constructor(private route: ActivatedRoute,
                 private announcementService: AnnouncementService,
                 private announcementRepo: AnnouncementRepository) {
-    }
-
-    ngOnInit(): void {
         this.subjectId = JSON.parse(this.route.snapshot.paramMap.get('subjectId')!);
         this.classId = JSON.parse(this.route.snapshot.paramMap.get('classId')!);
         this.announcementType = this.route.snapshot.paramMap.get('announcementType')!;
-        this.announcements$ = this.announcementService.listAnnouncementsWithComments(this.subjectId, this.classId, this.announcementType);
+
+        if (this.announcementType === AnnouncementType.ANNOUNCEMENTS) {
+            this.announcements$ = this.announcementRepo.announcements$;
+        }
+        if (this.announcementType === AnnouncementType.TASKS) {
+            this.announcements$ = this.announcementRepo.tasks$;
+        }
         this.loading$ = this.announcementRepo.listLoading$.pipe(
             distinctUntilChanged(),
         );
+    }
+
+    ngOnInit(): void {
+        this.announcementService.listAnnouncementsWithComments(this.subjectId, this.classId, this.announcementType)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe();
     }
 
     isTaskExpired(deadline: string) {
