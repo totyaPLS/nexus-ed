@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {SubjectComponent} from "./subject.component";
 import {BreadcrumbResolver} from "../../../../config/breadcrumb.resolver";
 import {AnnouncementTypeGuard} from "../../../../config/guards/AnnouncementTypeGuard";
+import {AnnouncementIDGuard} from "../../../../config/guards/AnnouncementIDGuard";
 
 const routes: Routes = [
     { path: '', resolve: { breadcrumb: BreadcrumbResolver }, component: SubjectComponent},
@@ -11,6 +12,12 @@ const routes: Routes = [
         resolve: { breadcrumb: BreadcrumbResolver },
         loadChildren: () => import('./announcements/announcements.module').then(m => m.AnnouncementsModule),
         canActivate: [AnnouncementTypeGuard]
+    },
+    {
+        path: ':announcementType/:announcementId',
+        resolve: { breadcrumb: BreadcrumbResolver },
+        loadChildren: () => import('./submitted-tasks/submitted-tasks.module').then(m => m.SubmittedTasksModule),
+        canActivate: [AnnouncementTypeGuard, AnnouncementIDGuard]
     }
 ];
 

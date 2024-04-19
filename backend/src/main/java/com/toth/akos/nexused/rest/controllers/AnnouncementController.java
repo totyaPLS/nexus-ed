@@ -34,6 +34,11 @@ public class AnnouncementController {
         return ResponseEntity.ok(announcementService.getTaskAnnouncementsBySubjectIdAndClassId(subjectId, classId));
     }
 
+    @GetMapping("/{announcementId}")
+    public ResponseEntity<Boolean> checkPermissionForAnnouncement(@PathVariable Integer announcementId) {
+        return ResponseEntity.ok(announcementService.isAllowedForAnnouncement(announcementId));
+    }
+
     @PostMapping("/uploadComment")
     public ResponseEntity<AnnouncementDTO> uploadComment(
             @Valid @RequestBody CommentDTO commentDTO) {

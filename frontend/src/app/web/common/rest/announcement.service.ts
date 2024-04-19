@@ -38,4 +38,9 @@ export class AnnouncementService {
             ),
         );
     }
+
+    getPermissionOfSubmittedTask(announcementId: number) {
+        return this.http.get<boolean>(`/${announcementId}`);
+    }
+
 }

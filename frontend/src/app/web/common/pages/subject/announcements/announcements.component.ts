@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {AccordionModule} from "primeng/accordion";
 import {AsyncPipe, DatePipe, NgForOf, NgIf} from "@angular/common";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {AnnouncementService} from "../../../rest/announcement.service";
 import {distinctUntilChanged, Observable} from "rxjs";
 import {Announcement} from "../../../util/models/announcement-models";
@@ -12,6 +12,7 @@ import {CommentsComponent} from "./comments/comments.component";
 import {Comment} from "../../../util/models/comment-models";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {AnnouncementRepository} from "../../../state/announcements.repository";
+import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
 
 @Component({
   selector: 'app-announcements',
@@ -25,7 +26,8 @@ import {AnnouncementRepository} from "../../../state/announcements.repository";
         ButtonModule,
         RippleModule,
         RouterLink,
-        CommentsComponent
+        CommentsComponent,
+        NexRoleValidationModule
     ],
   templateUrl: './announcements.component.html',
   styleUrl: './announcements.component.scss',
@@ -34,6 +36,7 @@ import {AnnouncementRepository} from "../../../state/announcements.repository";
 export class AnnouncementsComponent implements OnInit {
     protected readonly getEnumName = getEnumName;
     protected readonly TASK_TYPE = TASK_TYPE;
+    protected readonly AnnouncementType = AnnouncementType;
 
     subjectId!: number;
     classId!: number;
@@ -44,6 +47,7 @@ export class AnnouncementsComponent implements OnInit {
     destroyRef = inject(DestroyRef);
 
     constructor(private route: ActivatedRoute,
+                private router: Router,
                 private announcementService: AnnouncementService,
                 private announcementRepo: AnnouncementRepository) {
         this.subjectId = JSON.parse(this.route.snapshot.paramMap.get('subjectId')!);
@@ -75,5 +79,9 @@ export class AnnouncementsComponent implements OnInit {
 
     addComment(comment: Comment) {
         this.announcementService.addComment(comment).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    }
+
+    navigateToSubmittedTasks(taskId: number) {
+        this.router.navigate([taskId], { relativeTo: this.route });
     }
 }

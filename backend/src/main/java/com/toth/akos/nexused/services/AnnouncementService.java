@@ -22,6 +22,7 @@ public class AnnouncementService {
     private final AnnouncementRepository announcementRepository;
     private final AnnouncementMapper mapper;
     private final CommentService commentService;
+    private final AuthService authService;
 
     public List<AnnouncementDTO> getAllAnnouncementBySubjectIdAndClassId(int subjectId, int classId) {
         Pageable pageable = PageRequest.of(0, 5);
@@ -68,5 +69,13 @@ public class AnnouncementService {
         List<CommentDTO> commentDTOs = commentService.getCommentsByAnnouncementId(announcementDTO.getId());
         announcementDTO.setComments(commentDTOs);
         return announcementDTO;
+    }
+
+    public Boolean isAllowedForAnnouncement(int announcementId) {
+        Optional<Announcement> foundTask = announcementRepository.findTaskByTeacherIdAndAnnouncementId(
+                authService.getPrincipalUid(),
+                announcementId
+        );
+        return foundTask.isPresent();
     }
 }

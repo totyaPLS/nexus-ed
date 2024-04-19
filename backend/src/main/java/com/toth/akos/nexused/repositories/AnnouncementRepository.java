@@ -45,4 +45,10 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Inte
             "LEFT JOIN Task t ON a.id = t.announcementId " +
             "WHERE a.id = :announcementId")
     Optional<Announcement> findAnnouncementById(@Param("announcementId") int announcementId);
+
+    @Query("SELECT a " +
+            "FROM Announcement a " +
+            "LEFT JOIN Task t ON a.id = t.announcementId " +
+            "WHERE t.announcementId IS NOT NULL AND a.teacherId = :teacherId AND a.id = :announcementId")
+    Optional<Announcement> findTaskByTeacherIdAndAnnouncementId(String teacherId, Integer announcementId);
 }

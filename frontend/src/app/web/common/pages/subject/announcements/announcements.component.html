@@ -11,10 +11,12 @@
             <div class="description">
                 <div [innerHTML]="item.description"></div>
             </div>
-            <div *ngIf="item.task" class="flex justify-content-center">
-                <button pButton pRipple type="button" label="Beadott feladatok" class="p-button-raised p-button-warning"
-                        routerLink="not-found"></button>
-            </div>
+            <ng-container *showForRoles="['TEACHER']">
+                <div *ngIf="item.task" class="flex justify-content-center">
+                    <button pButton pRipple type="button" label="Beadott feladatok" class="p-button-raised p-button-warning"
+                            (click)="navigateToSubmittedTasks(item.id)"></button>
+                </div>
+            </ng-container>
             <div class="creation-date">
                 <span><i>{{item.published | date: 'yyyy.MM.dd hh:mm'}}</i></span>
             </div>
