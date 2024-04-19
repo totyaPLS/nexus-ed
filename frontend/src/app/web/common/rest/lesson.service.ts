@@ -7,14 +7,12 @@ import {LessonsRepository} from "../state/lessons.repository";
     providedIn: 'root',
 })
 export class LessonService {
-    private base = 'http://localhost:8080';
-
     constructor(private http: HttpClient,
                 private lessonsRepo: LessonsRepository) {
     }
 
     listLessons() {
-        return this.http.get<Lesson[]>(`${this.base}/lessons`).pipe(
+        return this.http.get<Lesson[]>(`/lessons`).pipe(
             this.lessonsRepo.withRequestStatus('lessons', lessons => this.lessonsRepo.setLessons(lessons)),
         );
     }

@@ -11,7 +11,6 @@ import {Router} from "@angular/router";
 @Injectable({providedIn: 'root'})
 export class TokenService {
     private sessionSTokenKey = 'auth_token';
-    private loginBase = 'http://localhost:8080';
 
     constructor(private http: HttpClient,
                 private router: Router) {
@@ -47,7 +46,7 @@ export class TokenService {
     }
 
     login(credentials: Credentials): Observable<User> {
-        let users$ = this.http.post<User>(`${this.loginBase}/login`, credentials);
+        let users$ = this.http.post<User>(`/login`, credentials);
         users$.subscribe(response => {
             this.setAuthToken(response.token);
             if (response.role === Role.ADMIN) {

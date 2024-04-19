@@ -10,21 +10,19 @@ import {catchError, EMPTY} from "rxjs";
     providedIn: 'root',
 })
 export class SubjectService {
-    private base = 'http://localhost:8080';
-
     constructor(private http: HttpClient,
                 private subjectRepo: SubjectRepository,
                 private subjectMenuRepo: SubjectMenuRepository) {
     }
 
     listAvailableSubjects() {
-        return this.http.get<Subject[]>(`${this.base}/availableSubjects`).pipe(
+        return this.http.get<Subject[]>(`/availableSubjects`).pipe(
             this.subjectRepo.withRequestStatus('subjects', subjects => this.subjectRepo.setSubjects(subjects)),
         );
     }
 
     listSubjectsForMenu() {
-        return this.http.get<SubjectMenuItem[]>(`${this.base}/subjects`).pipe(
+        return this.http.get<SubjectMenuItem[]>(`/subjects`).pipe(
             this.subjectMenuRepo.withRequestStatus(
                 'menuItems',
                 items => this.subjectMenuRepo.setMenuItems(items)),

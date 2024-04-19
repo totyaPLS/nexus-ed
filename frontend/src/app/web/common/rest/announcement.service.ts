@@ -8,14 +8,12 @@ import {Comment} from "../util/models/comment-models";
     providedIn: 'root',
 })
 export class AnnouncementService {
-    private base = 'http://localhost:8080';
-
     constructor(private http: HttpClient,
                 private announcementRepo: AnnouncementRepository) {
     }
 
     listAllAnnouncement(subjectId: number, classId: number) {
-        return this.http.get<Announcement[]>(`${this.base}/allAnnouncement/${subjectId}/${classId}`).pipe(
+        return this.http.get<Announcement[]>(`/allAnnouncement/${subjectId}/${classId}`).pipe(
             this.announcementRepo.withRequestStatus(
                 'announcements',
                 announcements => this.announcementRepo.setAnnouncements(announcements)
@@ -24,7 +22,7 @@ export class AnnouncementService {
     }
 
     listAnnouncementsWithComments(subjectId: number, classId: number, endpointName: string) {
-        return this.http.get<Announcement[]>(`${this.base}/${endpointName}/${subjectId}/${classId}`).pipe(
+        return this.http.get<Announcement[]>(`/${endpointName}/${subjectId}/${classId}`).pipe(
             this.announcementRepo.withRequestStatus(
                 'announcements',
                 announcements => this.announcementRepo.setAnnouncements(announcements)
@@ -33,7 +31,7 @@ export class AnnouncementService {
     }
 
     addComment(comment: Comment) {
-        return this.http.post<Announcement>(`${this.base}/uploadComment`, comment).pipe(
+        return this.http.post<Announcement>(`/uploadComment`, comment).pipe(
             this.announcementRepo.withRequestStatus(
                 'announcements',
                 announcement => this.announcementRepo.upsertAnnouncements(announcement)

@@ -7,44 +7,42 @@ import {SignUpData, StudentSignUp, TeacherSignUp, User} from "../util/models/use
     providedIn: 'root',
 })
 export class UserService {
-    private base = 'http://localhost:8080';
-
     constructor(private http: HttpClient,
                 private userRepo: UserRepository) {
     }
 
     listUsers() {
-        return this.http.get<User[]>(`${this.base}/users`).pipe(
+        return this.http.get<User[]>(`/users`).pipe(
             this.userRepo.withRequestStatus('userLoading', users => this.userRepo.setUsers(users)),
         );
     }
 
     createUser(user: SignUpData) {
-        return this.http.post<User>(`${this.base}/register`, user).pipe(
+        return this.http.post<User>(`/register`, user).pipe(
             this.userRepo.withRequestStatus('userLoading', createdUser => this.userRepo.setUser(createdUser)),
         );
     }
 
     deleteUser(uid: string) {
-        return this.http.delete<User[]>(`${this.base}/users/${uid}`).pipe(
+        return this.http.delete<User[]>(`/users/${uid}`).pipe(
             this.userRepo.withRequestStatus('userLoading', () => this.userRepo.deleteUser(uid)),
         );
     }
 
     createTeacher(teacherSignUp: TeacherSignUp) {
-        return this.http.post<User>(`${this.base}/teacher`, teacherSignUp).pipe(
+        return this.http.post<User>(`/teacher`, teacherSignUp).pipe(
             this.userRepo.withRequestStatus('userLoading', createdUser => this.userRepo.setUser(createdUser)),
         );
     }
 
     createStudent(studentSignUp: StudentSignUp) {
-        return this.http.post<User>(`${this.base}/student`, studentSignUp).pipe(
+        return this.http.post<User>(`/student`, studentSignUp).pipe(
             this.userRepo.withRequestStatus('userLoading', createdUser => this.userRepo.setUser(createdUser)),
         );
     }
 
     getLoggedInUserData() {
-        return this.http.get<User>(`${this.base}/loggedInUser`).pipe(
+        return this.http.get<User>(`/loggedInUser`).pipe(
             this.userRepo.withRequestStatus('userLoading', user => this.userRepo.setUser(user)),
         );
     }
