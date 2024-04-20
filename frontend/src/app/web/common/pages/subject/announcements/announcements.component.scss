@@ -1,0 +1,38 @@
+.announcementsTitle{
+    background-color: #3B82F6;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 5px 5px;
+    padding: 10px;
+
+
+}
+.announcementsTitle h3{
+    margin: 0;
+    color: white;
+}
+.tasksTitle{
+    background-color: #F59E0B;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 5px 5px;
+    padding: 10px;
+
+}
+
+.tasksTitle h3{
+    margin: 0;
+
+}
+
+.taskAccordion{
+    border-left: 5px solid #F59E0B;
+}
+
+.announcementAccordion{
+    border-left: 5px solid #3B82F6;
+}

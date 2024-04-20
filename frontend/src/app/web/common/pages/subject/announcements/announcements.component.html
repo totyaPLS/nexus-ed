@@ -1,33 +1,105 @@
-<p-accordion [multiple]="true" [activeIndex]="[0]">
-    <p-accordionTab *ngFor="let item of (announcements$ | async)" header="{{item.title}}">
-        <div class="announcement">
-            <div *ngIf="item.task" class="infos">
-                <div class="box">
-                    <p>Beadási határidő: <span>{{item.task.deadline | date: 'yyyy.MM.dd hh:mm'}}</span></p>
-                    <span *ngIf="isTaskExpired(item.task.deadline)" class="task-badge type-expired">Lejárt</span>
-                    <p>Feladat típusa: <span>{{getEnumName(item.task.type, TASK_TYPE)}}</span></p>
+<div id="assignContainer">
+    <div id="headerContent" class="flex justify-content-between gap-2 mb-5">
+        <div id="title" ngClass="{{announcementType + 'Title'}}">
+            <h3> {{(getEnumName(announcementType, DETAIL).toUpperCase())}}</h3>
+        </div>
+        <p-button label="ÚJ" icon="pi pi-plus"
+            [style]="{'background-color': '#495057', 'color': 'white', height: '100%'}" />
+    </div>
+    <p-accordion [multiple]="true" [activeIndex]="[0]" *ngIf="announcementType === SubjectDetailType.TASKS; else announcementContent"
+        [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '10px'}">
+        <p-accordionTab *ngFor="let item of (announcements$ | async)" iconPos="end"
+            [style]="{'border-left': '5px solid #F59E0B', 'border-radius': '5px', filter: 'drop-shadow(0px 4px 2px #00000025)', 'max-height': '50dvh'}">
+            <ng-template pTemplate="header">
+                <p [style]="{'font-size': '20px', 'font-weight': 'bold', 'color': '#495057'}">{{item.title}}</p>
+            </ng-template>
+            <div class="flex ">
+                <div class="announcement w-7">
+                    <div class="accordionItemContent">
+
+                        <p-divider></p-divider>
+                        <div *ngIf="item.task" class="infos"
+                            style="background-color: #f59f0b1e; width: fit-content; padding: 5px;">
+                            <div class="box">
+                                <div class="flex gap-2 align-items-center">
+                                    <p class="text-center">Beadási határidő: <span
+                                            class="font-bold font-italic">{{item.task.deadline | date: 'yyyy.MM.dd hh:mm'}}</span>
+                                    </p>
+                                    <span *ngIf="isTaskExpired(item.task.deadline)"
+                                        class="task-badge type-expired">Lejárt</span>
+                                </div>
+
+                                <p>Feladat típusa: <span
+                                        class="font-bold font-italic">{{getEnumName(item.task.type, TASK_TYPE)}}</span>
+                                </p>
+                                <p>Értékelés típusa: <span
+                                        class="font-bold font-italic">{{getEnumName(item.task.type, TASK_TYPE)}}</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="description p-2">
+                            <div [innerHTML]="item.description"></div>
+                        </div>
+                    </div>
+
+                    <div class="accordionItemBottom w-full mb-5">
+                        <ng-container *showForRoles="['TEACHER']">
+                            <div *ngIf="item.task" class="flex justify-content-center">
+                                <p-button type="button" severity="warning" label="Beadott feladatok"
+                                    class="p-button-raised p-button-warning"
+                                    (click)="navigateToSubmittedTasks(item.id)"></p-button>
+                            </div>
+                        </ng-container>
+                        <div class="creation-date w-full text-right">
+                            <span><i>{{item.published | date: 'yyyy.MM.dd hh:mm'}}</i></span>
+                        </div>
+                    </div>
+
+                </div>
+                <p-divider layout="vertical"></p-divider>
+                <div class="comments w-5">
+                    <app-comments [announcementId]="item.id" [comments]="item.comments" [loading$]="loading$"
+                        (commentClicked)="addComment($event)">
+                    </app-comments>
                 </div>
             </div>
-            <div class="description">
-                <div [innerHTML]="item.description"></div>
-            </div>
-            <ng-container *showForRoles="['TEACHER']">
-                <div *ngIf="item.task" class="flex justify-content-center">
-                    <button pButton pRipple type="button" label="Beadott feladatok" class="p-button-raised p-button-warning"
-                            (click)="navigateToSubmittedTasks(item.id)"></button>
+
+
+        </p-accordionTab>
+    </p-accordion>
+    <ng-template #announcementContent>
+        <p-accordion [multiple]="true" [activeIndex]="[0]"
+            [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '10px'}">
+            <p-accordionTab *ngFor="let item of (announcements$ | async)" iconPos="end"
+                [style]="{'border-left': '5px solid #3B82F6', 'border-radius': '5px', filter: 'drop-shadow(0px 4px 2px #00000025)', 'max-height': '50dvh'}">
+                <ng-template pTemplate="header">
+                    <div class="flex justify-content-between align-items-center gap-2 w-3">
+                        <p [style]="{'font-size': '20px', 'font-weight': 'bold', 'color': '#495057', 'margin': '0'}">
+                            {{item.title}}</p>
+                        <div class="accordionHeaderButtons flex gap-2">
+                            <i class="pi pi-trash"></i>
+                            <i class="pi pi-pencil"></i>
+
+                        </div>
+                    </div>
+                </ng-template>
+                <div class="flex p-2 ">
+                    <div class="announcement  w-7">
+                        <div class="description">
+                            <div [innerHTML]="item.description"></div>
+                        </div>
+                        <div class="creation-date right-0 w-full" style="text-align: right;">
+                            <span><i>{{item.published | date: 'yyyy.MM.dd hh:mm'}}</i></span>
+                        </div>
+                    </div>
+                    <p-divider layout="vertical"></p-divider>
+                    <div class="comments w-5">
+                        <app-comments [announcementId]="item.id" [comments]="item.comments" [loading$]="loading$"
+                            (commentClicked)="addComment($event)">
+                        </app-comments>
+                    </div>
                 </div>
-            </ng-container>
-            <div class="creation-date">
-                <span><i>{{item.published | date: 'yyyy.MM.dd hh:mm'}}</i></span>
-            </div>
-        </div>
-        <div class="comments">
-            <app-comments
-                [announcementId]="item.id"
-                [comments]="item.comments"
-                [loading$]="loading$"
-                (commentClicked)="addComment($event)">
-            </app-comments>
-        </div>
-    </p-accordionTab>
-</p-accordion>
+            </p-accordionTab>
+        </p-accordion>
+    </ng-template>
+</div>

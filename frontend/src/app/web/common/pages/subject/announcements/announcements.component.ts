@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {AccordionModule} from "primeng/accordion";
-import {AsyncPipe, DatePipe, NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {AnnouncementService} from "../../../rest/announcement.service";
 import {distinctUntilChanged, Observable} from "rxjs";
 import {Announcement} from "../../../util/models/announcement-models";
-import {SubjectDetailType, getEnumName, TASK_TYPE} from "../../../util/enums/Subject";
+import {SubjectDetailType, getEnumName, TASK_TYPE, DETAIL} from "../../../util/enums/Subject";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {CommentsComponent} from "./comments/comments.component";
@@ -13,6 +13,7 @@ import {Comment} from "../../../util/models/comment-models";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {AnnouncementRepository} from "../../../state/announcements.repository";
 import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
+import {DividerModule} from "primeng/divider";
 
 @Component({
   selector: 'app-announcements',
@@ -27,7 +28,9 @@ import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-valid
         RippleModule,
         RouterLink,
         CommentsComponent,
-        NexRoleValidationModule
+        NexRoleValidationModule,
+        NgClass,
+        DividerModule
     ],
   templateUrl: './announcements.component.html',
   styleUrl: './announcements.component.scss',
@@ -36,6 +39,8 @@ import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-valid
 export class AnnouncementsComponent implements OnInit {
     protected readonly getEnumName = getEnumName;
     protected readonly TASK_TYPE = TASK_TYPE;
+    protected readonly DETAIL = DETAIL;
+    protected readonly SubjectDetailType = SubjectDetailType;
 
     subjectId!: number;
     classId!: number;

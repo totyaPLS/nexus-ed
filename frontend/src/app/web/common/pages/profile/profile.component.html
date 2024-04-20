@@ -1,7 +1,7 @@
 <div class="col-md-3 pt-0" [style]="{'width': '80%', margin: 'auto'}">
     <div class="upper">
         <img alt="Card"
-            src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg"
+            src="assets/images/avatar/cover.jpg"
             class="card-img-top">
     </div>
     <div class="lower">
@@ -12,7 +12,7 @@
                 <p-card id="leftCard" *ngIf="user$ | async as user" [style]="{'height': '100%'}">
                      <div class="card-person-img" >
                     <img alt="Card"
-                        src="https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg">
+                        src="assets/images/avatar/profile.png">
                 </div>
                     <div id="profile" class="text-center">
                         <h2>{{user.lastName + ' ' + user.firstName}}</h2>
@@ -78,9 +78,9 @@
                     </div>
                 </ng-template>
                 <ng-template #panel3Content>
-                
+
                 </ng-template>
-             
+
             </p-card>
         </div>
 
