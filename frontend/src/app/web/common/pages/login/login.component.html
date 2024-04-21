@@ -11,7 +11,7 @@
                 <input pInputText id="email" placeholder="UID" class="w-20rem" formControlName="uid"/>
                 <p-password  id="password" placeholder="Jelszó" inputStyleClass="w-20rem" [feedback]="false"
                              formControlName="password"></p-password>
-                <button pButton label="TOVÁBB" type="submit" class="w-20rem"></button>
+                <button pButton label="TOVÁBB" type="submit" class="w-20rem" [disabled]="isFormInvalid"></button>
             </div>
         </form>
 

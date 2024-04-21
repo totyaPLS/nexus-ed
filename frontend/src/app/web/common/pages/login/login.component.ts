@@ -42,4 +42,8 @@ export class LoginComponent {
         formGroup.get('password')?.addValidators([Validators.required]);
         return formGroup;
     }
+
+    get isFormInvalid() {
+        return this.loginForm.controls.uid.getRawValue() === '' || this.loginForm.controls.password.getRawValue() === '';
+    }
 }
