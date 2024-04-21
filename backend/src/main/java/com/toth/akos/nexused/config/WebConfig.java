@@ -20,7 +20,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200", "http://64.23.147.208")
+                        .allowedOrigins("http://localhost:4200", "http://64.23.147.208", "http://nexus-ed.me")
                         .allowedMethods(
                                 HttpMethod.GET.name(),
                                 HttpMethod.POST.name(),
