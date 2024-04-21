@@ -91,7 +91,7 @@
     }
 }
 
-.customer-badge {
+.grade-badge {
     border-radius: var(--border-radius);
     padding: .25em .5rem;
     text-transform: uppercase;
@@ -99,62 +99,28 @@
     font-size: 12px;
     letter-spacing: .3px;
 
-    &.status-qualified {
-        background: var(--green-200);
-        color: var(--green-800);
+    &.one {
+        background: var(--red-200);
+        color: var(--red-800);
     }
 
-    &.status-unqualified {
+    &.two {
         background: var(--pink-200);
         color: var(--pink-800);
     }
 
-    &.status-negotiation {
+    &.three {
         background: var(--yellow-200);
         color: var(--yellow-800);
     }
 
-    &.status-new {
+    &.four {
+        background: var(--green-200);
+        color: var(--green-800);
+    }
+
+    &.five {
         background: var(--blue-200);
         color: var(--blue-800);
-    }
-
-    &.status-renewal {
-        background: var(--purple-200);
-        color: var(--purple-800);
-    }
-
-    &.status-proposal {
-        background: var(--orange-200);
-        color: var(--orange-800);
-    }
-}
-
-.order-badge {
-    border-radius: var(--border-radius);
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
-
-    &.order-delivered {
-        background: #C8E6C9;
-        color: #256029;
-    }
-
-    &.order-cancelled {
-        background: #FFCDD2;
-        color: #C63737;
-    }
-
-    &.order-pending {
-        background: #FEEDAF;
-        color: #8A5340;
-    }
-
-    &.order-returned {
-        background: #ECCFFF;
-        color: #694382;
     }
 }

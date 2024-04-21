@@ -13,6 +13,10 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {SubmittableTask} from "../../../util/models/announcement-models";
 import {SubmittableTasksRepository} from "../../../state/submittable-tasks.repository";
 import {SubmittableTaskService} from "../../../rest/submittable-task.service";
+import {ActivatedRoute} from "@angular/router";
+import {TaskPopupComponent} from "./components/task-popup.component";
+import {BoolIndicatorComponent} from "../../../components/bool-indicator.component";
+import {GradeClassDirective} from "../../../components/grade.directive";
 
 @Component({
   selector: 'app-submitted-tasks',
@@ -28,7 +32,10 @@ import {SubmittableTaskService} from "../../../rest/submittable-task.service";
         ToastModule,
         ToolbarModule,
         UserPopupComponent,
-        DatePipe
+        DatePipe,
+        TaskPopupComponent,
+        BoolIndicatorComponent,
+        GradeClassDirective
     ],
   templateUrl: './submitted-tasks.component.html',
   styleUrl: './submitted-tasks.component.scss'
@@ -41,20 +48,22 @@ export class SubmittedTasksComponent implements OnInit {
     tasks$!: Observable<SubmittableTask[]>;
     first = 0;
     rows = 10;
+    subjectId: number;
 
     destroyRef = inject(DestroyRef);
 
     constructor(private taskService: SubmittableTaskService,
                 private taskRepo: SubmittableTasksRepository,
-                private messageService: MessageService) {
+                private route: ActivatedRoute) {
         this.tasks$ = taskRepo.tasks$;
         this.loading$ = this.taskRepo.listLoading$.pipe(
             distinctUntilChanged(),
         );
+        this.subjectId = parseInt(this.route.snapshot.paramMap.get('announcementId')!);
     }
 
     ngOnInit(): void {
-        this.taskService.listTasks().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+        this.taskService.listTasks(this.subjectId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     }
 
     next() {
@@ -64,6 +73,10 @@ export class SubmittedTasksComponent implements OnInit {
     pageChange(event: any) {
         this.first = event.first;
         this.rows = event.rows;
+    }
+
+    openNew() {
+        this.detailsDialog = true;
     }
 
     closeDialog() {

@@ -36,15 +36,21 @@
                 <ng-template pTemplate="body" let-task>
                     <tr>
                         <td>{{ task.studentName }}</td>
-                        <td>{{ !!task.submitted }}</td>
-                        <td>{{ task.grade.gradeValue }}</td>
-                        <td>{{ task.graded | date: 'yyyy.MM.dd hh:mm' }}</td>
+                        <td><app-bool-indicator [bool]="!!task.submitted"></app-bool-indicator></td>
+                        <td><span [grade]="task.grade.gradeValue">{{ task.grade.gradeValue }}</span></td>
+                        <td><i>{{ task.graded | date: 'yyyy.MM.dd hh:mm' }}</i></td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple type="button" label="Részletek" class="p-button-warning p-button-text"></button>
+                                <button pButton pRipple type="button" label="Részletek" class="p-button-warning p-button-text"
+                                (click)="openNew()"></button>
                             </div>
                         </td>
                     </tr>
+                    <app-task-popup *ngIf="detailsDialog"
+                        [task]="task"
+                        [detailsDialog]="detailsDialog"
+                        (closeDialogEvent)="closeDialog()">
+                    </app-task-popup>
                 </ng-template>
                 <ng-template pTemplate="paginatorleft">
                     <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>

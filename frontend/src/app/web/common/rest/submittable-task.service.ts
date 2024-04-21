@@ -11,8 +11,8 @@ export class SubmittableTaskService {
                 private taskRepo: SubmittableTasksRepository) {
     }
 
-    listTasks() {
-        return this.http.get<SubmittableTask[]>(`/submitted-tasks`).pipe(
+    listTasks(taskId: number) {
+        return this.http.get<SubmittableTask[]>(`/submitted-tasks/${taskId}`).pipe(
             this.taskRepo.withRequestStatus('tasks', tasks => this.taskRepo.setSubmittableTasks(tasks)),
         );
     }

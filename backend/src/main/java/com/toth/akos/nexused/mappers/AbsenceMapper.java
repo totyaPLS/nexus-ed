@@ -4,10 +4,11 @@ import com.toth.akos.nexused.dtos.AbsenceDTO;
 import com.toth.akos.nexused.entities.Absence;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AbsenceMapper {
     List<AbsenceDTO> toAbsenceDTOs(List<Absence> absences);
 
