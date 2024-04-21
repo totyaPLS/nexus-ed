@@ -6,7 +6,7 @@
             <div class="flex flex-column align-items-center gap-4">
                 <div class="mb-3">
                     <h2>Bejelentkezés</h2>
-                    <p>Elfelejtetted a jelszavad? <a class="text-primary hover:underline cursor-pointer font-medium">Jelszó visszaállítása</a></p>
+                    <p>A bejelentkezési adatokat az tanintézmény biztosítja</p>
                 </div>
                 <input pInputText id="email" placeholder="UID" class="w-20rem" formControlName="uid"/>
                 <p-password  id="password" placeholder="Jelszó" inputStyleClass="w-20rem" [feedback]="false"
@@ -15,12 +15,15 @@
             </div>
         </form>
 
-        <p class="text-color-secondary font-semibold">Több információra van szükséged? <a class="text-primary hover:underline cursor-pointer font-medium">Vissza a főoldalra</a></p>
+        <p class="text-color-secondary font-semibold">Elakadtál, hibát jelentenél be?
+            <a class="text-primary hover:underline cursor-pointer font-medium"
+               href="mailto:toth.akis@gmail.com">Kapcsolatfelvétel</a>
+        </p>
     </div>
     <div class="w-8 hidden lg:flex flex-column justify-content-between align-items-center px-6 py-6 bg-cover bg-norepeat" style="background-image: url('../../../../../assets/images/auth/bg-login.jpg')">
         <div class="mt-auto mb-auto">
-            <span class="block text-white text-7xl font-semibold">Lépj be <br/>NexusEd<br/> fiókodba</span>
-            <span class="block text-white text-3xl mt-4">Iskolai ügyek hatékony kezelése,<br/>Magasabb felhasználói élmény,<br/>Reszponzív kezelői felület</span>
+            <span class="block text-white text-7xl font-semibold">Lépj be <br/>NexusEducation<br/> fiókodba</span>
+            <span class="block text-white text-3xl mt-4">Iskolai ügyek hatékony kezelése,<br/>Minőségi felhasználói élmény</span>
         </div>
         <div class="flex align-items-center gap-5">
             <span class="text-white font-semibold">SZTE PTI szakdolgozat projekt</span>
