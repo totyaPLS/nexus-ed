@@ -8,12 +8,14 @@ import {Announcement} from "../../../util/models/announcement-models";
 import {SubjectDetailType, getEnumName, TASK_TYPE, DETAIL} from "../../../util/enums/Subject";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
-import {CommentsComponent} from "./comments/comments.component";
+import {CommentsComponent} from "./components/comments.component";
 import {Comment} from "../../../util/models/comment-models";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {AnnouncementRepository} from "../../../state/announcements.repository";
 import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
 import {DividerModule} from "primeng/divider";
+import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";
+import {TaskPopupComponent} from "../submitted-tasks/components/task-popup.component";
 
 @Component({
   selector: 'app-announcements',
@@ -30,7 +32,9 @@ import {DividerModule} from "primeng/divider";
         CommentsComponent,
         NexRoleValidationModule,
         NgClass,
-        DividerModule
+        DividerModule,
+        NewAnnouncementPopupComponent,
+        TaskPopupComponent
     ],
   templateUrl: './announcements.component.html',
   styleUrl: './announcements.component.scss',
@@ -42,6 +46,7 @@ export class AnnouncementsComponent implements OnInit {
     protected readonly DETAIL = DETAIL;
     protected readonly SubjectDetailType = SubjectDetailType;
 
+    announcementDialog = false;
     subjectId!: number;
     classId!: number;
     announcementType!: string;
@@ -87,5 +92,13 @@ export class AnnouncementsComponent implements OnInit {
 
     navigateToSubmittedTasks(taskId: number) {
         this.router.navigate([taskId], { relativeTo: this.route });
+    }
+
+    openNew() {
+        this.announcementDialog = true;
+    }
+
+    closeDialog() {
+        this.announcementDialog = false;
     }
 }

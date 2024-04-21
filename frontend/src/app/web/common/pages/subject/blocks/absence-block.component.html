@@ -2,7 +2,7 @@
     <div class="flex justify-content-between">
         <h4>Hiányzások</h4>
         <button pButton pRipple type="button" label="Felvétel" icon="pi pi-plus"
-                class="p-button-rounded p-button-secondary" iconPos="right"></button>
+                class="p-button-rounded p-button-secondary" iconPos="right" (click)="openNew()"></button>
     </div>
 
     <p>Legutóbbi hiányzások az elmúlt időszakból.</p>
@@ -19,16 +19,17 @@
             <tr>
                 <td>
                     <span class="p-column-title">Tanuló neve</span>
-                    {{absence.lastName}} {{absence.firstName}}</td>
+                    {{ absence.lastName }} {{ absence.firstName }}
+                </td>
                 <td>
                     <span class="p-column-title">Státusz</span>
                     <span [class]="'absence-badge type-' + absence.status.toLowerCase()">
-                        {{getEnumName(absence.status, ABSENCE_STATUS)}}
+                        {{ getEnumName(absence.status, ABSENCE_STATUS) }}
                     </span>
                 </td>
                 <td>
                     <span class="p-column-title">Hiányzás időpontja</span>
-                    {{absence.absenceDate | date: 'yyyy.MM.dd hh:mm'}}
+                    {{ absence.absenceDate | date: 'yyyy.MM.dd hh:mm' }}
                 </td>
             </tr>
         </ng-template>
@@ -38,3 +39,10 @@
                 routerLink="absences"></button>
     </div>
 </div>
+
+<app-new-absence-popup *ngIf="isDialogDisplayed"
+                       [announcementDialog]="isDialogDisplayed"
+                       [classId]="classId"
+                       [subjectId]="subjectId"
+                       (closeDialogEvent)="closeDialog()">
+</app-new-absence-popup>

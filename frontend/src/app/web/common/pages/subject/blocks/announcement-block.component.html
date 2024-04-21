@@ -2,7 +2,7 @@
     <div class="flex justify-content-between">
         <h4>Közlemények</h4>
         <button pButton pRipple type="button" label="Felvétel" icon="pi pi-plus"
-                class="p-button-rounded p-button-secondary" iconPos="right"></button>
+                class="p-button-rounded p-button-secondary" iconPos="right" (click)="openNew()"></button>
     </div>
 
     <p>A szaktanár által közzétett legfrissebb információk.</p>
@@ -34,3 +34,11 @@
                 routerLink="announcements"></button>
     </div>
 </div>
+
+<app-new-announcement-popup *ngIf="isDialogDisplayed"
+                            [announcementDialog]="isDialogDisplayed"
+                            [classId]="classId"
+                            [subjectId]="subjectId"
+                            [announcementType]="announcementType"
+                            (closeDialogEvent)="closeDialog()">
+</app-new-announcement-popup>

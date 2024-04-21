@@ -1,11 +1,13 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {Announcement} from "../../../util/models/announcement-models";
 import {RouterLink} from "@angular/router";
-import {DatePipe} from "@angular/common";
+import {DatePipe, NgIf} from "@angular/common";
 import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
+import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";
+import {SubjectDetailType} from "../../../util/enums/Subject";
 
 @Component({
   selector: 'app-announcement-block',
@@ -16,11 +18,26 @@ import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-valid
         RippleModule,
         RouterLink,
         DatePipe,
-        NexRoleValidationModule
+        NexRoleValidationModule,
+        NewAnnouncementPopupComponent,
+        NgIf
     ],
   templateUrl: './announcement-block.component.html',
   styleUrl: './announcement-block.component.scss'
 })
 export class AnnouncementBlockComponent {
     @Input() announcements!: Announcement[];
+    @Input() classId!: number;
+    @Input() subjectId!: number;
+
+    announcementType = SubjectDetailType.ANNOUNCEMENTS;
+    isDialogDisplayed = false;
+
+    openNew() {
+        this.isDialogDisplayed = true;
+    }
+
+    closeDialog() {
+        this.isDialogDisplayed = false;
+    }
 }

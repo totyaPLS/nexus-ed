@@ -4,7 +4,7 @@
             <h3> {{(getEnumName(announcementType, DETAIL).toUpperCase())}}</h3>
         </div>
         <p-button label="ÚJ" icon="pi pi-plus"
-            [style]="{'background-color': '#495057', 'color': 'white', height: '100%'}" />
+            [style]="{'background-color': '#495057', 'color': 'white', height: '100%'}" (click)="openNew()"/>
     </div>
     <p-accordion [multiple]="true" [activeIndex]="[0]" *ngIf="announcementType === SubjectDetailType.TASKS; else announcementContent"
         [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '10px'}">
@@ -103,3 +103,10 @@
         </p-accordion>
     </ng-template>
 </div>
+
+<app-new-announcement-popup *ngIf="announcementDialog"
+                            [announcementDialog]="announcementDialog"
+                            [classId]="classId"
+                            [announcementType]="announcementType"
+                            (closeDialogEvent)="closeDialog()">
+</app-new-announcement-popup>

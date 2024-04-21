@@ -10,13 +10,14 @@ import {AbsenceService} from "../../rest/absence.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {TableModule} from "primeng/table";
 import {DropdownModule} from "primeng/dropdown";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgIf} from "@angular/common";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {NexLoadingModule} from "../../../../config/loading/nex-loading.module";
 import {AnnouncementBlockComponent} from "./blocks/announcement-block.component";
 import {TaskBlockComponent} from "./blocks/task-block.component";
 import {AbsenceBlockComponent} from "./blocks/absence-block.component";
+import {NewAnnouncementPopupComponent} from "./components/new-announcement-popup.component";
 
 @Component({
   selector: 'app-subject',
@@ -30,22 +31,24 @@ import {AbsenceBlockComponent} from "./blocks/absence-block.component";
         NexLoadingModule,
         AnnouncementBlockComponent,
         TaskBlockComponent,
-        AbsenceBlockComponent
+        AbsenceBlockComponent,
+        NewAnnouncementPopupComponent,
+        NgIf
     ],
   templateUrl: './subject.component.html',
   styleUrl: './subject.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SubjectComponent implements OnInit, OnDestroy {
-    subjectId?: number;
-    classId?: number;
+    subjectId!: number;
+    classId!: number;
     announcements$!: Observable<Announcement[]>;
     tasks$!: Observable<Announcement[]>;
     absences$!: Observable<Absence[]>;
     loading$: Observable<boolean>;
     routeSubscription!: Subscription;
 
-        destroyRef = inject(DestroyRef);
+    destroyRef = inject(DestroyRef);
 
     constructor(private announcementRepo: AnnouncementRepository,
                 private absenceRepo: AbsenceRepository,

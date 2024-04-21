@@ -2,7 +2,7 @@
     <div class="flex justify-content-between">
         <h4>Feladatok</h4>
         <button pButton pRipple type="button" label="Felvétel" icon="pi pi-plus"
-                class="p-button-rounded p-button-secondary" iconPos="right"></button>
+                class="p-button-rounded p-button-secondary" iconPos="right" (click)="openNew()"></button>
     </div>
 
     <p>A tantárgyhoz tartozó feladatok beadása.</p>
@@ -19,17 +19,17 @@
             <tr>
                 <td>
                     <span class="p-column-title">Feladat</span>
-                    {{taskAnnouncement.title}}
+                    {{ taskAnnouncement.title }}
                 </td>
                 <td>
                     <span class="p-column-title">Típus</span>
                     <span [class]="'task-badge type-' + taskAnnouncement.task.type.toLowerCase()">
-                        {{getEnumName(taskAnnouncement.task.type, TASK_TYPE)}}
+                        {{ getEnumName(taskAnnouncement.task.type, TASK_TYPE) }}
                     </span>
                 </td>
                 <td>
                     <span class="p-column-title">Határidő</span>
-                    {{taskAnnouncement.task.deadline | date: 'yyyy.MM.dd hh:mm'}}
+                    {{ taskAnnouncement.task.deadline | date: 'yyyy.MM.dd hh:mm' }}
                 </td>
             </tr>
         </ng-template>
@@ -39,3 +39,11 @@
                 routerLink="tasks"></button>
     </div>
 </div>
+
+<app-new-announcement-popup *ngIf="isDialogDisplayed"
+                            [announcementDialog]="isDialogDisplayed"
+                            [classId]="classId"
+                            [subjectId]="subjectId"
+                            [announcementType]="announcementType"
+                            (closeDialogEvent)="closeDialog()">
+</app-new-announcement-popup>

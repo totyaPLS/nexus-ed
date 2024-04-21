@@ -20,7 +20,7 @@ import {NexLoadingModule} from "../../../../../../config/loading/nex-loading.mod
         ReactiveFormsModule,
         NexLoadingModule
     ],
-    templateUrl: './comments.component.html',
+    templateUrl: 'comments.component.html',
     styles: [`
         img {
             border-radius: 50%;

@@ -48,7 +48,7 @@ export class SubmittedTasksComponent implements OnInit {
     tasks$!: Observable<SubmittableTask[]>;
     first = 0;
     rows = 10;
-    subjectId: number;
+    announcementId: number;
 
     destroyRef = inject(DestroyRef);
 
@@ -59,11 +59,11 @@ export class SubmittedTasksComponent implements OnInit {
         this.loading$ = this.taskRepo.listLoading$.pipe(
             distinctUntilChanged(),
         );
-        this.subjectId = parseInt(this.route.snapshot.paramMap.get('announcementId')!);
+        this.announcementId = parseInt(this.route.snapshot.paramMap.get('announcementId')!);
     }
 
     ngOnInit(): void {
-        this.taskService.listTasks(this.subjectId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+        this.taskService.listTasks(this.announcementId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     }
 
     next() {
