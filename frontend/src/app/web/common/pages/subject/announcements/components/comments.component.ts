@@ -32,7 +32,6 @@ import {NexLoadingModule} from "../../../../../../config/loading/nex-loading.mod
 export class CommentsComponent {
     @Input() announcementId!: number;
     @Input() comments!: Comment[];
-    @Input() loading$!: Observable<boolean>;
     @Output() commentClicked = new EventEmitter<Comment>();
 
     commentControl: FormControl<string | null>;

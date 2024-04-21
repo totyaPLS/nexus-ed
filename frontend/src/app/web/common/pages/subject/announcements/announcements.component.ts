@@ -50,8 +50,7 @@ export class AnnouncementsComponent implements OnInit {
     subjectId!: number;
     classId!: number;
     announcementType!: string;
-    announcements$?: Observable<Announcement[]>;
-    loading$!: Observable<boolean>;
+    announcements$!: Observable<Announcement[]>;
 
     destroyRef = inject(DestroyRef);
 
@@ -62,6 +61,7 @@ export class AnnouncementsComponent implements OnInit {
         this.subjectId = JSON.parse(this.route.snapshot.paramMap.get('subjectId')!);
         this.classId = JSON.parse(this.route.snapshot.paramMap.get('classId')!);
         this.announcementType = this.route.snapshot.paramMap.get('announcementType')!;
+        this.announcementRepo.deleteAll();
 
         if (this.announcementType === SubjectDetailType.ANNOUNCEMENTS) {
             this.announcements$ = this.announcementRepo.announcements$;
@@ -69,9 +69,6 @@ export class AnnouncementsComponent implements OnInit {
         if (this.announcementType === SubjectDetailType.TASKS) {
             this.announcements$ = this.announcementRepo.tasks$;
         }
-        this.loading$ = this.announcementRepo.listLoading$.pipe(
-            distinctUntilChanged(),
-        );
     }
 
     ngOnInit(): void {

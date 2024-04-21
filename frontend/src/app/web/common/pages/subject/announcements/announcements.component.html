@@ -58,7 +58,7 @@
                 </div>
                 <p-divider layout="vertical"></p-divider>
                 <div class="comments w-5">
-                    <app-comments [announcementId]="item.id" [comments]="item.comments" [loading$]="loading$"
+                    <app-comments [announcementId]="item.id" [comments]="item.comments"
                         (commentClicked)="addComment($event)">
                     </app-comments>
                 </div>
@@ -94,7 +94,7 @@
                     </div>
                     <p-divider layout="vertical"></p-divider>
                     <div class="comments w-5">
-                        <app-comments [announcementId]="item.id" [comments]="item.comments" [loading$]="loading$"
+                        <app-comments [announcementId]="item.id" [comments]="item.comments"
                             (commentClicked)="addComment($event)">
                         </app-comments>
                     </div>

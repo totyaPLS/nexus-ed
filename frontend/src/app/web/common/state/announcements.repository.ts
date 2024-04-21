@@ -1,5 +1,12 @@
 import {createStore} from "@ngneat/elf";
-import {getAllEntities, selectManyByPredicate, setEntities, upsertEntities, withEntities} from "@ngneat/elf-entities";
+import {
+    deleteAllEntities,
+    getAllEntities,
+    selectManyByPredicate,
+    setEntities,
+    upsertEntities,
+    withEntities
+} from "@ngneat/elf-entities";
 import {Injectable} from "@angular/core";
 import {catchError, distinctUntilChanged, EMPTY, Observable, pipe, tap} from "rxjs";
 import {
@@ -62,6 +69,10 @@ export class AnnouncementRepository {
             upsertEntities(announcement),
             updateRequestStatus('announcements', 'success'),
         );
+    }
+
+    deleteAll() {
+        this.store.update(deleteAllEntities());
     }
 
     private isRequestPending = (key: RequestStates) => pipe(
