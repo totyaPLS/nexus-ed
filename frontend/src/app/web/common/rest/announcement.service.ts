@@ -40,7 +40,9 @@ export class AnnouncementService {
     }
 
     getPermissionOfSubmittedTask(announcementId: number) {
-        return this.http.get<boolean>(`/${announcementId}`);
+        return this.http.get<boolean>(`/${announcementId}`).pipe(
+            this.announcementRepo.withRequestStatus('check', () => {}),
+        );
     }
 
 }

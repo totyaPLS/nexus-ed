@@ -17,6 +17,7 @@ import {ActivatedRoute} from "@angular/router";
 import {TaskPopupComponent} from "./components/task-popup.component";
 import {BoolIndicatorComponent} from "../../../components/bool-indicator.component";
 import {GradeClassDirective} from "../../../components/grade.directive";
+import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module";
 
 @Component({
   selector: 'app-submitted-tasks',
@@ -35,7 +36,8 @@ import {GradeClassDirective} from "../../../components/grade.directive";
         DatePipe,
         TaskPopupComponent,
         BoolIndicatorComponent,
-        GradeClassDirective
+        GradeClassDirective,
+        NexLoadingModule
     ],
   templateUrl: './submitted-tasks.component.html',
   styleUrl: './submitted-tasks.component.scss'

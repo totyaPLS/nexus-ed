@@ -19,10 +19,19 @@ public class AbsenceService {
     private final AbsenceRepository absenceRepository;
     private final AbsenceMapper mapper;
 
-    public List<AbsenceDTO> getAllBySubjectIdAndClassId(int subjectId, int classId) {
+    public List<AbsenceDTO> getFirstFiveBySubjectIdAndClassId(int subjectId, int classId) {
         Pageable pageable = PageRequest.of(0, 5);
-        Page<Absence> absencesPage = absenceRepository.findAllBySubjectIdAndClassId(subjectId, classId, pageable);
+        Page<Absence> absencesPage = absenceRepository.findPagedBySubjectIdAndClassId(subjectId, classId, pageable);
         List<Absence> absences = absencesPage.getContent();
+        List<AbsenceDTO> absenceDTOs = new ArrayList<>();
+        for (Absence absence : absences) {
+            absenceDTOs.add(mapper.toAbsenceDTO(absence));
+        }
+        return absenceDTOs;
+    }
+
+    public List<AbsenceDTO> getAllBySubjectIdAndClassId(int subjectId, int classId) {
+        List<Absence> absences = absenceRepository.findAllBySubjectIdAndClassId(subjectId, classId);
         List<AbsenceDTO> absenceDTOs = new ArrayList<>();
         for (Absence absence : absences) {
             absenceDTOs.add(mapper.toAbsenceDTO(absence));

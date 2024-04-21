@@ -16,4 +16,10 @@ export class AbsenceService {
             this.absenceRepo.withRequestStatus('absences', absences => this.absenceRepo.setAbsences(absences)),
         );
     }
+
+    listAbsences(subjectId: number, classId: number) {
+        return this.http.get<Absence[]>(`/absences/${subjectId}/${classId}`).pipe(
+            this.absenceRepo.withRequestStatus('absences', absences => this.absenceRepo.setAbsences(absences)),
+        );
+    }
 }

@@ -18,6 +18,7 @@
             <p-table
                 #usersTable
                 [value]="(users$ | async)!"
+                [nexusLoading]="loading$"
                 [paginator]="true"
                 [rows]="5"
                 [showCurrentPageReport]="true"
