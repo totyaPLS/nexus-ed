@@ -18,6 +18,7 @@ import {AnnouncementBlockComponent} from "./blocks/announcement-block.component"
 import {TaskBlockComponent} from "./blocks/task-block.component";
 import {AbsenceBlockComponent} from "./blocks/absence-block.component";
 import {NewAnnouncementPopupComponent} from "./components/new-announcement-popup.component";
+import {OthersBlockComponent} from "./blocks/others-block.component";
 
 @Component({
   selector: 'app-subject',
@@ -33,7 +34,8 @@ import {NewAnnouncementPopupComponent} from "./components/new-announcement-popup
         TaskBlockComponent,
         AbsenceBlockComponent,
         NewAnnouncementPopupComponent,
-        NgIf
+        NgIf,
+        OthersBlockComponent
     ],
   templateUrl: './subject.component.html',
   styleUrl: './subject.component.scss',
