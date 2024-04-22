@@ -98,4 +98,8 @@ export class AnnouncementsComponent implements OnInit {
     closeDialog() {
         this.announcementDialog = false;
     }
+
+    get isAnnouncementTask() {
+        return this.announcementType === SubjectDetailType.TASKS;
+    }
 }

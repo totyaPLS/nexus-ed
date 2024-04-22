@@ -1,4 +1,4 @@
-.announcementsTitle{
+.announcementsTitle {
     background-color: #3B82F6;
     width: 100%;
     display: flex;
@@ -6,14 +6,14 @@
     align-items: center;
     border-radius: 0 0 5px 5px;
     padding: 10px;
-
-
 }
-.announcementsTitle h3{
+
+.announcementsTitle h3 {
     margin: 0;
     color: white;
 }
-.tasksTitle{
+
+.tasksTitle {
     background-color: #F59E0B;
     width: 100%;
     display: flex;
@@ -21,18 +21,16 @@
     align-items: center;
     border-radius: 0 0 5px 5px;
     padding: 10px;
-
 }
 
-.tasksTitle h3{
+.tasksTitle h3 {
     margin: 0;
-
 }
 
-.taskAccordion{
+.taskAccordion {
     border-left: 5px solid #F59E0B;
 }
 
-.announcementAccordion{
+.announcementAccordion {
     border-left: 5px solid #3B82F6;
 }
