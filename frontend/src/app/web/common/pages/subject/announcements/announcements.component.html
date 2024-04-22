@@ -23,7 +23,7 @@
                             <div class="box">
                                 <div class="flex gap-2 align-items-center">
                                     <p class="text-center">Beadási határidő: <span
-                                            class="font-bold font-italic">{{item.task.deadline | date: 'yyyy.MM.dd hh:mm'}}</span>
+                                            class="font-bold font-italic"><i>{{item.task.deadline | date: 'yyyy.MM.dd hh:mm'}}</i></span>
                                     </p>
                                     <span *ngIf="isTaskExpired(item.task.deadline)"
                                         class="task-badge type-expired">Lejárt</span>
