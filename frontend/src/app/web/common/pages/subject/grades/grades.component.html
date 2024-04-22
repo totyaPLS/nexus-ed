@@ -16,13 +16,14 @@
                 [value]="(grades$ | async)!"
                 [nexusLoading]="loading$"
                 [paginator]="true"
+                [rowHover]="true"
                 [rows]="5"
                 [showCurrentPageReport]="true"
                 [tableStyle]="{ 'min-width': '50rem' }"
                 currentPageReportTemplate="{first}-{last} megjelenítése a(z) {totalRecords} bejegyzésből"
                 (onPage)="pageChange($event)"
                 [rowsPerPageOptions]="[10, 25, 50]"
-                [globalFilterFields]="['firstName','lastName','status', 'absenceDate', 'modificationDate']"
+                [globalFilterFields]="['studentName', 'studentId']"
             >
                 <ng-template pTemplate="caption">
                     <div class="flex justify-content-between flex-column sm:flex-row">
@@ -35,7 +36,7 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="name" id="name" style="width:12%">Név <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="studentName" id="name" style="width:12%">Név <p-sortIcon field="studentName"></p-sortIcon></th>
                         <th id="avg" style="width:8%">Átlag</th>
                         <th id="sep" style="width:8%">Sze.</th>
                         <th id="oct" style="width:8%">Okt.</th>
@@ -51,7 +52,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-yearGrade>
                     <tr>
-                        <td>{{ yearGrade.studentName }}</td>
+                        <td>{{ yearGrade.studentName }} ({{ yearGrade.studentId }})</td>
                         <td>{{ getAvg(yearGrade.gradesPerMonth) }}</td>
                         <ng-container *ngFor="let monthGrade of yearGrade.gradesPerMonth">
                             <td>
