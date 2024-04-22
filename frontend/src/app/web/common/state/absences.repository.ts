@@ -1,5 +1,12 @@
 import {createStore} from "@ngneat/elf";
-import {deleteAllEntities, getAllEntities, selectAllEntities, setEntities, withEntities} from "@ngneat/elf-entities";
+import {
+    deleteAllEntities,
+    deleteEntities,
+    getAllEntities,
+    selectAllEntities,
+    setEntities,
+    withEntities
+} from "@ngneat/elf-entities";
 import {Injectable} from "@angular/core";
 import {catchError, distinctUntilChanged, EMPTY, Observable, pipe, tap} from "rxjs";
 import {
@@ -43,6 +50,13 @@ export class AbsenceRepository {
     setAbsences(absences: Absence[]) {
         this.store.update(
             setEntities(absences),
+            updateRequestStatus('absences', 'success'),
+        );
+    }
+
+    deleteAbsence(id: number) {
+        this.store.update(
+            deleteEntities(id),
             updateRequestStatus('absences', 'success'),
         );
     }

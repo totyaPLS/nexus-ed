@@ -1,0 +1,8 @@
+.action-btns {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.action-btns.visible {
+    opacity: 1;
+}

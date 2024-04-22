@@ -4,7 +4,7 @@ import {BoolIndicatorComponent} from "../../../components/bool-indicator.compone
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {RippleModule} from "primeng/ripple";
-import {SharedModule} from "primeng/api";
+import {ConfirmationService, SharedModule} from "primeng/api";
 import {Table, TableModule} from "primeng/table";
 import {TaskPopupComponent} from "../submitted-tasks/components/task-popup.component";
 import {ToastModule} from "primeng/toast";
@@ -17,6 +17,7 @@ import {AbsenceService} from "../../../rest/absence.service";
 import {ABSENCE_STATUS, getEnumName} from "../../../util/enums/Subject";
 import {NewAbsencePopupComponent} from "../components/new-absence-popup.component";
 import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module";
+import {ConfirmPopup, ConfirmPopupModule} from "primeng/confirmpopup";
 
 @Component({
   selector: 'app-absences',
@@ -34,13 +35,17 @@ import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module
         TaskPopupComponent,
         ToastModule,
         NewAbsencePopupComponent,
-        NexLoadingModule
+        NexLoadingModule,
+        ConfirmPopupModule
     ],
+    providers: [ConfirmationService],
   templateUrl: './absences.component.html',
   styleUrl: './absences.component.scss'
 })
 export class AbsencesComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
+    @ViewChild('actionButtons') actionButtons!: ElementRef;
+    @ViewChild('delPopup') delPopup!: ConfirmPopup;
     isDialogDisplayed = false;
 
     loading$: Observable<boolean>;
@@ -54,7 +59,8 @@ export class AbsencesComponent implements OnInit {
 
     constructor(private absenceService: AbsenceService,
                 private absenceRepo: AbsenceRepository,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private confirmationService: ConfirmationService) {
         this.absences$ = absenceRepo.absences$;
         this.loading$ = this.absenceRepo.listLoading$.pipe(
             distinctUntilChanged(),
@@ -96,4 +102,28 @@ export class AbsencesComponent implements OnInit {
 
     protected readonly ABSENCE_STATUS = ABSENCE_STATUS;
     protected readonly getEnumName = getEnumName;
+
+    setActionsVisibility(visibility: string) {
+        if (visibility === 'visible' || this.delPopup.visible) {
+            this.actionButtons.nativeElement.classList.add('visible');
+        } else {
+            this.actionButtons.nativeElement.classList.remove('visible');
+        }
+    }
+
+    confirmDel(absenceId: number, event: Event) {
+        this.confirmationService.confirm({
+            key: 'confirmDel',
+            target: event.target || new EventTarget,
+            message: 'Biztos szeretnéd törölni ezt a hiányzást?',
+            icon: 'pi pi-exclamation-triangle',
+            acceptLabel: 'Igen',
+            rejectLabel: 'Nem',
+            acceptButtonStyleClass: 'p-button-danger',
+            accept: () => {
+                this.absenceService.deleteAbsence(absenceId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+            },
+            reject: () => {}
+        });
+    }
 }

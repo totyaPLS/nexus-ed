@@ -22,4 +22,13 @@ export class AbsenceService {
             this.absenceRepo.withRequestStatus('absences', absences => this.absenceRepo.setAbsences(absences)),
         );
     }
+
+    deleteAbsence(id: number) {
+        return this.http.delete<number>(`/deleteAbsence/${id}`).pipe(
+            this.absenceRepo.withRequestStatus(
+                'absences',
+                absencesId => this.absenceRepo.deleteAbsence(absencesId),
+            )
+        );
+    }
 }

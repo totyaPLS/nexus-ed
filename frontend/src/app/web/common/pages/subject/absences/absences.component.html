@@ -36,13 +36,14 @@
                     <tr>
                         <th pSortableColumn="lastName" id="lastName" style="width:25%">Név <p-sortIcon field="lastName"></p-sortIcon></th>
                         <th pSortableColumn="status" id="status" style="width:25%">Státusz <p-sortIcon field="status"></p-sortIcon></th>
-                        <th pSortableColumn="absenceDate" id="absenceDate" style="width:25%">Hiányzás időpontja <p-sortIcon field="absenceDate"></p-sortIcon></th>
-                        <th pSortableColumn="modificationDate" id="modificationDate" style="width:25%">Módosítás dátuma <p-sortIcon field="modificationDate"></p-sortIcon></th>
-                        <th id="actions" style="width:25%"></th>
+                        <th pSortableColumn="absenceDate" id="absenceDate" style="width:15%">Hiányzás időpontja <p-sortIcon field="absenceDate"></p-sortIcon></th>
+                        <th pSortableColumn="modificationDate" id="modificationDate" style="width:15%">Módosítás dátuma <p-sortIcon field="modificationDate"></p-sortIcon></th>
+                        <th id="actions" style="width:10%"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-absence>
-                    <tr>
+                    <tr (mouseover)="setActionsVisibility('visible')"
+                        (mouseleave)="setActionsVisibility('hidden')">
                         <td>{{ absence.lastName }} {{ absence.firstName }}</td>
                         <td>
                             <span [class]="'absence-badge type-' + absence.status.toLowerCase()">
@@ -51,6 +52,14 @@
                         </td>
                         <td><i>{{ absence.absenceDate | date: 'yyyy.MM.dd hh:mm' }}</i></td>
                         <td><i>{{ absence.modificationDate | date: 'yyyy.MM.dd hh:mm' }}</i></td>
+                        <td style="padding: 0; margin: 0;">
+                            <div #actionButtons class="flex action-btns">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                                        (click)="confirmDel(absence.id, $event)"></button>
+                                <p-confirmPopup #delPopup key="confirmDel"></p-confirmPopup>
+                            </div>
+                        </td>
                     </tr>
                 </ng-template>
             </p-table>

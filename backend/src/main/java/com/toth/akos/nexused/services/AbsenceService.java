@@ -38,4 +38,9 @@ public class AbsenceService {
         }
         return absenceDTOs;
     }
+
+    public Integer deleteAbsence(int absenceId) {
+        absenceRepository.deleteById(absenceId);
+        return absenceId;
+    }
 }
