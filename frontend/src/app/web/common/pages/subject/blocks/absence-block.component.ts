@@ -3,7 +3,7 @@ import {TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {Absence} from "../../../util/models/absence-models";
-import {ABSENCE_STATUS, getEnumName} from "../../../util/enums/Subject";
+import {ABSENCE_STATUS, getEnumName} from "../../../util/enums/Commons";
 import {DatePipe, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";

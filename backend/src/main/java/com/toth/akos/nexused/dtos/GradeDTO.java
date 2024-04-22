@@ -4,6 +4,9 @@ public record GradeDTO(
     Integer id,
     String studentId,
     String teacherId,
+    Integer subjectId,
+    Integer classId,
     Integer gradeValue,
-    Double weight
+    Double weight,
+    String created
 ){}

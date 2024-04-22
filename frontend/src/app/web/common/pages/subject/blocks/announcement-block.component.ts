@@ -7,7 +7,7 @@ import {RouterLink} from "@angular/router";
 import {DatePipe, NgIf} from "@angular/common";
 import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
 import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";
-import {SubjectDetailType} from "../../../util/enums/Subject";
+import {SubjectDetailType} from "../../../util/enums/Commons";
 
 @Component({
   selector: 'app-announcement-block',

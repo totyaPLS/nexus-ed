@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, String> {
     List<Student> findAllByParentId(String parentId);
+
+    List<Student> findAllByClassId(Integer classId);
 }

@@ -1,5 +1,5 @@
 import {CanActivateFn, Router} from '@angular/router';
-import {DETAIL, getEnumName} from "../../web/common/util/enums/Subject";
+import {DETAIL, getEnumName} from "../../web/common/util/enums/Commons";
 import {inject} from "@angular/core";
 
 export const SubjectDetailTypeGuard: CanActivateFn = (route, state) => {

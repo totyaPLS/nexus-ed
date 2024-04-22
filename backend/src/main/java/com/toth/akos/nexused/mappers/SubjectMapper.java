@@ -10,4 +10,6 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SubjectMapper {
     List<SubjectDTO> toSubjectDTOs(List<Subject> subjects);
+
+    SubjectDTO toSubjectDTO(Subject subject);
 }

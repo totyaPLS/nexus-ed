@@ -62,8 +62,11 @@ create table grade (
 	id serial primary key,
 	student_id varchar(10) not null references system_user on delete cascade,
 	teacher_id varchar(10) not null references system_user on delete set null,
+    subject_id integer not null references subject,
+    class_id integer not null references class,
 	grade integer not null,
-	weight double precision not null
+	weight double precision not null,
+    created timestamp not null
 );
 
 create table teaching (

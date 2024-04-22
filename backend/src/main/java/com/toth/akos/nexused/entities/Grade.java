@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -23,10 +25,19 @@ public class Grade {
     @Column(name = "teacher_id")
     private String teacherId;
 
+    @Column(name = "subject_id")
+    private int subjectId;
+
+    @Column(name = "class_id")
+    private int classId;
+
     @Column(name = "grade")
     private int gradeValue;
 
     @Column(name = "weight")
     private double weight;
+
+    @Column(name = "created")
+    private LocalDateTime created;
 
 }

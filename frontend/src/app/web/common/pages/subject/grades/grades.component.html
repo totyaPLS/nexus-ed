@@ -1,1 +1,85 @@
-<p>grades works!</p>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <p-toast></p-toast>
+            <div style="display: flex; justify-content: space-between;">
+                <div class="my-2">
+                    <h5 style="margin: 0">Értékelések</h5>
+                </div>
+                <div class="my-2">
+                    <button pButton pRipple label="Új" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNew()"></button>
+                </div>
+            </div>
+
+            <p-table
+                #tasksTable
+                [value]="(grades$ | async)!"
+                [nexusLoading]="loading$"
+                [paginator]="true"
+                [rows]="5"
+                [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="{first}-{last} megjelenítése a(z) {totalRecords} bejegyzésből"
+                (onPage)="pageChange($event)"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                [globalFilterFields]="['firstName','lastName','status', 'absenceDate', 'modificationDate']"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-between flex-column sm:flex-row">
+                        <button pButton label="Szűrő törlése" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(tasksTable)"></button>
+                        <span class="p-input-icon-left mb-2">
+							<i class="pi pi-search"></i>
+							<input pInputText type="text" #filter (input)="onGlobalFilter(tasksTable, $event)" placeholder="Kulcsszó keresése" class="w-full"/>
+						</span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="name" id="name" style="width:12%">Név <p-sortIcon field="name"></p-sortIcon></th>
+                        <th id="avg" style="width:8%">Átlag</th>
+                        <th id="sep" style="width:8%">Sze.</th>
+                        <th id="oct" style="width:8%">Okt.</th>
+                        <th id="nov" style="width:8%">Nov.</th>
+                        <th id="dec" style="width:8%">Dec.</th>
+                        <th id="jan" style="width:8%">Jan.</th>
+                        <th id="feb" style="width:8%">Feb.</th>
+                        <th id="mar" style="width:8%">Már.</th>
+                        <th id="apr" style="width:8%">Ápr.</th>
+                        <th id="may" style="width:8%">Máj.</th>
+                        <th id="jun" style="width:8%">Jún.</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-yearGrade>
+                    <tr>
+                        <td>{{ yearGrade.studentName }}</td>
+                        <td>{{ getAvg(yearGrade.gradesPerMonth) }}</td>
+                        <ng-container *ngFor="let monthGrade of yearGrade.gradesPerMonth">
+                            <td>
+                                <ng-container *ngFor="let gradeData of monthGrade; let i = index">
+                                    @if (i <= 2) {
+                                        <span [class]="'grade-badge ' + getEnumName(gradeData.grade, GRADE_TYPE)">
+                                            {{ gradeData.grade }}
+                                        </span>
+                                    }
+                                    @if (i === 3) {
+                                        <span>...</span>
+                                    }
+                                </ng-container>
+                            </td>
+                        </ng-container>
+                        <ng-container *ngFor="let num of getRemindColumn(yearGrade.gradesPerMonth)">
+                            <td></td>
+                        </ng-container>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<app-new-absence-popup *ngIf="isDialogDisplayed"
+                       [announcementDialog]="isDialogDisplayed"
+                       [classId]="classId"
+                       [subjectId]="subjectId"
+                       (closeDialogEvent)="closeDialog()">
+</app-new-absence-popup>

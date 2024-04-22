@@ -10,4 +10,6 @@ import java.util.List;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ClassMapper {
     List<ClassDTO> toClassDTOs(List<ClassSchool> classSchools);
+
+    ClassDTO toClassDTO(ClassSchool classSchool);
 }

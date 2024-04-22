@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
-import {DETAIL, getEnumName} from "../web/common/util/enums/Subject";
+import {DETAIL, getEnumName} from "../web/common/util/enums/Commons";
 
 @Injectable()
 export class SubjectDetailsBreadcrumbResolver implements Resolve<string> {

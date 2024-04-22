@@ -28,4 +28,8 @@ public class StudentService {
     public List<Student> getAllByParentId() {
         return studentRepository.findAllByParentId(authService.getPrincipalUid());
     }
+
+    public List<Student> getAllByClassId(Integer classId) {
+        return studentRepository.findAllByClassId(classId);
+    }
 }

@@ -128,4 +128,13 @@ public class SubjectService {
         }
         return result;
     }
+
+    public Integer getSubjectIdByNameAndDifficulty(String name, Integer difficulty) {
+        Optional<Subject> oSubject = subjectRepository.findByNameAndClassDifficulty(name, difficulty);
+        if (oSubject.isEmpty()) {
+            throw new ApplicationException("subject not found", HttpStatus.NOT_FOUND);
+        }
+
+        return subjectMapper.toSubjectDTO(oSubject.get()).id();
+    }
 }

@@ -36,6 +36,22 @@ export const DETAIL = {
     [SubjectDetailType.GRADES]: 'Értékelések',
 };
 
+export enum GradeType {
+    ONE = 1,
+    TWO = 2,
+    THREE = 3,
+    FOUR = 4,
+    FIVE = 5,
+}
+
+export const GRADE_TYPE = {
+    [GradeType.ONE]: 'one',
+    [GradeType.TWO]: 'two',
+    [GradeType.THREE]: 'three',
+    [GradeType.FOUR]: 'four',
+    [GradeType.FIVE]: 'five',
+};
+
 export function getEnumName<T extends string>(
     value: T | null,
     enumMap: Record<T, string>

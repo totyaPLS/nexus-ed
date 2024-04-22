@@ -11,7 +11,7 @@ import {RippleModule} from "primeng/ripple";
 import {PasswordModule} from "primeng/password";
 import {CheckboxModule} from "primeng/checkbox";
 import {CalendarModule} from "primeng/calendar";
-import {SubjectDetailType} from "../../../util/enums/Subject";
+import {SubjectDetailType} from "../../../util/enums/Commons";
 
 @Component({
   selector: 'app-new-announcement-popup',

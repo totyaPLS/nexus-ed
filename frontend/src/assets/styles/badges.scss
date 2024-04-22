@@ -93,20 +93,20 @@
 
 .grade-badge {
     border-radius: var(--border-radius);
-    padding: .25em .5rem;
+    padding: .25em .25rem;
     text-transform: uppercase;
     font-weight: 700;
     font-size: 12px;
     letter-spacing: .3px;
 
     &.one {
-        background: var(--red-200);
-        color: var(--red-800);
+        background: var(--pink-200);
+        color: var(--pink-800);
     }
 
     &.two {
-        background: var(--pink-200);
-        color: var(--pink-800);
+        background: var(--red-200);
+        color: var(--red-800);
     }
 
     &.three {

@@ -14,7 +14,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {Absence} from "../../../util/models/absence-models";
 import {AbsenceRepository} from "../../../state/absences.repository";
 import {AbsenceService} from "../../../rest/absence.service";
-import {ABSENCE_STATUS, getEnumName} from "../../../util/enums/Subject";
+import {ABSENCE_STATUS, getEnumName} from "../../../util/enums/Commons";
 import {NewAbsencePopupComponent} from "../components/new-absence-popup.component";
 import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module";
 import {ConfirmPopup, ConfirmPopupModule} from "primeng/confirmpopup";

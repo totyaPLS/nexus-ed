@@ -93,4 +93,12 @@ public class UserService {
         userRepository.deleteById(id);
         return userMapper.toUserDTO(user);
     }
+
+    public UserDTO getUserById(String uid) {
+        Optional<User> oUser = userRepository.findById(uid);
+        if (oUser.isEmpty()) {
+            throw new ApplicationException("User not found", HttpStatus.NOT_FOUND);
+        }
+        return userMapper.toUserDTO(oUser.get());
+    }
 }
