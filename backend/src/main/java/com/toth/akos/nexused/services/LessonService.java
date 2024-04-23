@@ -1,5 +1,6 @@
 package com.toth.akos.nexused.services;
 
+import com.toth.akos.nexused.dtos.DiaryDTO;
 import com.toth.akos.nexused.dtos.LessonDTO;
 import com.toth.akos.nexused.entities.Lesson;
 import com.toth.akos.nexused.entities.Student;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +36,15 @@ public class LessonService {
             default -> throw new ApplicationException("No lessons found by this user's role", HttpStatus.NOT_FOUND);
         }
         return lessons;
+    }
+
+    public List<DiaryDTO> listDiaries(int subjectId, int classId) {
+        List<Lesson> lessons = lessonRepository.findAllBySubjectIdAndClassId(subjectId, classId);
+        List<DiaryDTO> diaryDTOS = new ArrayList<>();
+        for (Lesson lesson : lessons) {
+            diaryDTOS.add(lessonMapper.toDiaryDTO(lesson));
+        }
+        return diaryDTOS;
     }
 
     private List<LessonDTO> listTeacherLessons() {
@@ -75,5 +86,20 @@ public class LessonService {
             }
         }
         return lessonDTOs;
+    }
+
+    private Lesson findByid(Integer lessonId) {
+        Optional<Lesson> oLesson = lessonRepository.findById(lessonId);
+        if (oLesson.isEmpty()) {
+            throw new ApplicationException("Lesson not found", HttpStatus.NOT_FOUND);
+        }
+        return oLesson.get();
+    }
+
+    public DiaryDTO uploadTopic(Integer lessonId, String topic) {
+        Lesson lesson = findByid(lessonId);
+        lesson.setTopic(topic);
+        lessonRepository.save(lesson);
+        return lessonMapper.toDiaryDTO(lesson);
     }
 }

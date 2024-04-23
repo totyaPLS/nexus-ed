@@ -18,6 +18,11 @@ const routes: Routes = [
         loadChildren: () => import('./absences/absences.module').then(m => m.AbsencesModule),
     },
     {
+        path: 'diaries',
+        resolve: { breadcrumb: BreadcrumbResolver },
+        loadChildren: () => import('./diaries/diaries.module').then(m => m.DiariesModule),
+    },
+    {
         path: ':announcementType',
         resolve: { breadcrumb: BreadcrumbResolver },
         loadChildren: () => import('./announcements/announcements.module').then(m => m.AnnouncementsModule),
