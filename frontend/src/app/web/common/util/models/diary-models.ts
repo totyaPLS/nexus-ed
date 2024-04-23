@@ -3,4 +3,5 @@ export interface Diary {
     lessonNum: number;
     date: string;
     topic: string;
+    editNeeded: boolean;
 }

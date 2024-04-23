@@ -50,7 +50,8 @@ export class DiaryRepository {
     setDiaries(diaries: Diary[]) {
         const updatedDiaries = diaries.map((diary, index) => ({
             ...diary,
-            lessonNum: index + 1
+            lessonNum: index + 1,
+            editNeeded: !diary.topic
         }));
 
         this.store.update(

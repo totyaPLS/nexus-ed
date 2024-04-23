@@ -79,7 +79,7 @@ export class DiariesComponent implements OnInit {
             .subscribe(diaries => {
                 const formGroupConfig: any = {};
                 for (const diary of diaries) {
-                    formGroupConfig[diary.lessonId] = new FormControl('');
+                    formGroupConfig[diary.lessonId] = new FormControl(diary.topic);
                 }
                 this.tableGroup = new FormGroup(formGroupConfig);
             });
@@ -96,19 +96,30 @@ export class DiariesComponent implements OnInit {
         if (topic !== '') {
             this.lessonService.uploadTopic(diary.lessonId, topic)
                 .pipe(takeUntilDestroyed(this.destroyRef))
-                .subscribe(() =>
+                .subscribe(() => {
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Sikeres tanóra naplózás',
                         detail: 'Óra téma feltöltve',
                         life: 3000,
-                    })
-                );
+                    });
+                });
+            this.changeElToText(diary);
         }
     }
 
     isFormControlInvalid(diary: Diary) {
-        return this.tableGroup.get((diary.lessonId).toString())?.getRawValue() === '';
+        const formValue = this.tableGroup.get((diary.lessonId).toString())?.getRawValue();
+        return  (!formValue || formValue === '');
+    }
+
+    changeElToInput(diary: Diary) {
+        diary.editNeeded = true;
+        this.tableGroup.get((diary.lessonId.toString()))?.setValue(diary.topic);
+    }
+
+    changeElToText(diary: Diary) {
+        diary.editNeeded = false;
     }
 
     next() {

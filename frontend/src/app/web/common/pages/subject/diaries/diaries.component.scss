@@ -5,3 +5,13 @@
 .tr-body:hover td:last-child div {
     visibility: visible;
 }
+
+.topic-text:hover {
+    cursor: pointer;
+    color: var(--blue-600);
+}
+
+.action-buttons {
+    display: inline-block;
+    margin-right: 8px;
+}
