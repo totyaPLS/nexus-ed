@@ -14,8 +14,9 @@ import {GradeData, YearGradesForStudent} from "../../../util/models/grade-models
 import {GradeService} from "../../../rest/grade.service";
 import {GradeRepository} from "../../../state/grades.repository";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {getEnumName, GRADE_TYPE} from "../../../util/enums/Commons";
 import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module";
+import {GradeClassDirective} from "../../../components/grade.directive";
+import {NewGradePopupComponent} from "./components/new-grade-popup.component";
 
 @Component({
   selector: 'app-grades',
@@ -33,7 +34,9 @@ import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module
         TableModule,
         ToastModule,
         NgForOf,
-        NexLoadingModule
+        NexLoadingModule,
+        GradeClassDirective,
+        NewGradePopupComponent
     ],
   templateUrl: './grades.component.html',
   styleUrl: './grades.component.scss'
@@ -92,9 +95,6 @@ export class GradesComponent implements OnInit {
         table.clear();
         this.filter.nativeElement.value = '';
     }
-
-    protected readonly getEnumName = getEnumName;
-    protected readonly GRADE_TYPE = GRADE_TYPE;
 
     getRemindColumn(array: any[]) {
         const differ = 10 - array.length;

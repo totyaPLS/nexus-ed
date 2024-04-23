@@ -7,7 +7,8 @@
                     <h5 style="margin: 0">Értékelések</h5>
                 </div>
                 <div class="my-2">
-                    <button pButton pRipple label="Új" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNew()"></button>
+                    <button pButton pRipple label="Új értékelés" icon="pi pi-plus" class="p-button-primary mr-2"
+                            (click)="openNew()"></button>
                 </div>
             </div>
 
@@ -58,9 +59,7 @@
                             <td>
                                 <ng-container *ngFor="let gradeData of monthGrade; let i = index">
                                     @if (i <= 2) {
-                                        <span [class]="'grade-badge ' + getEnumName(gradeData.grade, GRADE_TYPE)">
-                                            {{ gradeData.grade }}
-                                        </span>
+                                        <span [grade]="gradeData.grade">{{ gradeData.grade }}</span>
                                     }
                                     @if (i === 3) {
                                         <span>...</span>
@@ -68,7 +67,7 @@
                                 </ng-container>
                             </td>
                         </ng-container>
-                        <ng-container *ngFor="let num of getRemindColumn(yearGrade.gradesPerMonth)">
+                        <ng-container *ngFor="let _ of getRemindColumn(yearGrade.gradesPerMonth)">
                             <td></td>
                         </ng-container>
                     </tr>
@@ -78,9 +77,9 @@
     </div>
 </div>
 
-<app-new-absence-popup *ngIf="isDialogDisplayed"
-                       [announcementDialog]="isDialogDisplayed"
+<app-new-grade-popup *ngIf="isDialogDisplayed"
+                       [isDialogDisplayed]="isDialogDisplayed"
                        [classId]="classId"
                        [subjectId]="subjectId"
                        (closeDialogEvent)="closeDialog()">
-</app-new-absence-popup>
+</app-new-grade-popup>

@@ -11,11 +11,10 @@ import {RippleModule} from "primeng/ripple";
 import {PasswordModule} from "primeng/password";
 import {CheckboxModule} from "primeng/checkbox";
 import {CalendarModule} from "primeng/calendar";
-import {SubjectDetailType} from "../../../util/enums/Commons";
 
 @Component({
-  selector: 'app-new-announcement-popup',
-  standalone: true,
+    selector: 'app-new-grade-popup',
+    standalone: true,
     imports: [
         DialogModule,
         DropdownModule,
@@ -33,27 +32,23 @@ import {SubjectDetailType} from "../../../util/enums/Commons";
         CheckboxModule,
         CalendarModule,
     ],
-  templateUrl: './new-announcement-popup.component.html'
+    templateUrl: './new-grade-popup.component.html'
 })
-export class NewAnnouncementPopupComponent implements OnInit {
-    @Input() announcementDialog!: boolean;
-    @Input() announcementType!: string;
+export class NewGradePopupComponent implements OnInit {
+    @Input() isDialogDisplayed!: boolean;
     @Input() classId!: number;
     @Input() subjectId!: number;
     @Output() closeDialogEvent = new EventEmitter<void>();
-    @Output() saveAnnouncementEvent = new EventEmitter<unknown>();
-
-    title!: string;
+    @Output() saveGradeEvent = new EventEmitter<unknown>();
 
     ngOnInit(): void {
-        this.title = (this.announcementType === SubjectDetailType.TASKS ? 'feladat' : 'közlemény');
     }
 
     hideDialog() {
         this.closeDialogEvent.emit();
     }
 
-    saveAnnouncement() {
-        this.saveAnnouncementEvent.emit();
+    saveGrade() {
+        this.saveGradeEvent.emit();
     }
 }

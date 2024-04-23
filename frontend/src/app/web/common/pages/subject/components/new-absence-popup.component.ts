@@ -35,11 +35,11 @@ import {CalendarModule} from "primeng/calendar";
     templateUrl: './new-absence-popup.component.html'
 })
 export class NewAbsencePopupComponent implements OnInit {
-    @Input() announcementDialog!: boolean;
+    @Input() absenceDialog!: boolean;
     @Input() classId!: number;
     @Input() subjectId!: number;
     @Output() closeDialogEvent = new EventEmitter<void>();
-    @Output() saveAnnouncementEvent = new EventEmitter<unknown>();
+    @Output() saveAbsenceEvent = new EventEmitter<unknown>();
 
     ngOnInit(): void {
     }
@@ -48,7 +48,7 @@ export class NewAbsencePopupComponent implements OnInit {
         this.closeDialogEvent.emit();
     }
 
-    saveGrading() {
-        this.saveAnnouncementEvent.emit();
+    saveAbsence() {
+        this.saveAbsenceEvent.emit();
     }
 }
