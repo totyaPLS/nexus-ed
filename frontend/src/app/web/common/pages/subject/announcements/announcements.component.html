@@ -16,6 +16,11 @@
             </ng-template>
             <div class="flex ">
                 <div class="announcement w-7">
+                    <div class="action-buttons">
+                        <button pButton pRipple type="button" icon="pi pi-trash"
+                                class="p-button-rounded p-button-secondary p-button-text"
+                                (click)="confirmDel(item.id, $event)" [loading]="(loading$ | async)!"></button>
+                    </div>
                     <div class="accordionItemContent">
 
                         <p-divider></p-divider>
@@ -64,6 +69,8 @@
         </p-accordionTab>
     </p-accordion>
 </div>
+
+<p-confirmPopup key="confirmDel"></p-confirmPopup>
 
 <app-new-announcement-popup *ngIf="announcementDialog"
                             [announcementDialog]="announcementDialog"

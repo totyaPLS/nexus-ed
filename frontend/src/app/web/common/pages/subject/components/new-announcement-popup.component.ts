@@ -77,6 +77,7 @@ export class NewAnnouncementPopupComponent implements OnInit {
 
     destroyRef = inject(DestroyRef);
     loading$: Observable<boolean>;
+    minDate: Date;
 
     constructor(private announcementService: AnnouncementService,
                 private announcementRepo: AnnouncementRepository,
@@ -99,7 +100,9 @@ export class NewAnnouncementPopupComponent implements OnInit {
             { label: getEnumName(TaskType.HOMEWORK, TASK_TYPE), value: TaskType.HOMEWORK },
             { label: getEnumName(TaskType.TEST, TASK_TYPE), value: TaskType.TEST },
             { label: getEnumName(TaskType.FINAL, TASK_TYPE), value: TaskType.FINAL },
-        ]
+        ];
+
+        this.minDate = new Date();
     }
 
     ngOnInit(): void {

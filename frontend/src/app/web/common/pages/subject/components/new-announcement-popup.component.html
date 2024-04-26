@@ -16,7 +16,7 @@
             <div class="grid task-box" *ngIf="isTaskType">
                 <div class="field col-6">
                     <label for="deadline">Határidő</label>
-                    <p-calendar [showIcon]="true" [showTime]="true" inputId="deadline" id="deadline" formControlName="deadline"></p-calendar>
+                    <p-calendar [showIcon]="true" [showTime]="true" [minDate]="minDate" inputId="deadline" id="deadline" formControlName="deadline"></p-calendar>
                 </div>
                 <div class="field col-6">
                     <label for="types">Feladat típusa</label>

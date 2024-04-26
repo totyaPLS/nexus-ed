@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {AnnouncementRepository} from "../state/announcements.repository";
 import {Announcement, AnnouncementReq} from "../util/models/announcement-models";
 import {Comment} from "../util/models/comment-models";
+import {Observable} from "rxjs";
 
 @Injectable({
     providedIn: 'root',
@@ -63,4 +64,12 @@ export class AnnouncementService {
         );
     }
 
+    deleteAnnouncement(announcementId: number) {
+        return this.http.delete<number>(`/deleteAnnouncement/${announcementId}`).pipe(
+            this.announcementRepo.withRequestStatus(
+                'delete',
+                () => {}
+            ),
+        );
+    }
 }

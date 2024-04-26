@@ -110,4 +110,8 @@ public class AnnouncementService {
     }
 
 
+    public Integer deleteAnnouncement(Integer id) {
+        announcementRepository.deleteById(id);
+        return id;
+    }
 }

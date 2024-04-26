@@ -53,4 +53,9 @@ public class AnnouncementController {
         AnnouncementDTO updatedAnnouncementDTO = announcementService.uploadAnnouncement(announcementReqDTO);
         return ResponseEntity.created(URI.create("/announcements/" + updatedAnnouncementDTO.getId())).body(updatedAnnouncementDTO);
     }
+
+    @DeleteMapping("/deleteAnnouncement/{id}")
+    public ResponseEntity<Integer> deleteAnnouncement(@PathVariable Integer id) {
+        return ResponseEntity.ok(announcementService.deleteAnnouncement(id));
+    }
 }

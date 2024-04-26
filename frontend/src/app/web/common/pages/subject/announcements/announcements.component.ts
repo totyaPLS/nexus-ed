@@ -17,6 +17,8 @@ import {DividerModule} from "primeng/divider";
 import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";
 import {TaskPopupComponent} from "../submitted-tasks/components/task-popup.component";
 import {NexusTimeModule} from "../../../util/date/nexus-time.module";
+import {ConfirmationService, MessageService} from "primeng/api";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
 
 @Component({
     selector: 'app-announcements',
@@ -36,8 +38,10 @@ import {NexusTimeModule} from "../../../util/date/nexus-time.module";
         DividerModule,
         NewAnnouncementPopupComponent,
         TaskPopupComponent,
-        NexusTimeModule
+        NexusTimeModule,
+        ConfirmPopupModule
     ],
+    providers: [ConfirmationService],
     templateUrl: './announcements.component.html',
     styleUrl: './announcements.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,20 +50,23 @@ export class AnnouncementsComponent implements OnInit {
     protected readonly getEnumName = getEnumName;
     protected readonly TASK_TYPE = TASK_TYPE;
     protected readonly DETAIL = DETAIL;
-    protected readonly SubjectDetailType = SubjectDetailType;
 
     announcementDialog = false;
     subjectId: number;
     classId: number;
     announcementType!: string;
     announcements$!: Observable<Announcement[]>;
+    loading$: Observable<boolean>;
 
     destroyRef = inject(DestroyRef);
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private announcementService: AnnouncementService,
-                private announcementRepo: AnnouncementRepository) {
+                private announcementRepo: AnnouncementRepository,
+                private confirmationService: ConfirmationService,
+                private messageService: MessageService) {
+        this.loading$ = this.announcementRepo.deleteLoading$;
         this.subjectId = JSON.parse(this.route.snapshot.paramMap.get('subjectId')!);
         this.classId = JSON.parse(this.route.snapshot.paramMap.get('classId')!);
         this.announcementType = this.route.snapshot.paramMap.get('announcementType')!;
@@ -87,6 +94,38 @@ export class AnnouncementsComponent implements OnInit {
 
     addComment(comment: Comment) {
         this.announcementService.addComment(comment).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    }
+
+    get isTaskType() {
+        return this.announcementType === SubjectDetailType.TASKS;
+    }
+
+    confirmDel(announcementId: number, event: Event) {
+        this.confirmationService.confirm({
+            key: 'confirmDel',
+            target: event.target || new EventTarget,
+            message: `Biztos szeretnéd törölni ezt a ${this.isTaskType ? 'feladatot' : 'közleményt'}?`,
+            icon: 'pi pi-exclamation-triangle',
+            acceptLabel: 'Igen',
+            rejectLabel: 'Nem',
+            acceptButtonStyleClass: 'p-button-danger',
+            accept: () => {
+                this.announcementService.deleteAnnouncement(announcementId)
+                    .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+                    () => {
+                        this.messageService.add({
+                            severity: 'success',
+                            summary: 'Sikeres',
+                            detail: `Közlemény törölve (ID: ${announcementId})`,
+                            life: 3000,
+                        });
+                        this.announcementService.listAllAnnouncementAfterUpload(this.subjectId, this.classId)
+                            .pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+                    }
+                );
+            },
+            reject: () => {}
+        });
     }
 
     navigateToSubmittedTasks(taskId: number) {

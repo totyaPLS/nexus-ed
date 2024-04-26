@@ -19,12 +19,14 @@
             <tr>
                 <td>
                     <span class="p-column-title">Cím</span>
-                    {{announcement.title}}</td>
+                    {{ announcement.title }}
+                </td>
                 <td>
                     <span class="p-column-title">Közzétéve</span>
-                    <i>{{announcement.published | nexusTime }}</i></td>
+                    <i>{{ announcement.published | nexusTime }}</i></td>
                 <td style="text-align: center" *showForRoles="['TEACHER']">
-                    <button pButton class="p-button-danger" type="button" icon="pi pi-trash"></button>
+                    <button pButton class="p-button-danger" type="button" icon="pi pi-trash"
+                            (click)="confirmDel(announcement.id, $event)" [loading]="(loading$ | async)!"></button>
                 </td>
             </tr>
         </ng-template>
@@ -34,6 +36,8 @@
                 routerLink="announcements"></button>
     </div>
 </div>
+
+<p-confirmPopup key="confirmDel"></p-confirmPopup>
 
 <app-new-announcement-popup *ngIf="isDialogDisplayed"
                             [announcementDialog]="isDialogDisplayed"
