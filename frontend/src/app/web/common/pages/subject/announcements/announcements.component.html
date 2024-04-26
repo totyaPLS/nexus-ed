@@ -67,8 +67,6 @@
 
 <app-new-announcement-popup *ngIf="announcementDialog"
                             [announcementDialog]="announcementDialog"
-                            [classId]="classId"
                             [announcementType]="announcementType"
-                            (closeDialogEvent)="closeDialog()"
-                            (saveAnnouncementEvent)="saveAnnouncement($event)">
+                            (closeDialogEvent)="closeDialog()">
 </app-new-announcement-popup>

@@ -7,7 +7,7 @@
 
     <p>A tantárgyhoz tartozó feladatok beadása.</p>
 
-    <p-table [value]="tasks" [rows]="5">
+    <p-table [value]="tasks" [rows]="6" [paginator]="false">
         <ng-template pTemplate="header">
             <tr>
                 <th style="width:50%;min-width:6rem;">Feladat</th>
@@ -42,8 +42,6 @@
 
 <app-new-announcement-popup *ngIf="isDialogDisplayed"
                             [announcementDialog]="isDialogDisplayed"
-                            [classId]="classId"
-                            [subjectId]="subjectId"
                             [announcementType]="announcementType"
                             (closeDialogEvent)="closeDialog()">
 </app-new-announcement-popup>

@@ -12,9 +12,6 @@ import com.toth.akos.nexused.mappers.AnnouncementMapper;
 import com.toth.akos.nexused.repositories.AnnouncementRepository;
 import com.toth.akos.nexused.repositories.SubmittableTaskRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -35,26 +32,20 @@ public class AnnouncementService {
     private final StudentService studentService;
 
     public List<AnnouncementDTO> getAllAnnouncementBySubjectIdAndClassId(int subjectId, int classId) {
-        Pageable pageable = PageRequest.of(0, 5);
-        Page<Announcement> announcementsPage =
-                announcementRepository.findAllBySubjectIdAndClassId(subjectId, classId, pageable);
-        List<Announcement> announcements = announcementsPage.getContent();
+        List<Announcement> announcements =
+                announcementRepository.findAllBySubjectIdAndClassId(subjectId, classId);
         return mapper.toAnnouncementDTOs(announcements);
     }
 
     public List<AnnouncementDTO> getAnnouncementsBySubjectIdAndClassId(int subjectId, int classId) {
-        Pageable pageable = PageRequest.of(0, 5);
-        Page<Announcement> announcementsPage =
-                announcementRepository.findAnnouncementsNotInTaskBySubjectIdAndClassId(subjectId, classId, pageable);
-        List<Announcement> announcements = announcementsPage.getContent();
+        List<Announcement> announcements =
+                announcementRepository.findAnnouncementsNotInTaskBySubjectIdAndClassId(subjectId, classId);
         return getAnnouncementDTOsWithComments(announcements);
     }
 
     public List<AnnouncementDTO> getTaskAnnouncementsBySubjectIdAndClassId(int subjectId, int classId) {
-        Pageable pageable = PageRequest.of(0, 5);
-        Page<Announcement> announcementsPage =
-                announcementRepository.findAnnouncementsInTaskBySubjectIdAndClassId(subjectId, classId, pageable);
-        List<Announcement> announcements = announcementsPage.getContent();
+        List<Announcement> announcements =
+                announcementRepository.findAnnouncementsInTaskBySubjectIdAndClassId(subjectId, classId);
         return getAnnouncementDTOsWithComments(announcements);
     }
 

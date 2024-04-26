@@ -21,6 +21,15 @@ export class AnnouncementService {
         );
     }
 
+    listAllAnnouncementAfterUpload(subjectId: number, classId: number) {
+        return this.http.get<Announcement[]>(`/allAnnouncement/${subjectId}/${classId}`).pipe(
+            this.announcementRepo.withRequestStatus(
+                'upload',
+                announcements => this.announcementRepo.setAnnouncements(announcements)
+            ),
+        );
+    }
+
     listAnnouncementsWithComments(subjectId: number, classId: number, endpointName: string) {
         return this.http.get<Announcement[]>(`/${endpointName}/${subjectId}/${classId}`).pipe(
             this.announcementRepo.withRequestStatus(
@@ -46,10 +55,10 @@ export class AnnouncementService {
     }
 
     uploadAnnouncement(announcementReq: AnnouncementReq) {
-        return this.http.post<Announcement>(`/uploadAnnouncement`, announcementReq).pipe(
+        return this.http.post<Announcement[]>(`/uploadAnnouncement`, announcementReq).pipe(
             this.announcementRepo.withRequestStatus(
-                'announcements',
-                announcement => this.announcementRepo.upsertAnnouncements(announcement)
+                'upload',
+                () => {}
             ),
         );
     }

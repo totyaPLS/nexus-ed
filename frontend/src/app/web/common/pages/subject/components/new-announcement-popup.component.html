@@ -31,6 +31,6 @@
         <button pButton pRipple label="Mégse" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
         <button type="submit" pButton pRipple label="Mentés" icon="pi pi-check" class="p-button-text"
                 (click)="saveAnnouncement()"
-                [disabled]="isFormInvalid"></button>
+                [disabled]="isFormInvalid" [loading]="(loading$ | async)!"></button>
     </ng-template>
 </p-dialog>

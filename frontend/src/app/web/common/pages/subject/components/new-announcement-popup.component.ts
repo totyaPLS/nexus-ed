@@ -1,4 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    DestroyRef,
+    EventEmitter,
+    inject,
+    Input,
+    OnInit,
+    Output
+} from '@angular/core';
 import {DialogModule} from "primeng/dialog";
 import {DropdownModule} from "primeng/dropdown";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -15,7 +24,15 @@ import {getEnumName, SubjectDetailType, TASK_TYPE, TaskType} from "../../../util
 import {EditorModule} from "primeng/editor";
 import {AnnouncementForm} from "../../../util/models/form-models";
 import {ExtractFromControl} from "../../../util/type-utils";
-import {SelectItem} from "primeng/api";
+import {MessageService, SelectItem} from "primeng/api";
+import {AnnouncementReq} from "../../../util/models/announcement-models";
+import {formatDate} from "../../../util/date-utils";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {AnnouncementService} from "../../../rest/announcement.service";
+import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module";
+import {distinctUntilChanged, Observable} from "rxjs";
+import {AnnouncementRepository} from "../../../state/announcements.repository";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-new-announcement-popup',
@@ -37,6 +54,7 @@ import {SelectItem} from "primeng/api";
         CheckboxModule,
         CalendarModule,
         EditorModule,
+        NexLoadingModule,
     ],
     templateUrl: './new-announcement-popup.component.html',
     styles: [`
@@ -44,20 +62,32 @@ import {SelectItem} from "primeng/api";
           min-height: 200px;
       }
     `],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NewAnnouncementPopupComponent implements OnInit {
     @Input() announcementDialog!: boolean;
     @Input() announcementType!: string;
-    @Input() classId!: number;
-    @Input() subjectId!: number;
     @Output() closeDialogEvent = new EventEmitter<void>();
-    @Output() saveAnnouncementEvent = new EventEmitter<ExtractFromControl<AnnouncementForm>>();
 
+    subjectId!: number;
+    classId!: number;
     title!: string;
     formGroup: FormGroup<AnnouncementForm>;
     types: SelectItem[] = [];
 
-    constructor() {
+    destroyRef = inject(DestroyRef);
+    loading$: Observable<boolean>;
+
+    constructor(private announcementService: AnnouncementService,
+                private announcementRepo: AnnouncementRepository,
+                private route: ActivatedRoute,
+                private messageService: MessageService) {
+        this.loading$ = this.announcementRepo.upLoading$.pipe(
+            distinctUntilChanged(),
+        );
+        this.subjectId = JSON.parse(this.route.snapshot.paramMap.get('subjectId')!);
+        this.classId = JSON.parse(this.route.snapshot.paramMap.get('classId')!);
+
         this.formGroup = new FormGroup<AnnouncementForm>({
             title: new FormControl('', Validators.required),
             description: new FormControl('', Validators.required),
@@ -96,7 +126,28 @@ export class NewAnnouncementPopupComponent implements OnInit {
 
     saveAnnouncement() {
         const formValues: ExtractFromControl<AnnouncementForm> = this.formGroup.getRawValue();
-        this.saveAnnouncementEvent.emit(formValues);
+        const announcementReq: AnnouncementReq = {
+            subjectId: this.subjectId,
+            classId: this.classId,
+            title: formValues.title!,
+            description: formValues.description!,
+            task: formValues.deadline ? {
+                deadline: formatDate(formValues.deadline),
+                type: formValues.type!,
+            } : null,
+        }
+        this.announcementService.uploadAnnouncement(announcementReq).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+            () => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Sikeres',
+                    detail: `${this.isTaskType ? 'Feladat' : 'Közlemény'} rögzítve`,
+                    life: 3000,
+                });
+                this.announcementService.listAllAnnouncementAfterUpload(this.subjectId, this.classId)
+                    .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.hideDialog());
+            }
+        );
     }
 
     onEditorChange() {

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {TableModule} from "primeng/table";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
@@ -10,8 +10,8 @@ import {NewAnnouncementPopupComponent} from "../components/new-announcement-popu
 import {SubjectDetailType} from "../../../util/enums/Commons";
 
 @Component({
-  selector: 'app-announcement-block',
-  standalone: true,
+    selector: 'app-announcement-block',
+    standalone: true,
     imports: [
         TableModule,
         ButtonModule,
@@ -22,8 +22,9 @@ import {SubjectDetailType} from "../../../util/enums/Commons";
         NewAnnouncementPopupComponent,
         NgIf
     ],
-  templateUrl: './announcement-block.component.html',
-  styleUrl: './announcement-block.component.scss'
+    templateUrl: './announcement-block.component.html',
+    styleUrl: './announcement-block.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnnouncementBlockComponent {
     @Input() announcements!: Announcement[];

@@ -7,37 +7,35 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AnnouncementRepository extends JpaRepository<Announcement, Integer> {
 
     @Query("SELECT a " +
             "FROM Announcement a LEFT JOIN Task t ON a.id = t.announcementId " +
-            "WHERE a.subjectId = :subjectId AND a.classId = :classId")
-    Page<Announcement> findAllBySubjectIdAndClassId(
+            "WHERE a.subjectId = :subjectId AND a.classId = :classId ORDER BY a.published DESC")
+    List<Announcement> findAllBySubjectIdAndClassId(
             @Param("subjectId") int subjectId,
-            @Param("classId") int classId,
-            Pageable pageable
+            @Param("classId") int classId
     );
 
     @Query("SELECT a " +
             "FROM Announcement a " +
             "LEFT JOIN Task t ON a.id = t.announcementId " +
             "WHERE t.announcementId IS NULL AND a.subjectId = :subjectId AND a.classId = :classId")
-    Page<Announcement> findAnnouncementsNotInTaskBySubjectIdAndClassId(
+    List<Announcement> findAnnouncementsNotInTaskBySubjectIdAndClassId(
             @Param("subjectId") int subjectId,
-            @Param("classId") int classId,
-            Pageable pageable
+            @Param("classId") int classId
     );
 
     @Query("SELECT a " +
             "FROM Announcement a " +
             "LEFT JOIN Task t ON a.id = t.announcementId " +
             "WHERE t.announcementId IS NOT NULL AND a.subjectId = :subjectId AND a.classId = :classId")
-    Page<Announcement> findAnnouncementsInTaskBySubjectIdAndClassId(
+    List<Announcement> findAnnouncementsInTaskBySubjectIdAndClassId(
             @Param("subjectId") int subjectId,
-            @Param("classId") int classId,
-            Pageable pageable
+            @Param("classId") int classId
     );
 
     @Query("SELECT a " +

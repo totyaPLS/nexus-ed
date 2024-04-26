@@ -17,7 +17,7 @@ import {
 } from "@ngneat/elf-requests";
 import {Announcement} from "../util/models/announcement-models";
 
-type RequestStates = 'announcements' | 'check';
+type RequestStates = 'announcements' | 'check' | 'upload';
 
 @Injectable({providedIn: 'root'})
 export class AnnouncementRepository {
@@ -27,6 +27,7 @@ export class AnnouncementRepository {
     //loading states
     listLoading$: Observable<boolean>;
     checkLoading$: Observable<boolean>;
+    upLoading$: Observable<boolean>;
 
     private readonly store;
     private readonly trackRequestStatus;
@@ -49,6 +50,9 @@ export class AnnouncementRepository {
         this.checkLoading$ = this.store.pipe(
             this.isRequestPending('check'),
         );
+        this.upLoading$ = this.store.pipe(
+            this.isRequestPending('upload'),
+        );
     }
 
     getAnnouncements() {
@@ -68,6 +72,7 @@ export class AnnouncementRepository {
         this.store.update(
             upsertEntities(announcement),
             updateRequestStatus('announcements', 'success'),
+            updateRequestStatus('upload', 'success'),
         );
     }
 

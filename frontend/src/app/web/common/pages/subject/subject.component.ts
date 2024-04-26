@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from "@angular/router";
-import {combineLatestWith, distinctUntilChanged, map, Observable, Subscription} from "rxjs";
+import {combineLatestWith, distinctUntilChanged, map, Observable, Subscription, take} from "rxjs";
 import {Announcement} from "../../util/models/announcement-models";
 import {Absence} from "../../util/models/absence-models";
 import {AnnouncementRepository} from "../../state/announcements.repository";
@@ -44,9 +44,9 @@ import {OthersBlockComponent} from "./blocks/others-block.component";
 export class SubjectComponent implements OnInit, OnDestroy {
     subjectId!: number;
     classId!: number;
-    announcements$!: Observable<Announcement[]>;
-    tasks$!: Observable<Announcement[]>;
-    absences$!: Observable<Absence[]>;
+    announcements$: Observable<Announcement[]>;
+    tasks$: Observable<Announcement[]>;
+    absences$: Observable<Absence[]>;
     loading$: Observable<boolean>;
     routeSubscription!: Subscription;
 
@@ -57,8 +57,8 @@ export class SubjectComponent implements OnInit, OnDestroy {
                 private announcementService: AnnouncementService,
                 private absenceService: AbsenceService,
                 private route: ActivatedRoute) {
-        this.announcements$ = this.announcementRepo.announcements$;
-        this.tasks$ = this.announcementRepo.tasks$;
+        this.announcements$ = this.announcementRepo.announcements$.pipe(map(tasks => tasks.slice(0, 5)));
+        this.tasks$ = this.announcementRepo.tasks$.pipe(map(tasks => tasks.slice(0, 6)));
         this.absences$ = this.absenceRepo.absences$;
         this.loading$ = this.announcementRepo.listLoading$.pipe(
             combineLatestWith(

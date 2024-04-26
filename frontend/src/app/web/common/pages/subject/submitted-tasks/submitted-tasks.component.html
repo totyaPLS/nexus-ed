@@ -35,7 +35,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-task>
                     <tr>
-                        <td>{{ task.studentName }}</td>
+                        <td>{{ task.studentName }} ({{ task.studentId }})</td>
                         <td><app-bool-indicator [bool]="!!task.submitted"></app-bool-indicator></td>
                         <td><span *ngIf="task.grade" [grade]="task.grade.gradeValue">{{ task.grade.gradeValue }}</span></td>
                         <td><i>{{ task.graded | date: 'yyyy.MM.dd hh:mm' }}</i></td>
