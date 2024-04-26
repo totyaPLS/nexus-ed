@@ -8,6 +8,7 @@ import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {NexLoadingModule} from "../../../../../../config/loading/nex-loading.module";
 import {OverlayPanelModule} from "primeng/overlaypanel";
 import {InputTextModule} from "primeng/inputtext";
+import {NexusTimeModule} from "../../../../util/date/nexus-time.module";
 
 @Component({
     selector: 'app-comments',
@@ -22,7 +23,8 @@ import {InputTextModule} from "primeng/inputtext";
         NexLoadingModule,
         OverlayPanelModule,
         InputTextModule,
-        NgIf
+        NgIf,
+        NexusTimeModule
     ],
     templateUrl: 'comments.component.html',
     styles: [`

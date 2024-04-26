@@ -7,7 +7,7 @@
                 <div>
                     <div class="flex justify-between gap-2">
                         <span class="font-semibold text-900">{{ comment.personId }}</span>
-                        <p class="font-semibold text-600 m-0 text-sm">{{ comment.published | date: 'yyyy.MM.dd hh:mm' }}</p>
+                        <p class="font-semibold text-600 m-0 text-sm">{{ comment.published | nexusTime }}</p>
                     </div>
 
                     <p class="line-height-3 mb-0 my-3">{{ comment.text }}</p>

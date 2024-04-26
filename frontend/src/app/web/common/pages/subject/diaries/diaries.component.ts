@@ -18,6 +18,7 @@ import {DiaryRepository} from "../../../state/diaries.repository";
 import {Diary} from "../../../util/models/diary-models";
 import {LessonService} from "../../../rest/lesson.service";
 import {FormControl, FormGroup, FormsModule, isFormControl, ReactiveFormsModule} from "@angular/forms";
+import {NexusTimeModule} from "../../../util/date/nexus-time.module";
 
 @Component({
     selector: 'app-diaries',
@@ -39,7 +40,8 @@ import {FormControl, FormGroup, FormsModule, isFormControl, ReactiveFormsModule}
         ConfirmPopupModule,
         FormsModule,
         ReactiveFormsModule,
-        RouterLink
+        RouterLink,
+        NexusTimeModule
     ],
     providers: [ConfirmationService],
     templateUrl: './diaries.component.html',

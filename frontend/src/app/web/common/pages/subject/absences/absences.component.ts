@@ -18,6 +18,7 @@ import {ABSENCE_STATUS, getEnumName} from "../../../util/enums/Commons";
 import {NewAbsencePopupComponent} from "../components/new-absence-popup.component";
 import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module";
 import {ConfirmPopup, ConfirmPopupModule} from "primeng/confirmpopup";
+import {NexusTimeModule} from "../../../util/date/nexus-time.module";
 
 @Component({
   selector: 'app-absences',
@@ -36,7 +37,8 @@ import {ConfirmPopup, ConfirmPopupModule} from "primeng/confirmpopup";
         ToastModule,
         NewAbsencePopupComponent,
         NexLoadingModule,
-        ConfirmPopupModule
+        ConfirmPopupModule,
+        NexusTimeModule
     ],
     providers: [ConfirmationService],
   templateUrl: './absences.component.html',

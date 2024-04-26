@@ -18,6 +18,7 @@ import {TaskPopupComponent} from "./components/task-popup.component";
 import {BoolIndicatorComponent} from "../../../components/bool-indicator.component";
 import {GradeClassDirective} from "../../../components/grade.directive";
 import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module";
+import {NexusTimeModule} from "../../../util/date/nexus-time.module";
 
 @Component({
   selector: 'app-submitted-tasks',
@@ -37,7 +38,8 @@ import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module
         TaskPopupComponent,
         BoolIndicatorComponent,
         GradeClassDirective,
-        NexLoadingModule
+        NexLoadingModule,
+        NexusTimeModule
     ],
   templateUrl: './submitted-tasks.component.html',
   styleUrl: './submitted-tasks.component.scss'

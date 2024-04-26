@@ -47,7 +47,7 @@
 
                         <td>{{ diary.lessonNum }}.</td>
 
-                        <td><i>{{ diary.date | date: 'yyyy.MM.dd hh:mm' }}</i></td>
+                        <td><i>{{ diary.date | nexusTime }}</i></td>
 
                         <td class="topic-text" *ngIf="!diary.editNeeded" (click)="changeElToInput(diary)">
                             {{ diary.topic }}

@@ -50,8 +50,8 @@
                         {{ getEnumName(absence.status, ABSENCE_STATUS) }}
                     </span>
                         </td>
-                        <td><i>{{ absence.absenceDate | date: 'yyyy.MM.dd hh:mm' }}</i></td>
-                        <td><i>{{ absence.modificationDate | date: 'yyyy.MM.dd hh:mm' }}</i></td>
+                        <td><i>{{ absence.absenceDate | nexusTime }}</i></td>
+                        <td><i>{{ absence.modificationDate | nexusTime }}</i></td>
                         <td style="padding: 0; margin: 0;">
                             <div #actionButtons class="flex action-btns">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"></button>

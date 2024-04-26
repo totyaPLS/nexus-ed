@@ -26,7 +26,7 @@ import {AnnouncementForm} from "../../../util/models/form-models";
 import {ExtractFromControl} from "../../../util/type-utils";
 import {MessageService, SelectItem} from "primeng/api";
 import {AnnouncementReq} from "../../../util/models/announcement-models";
-import {formatDate} from "../../../util/date-utils";
+import {formatDate} from "../../../util/date/date-utils";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {AnnouncementService} from "../../../rest/announcement.service";
 import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module";

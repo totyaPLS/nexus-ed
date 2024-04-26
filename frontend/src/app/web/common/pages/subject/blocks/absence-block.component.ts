@@ -8,6 +8,7 @@ import {DatePipe, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";
 import {NewAbsencePopupComponent} from "../components/new-absence-popup.component";
+import {NexusTimeModule} from "../../../util/date/nexus-time.module";
 
 @Component({
   selector: 'app-absence-block',
@@ -20,7 +21,8 @@ import {NewAbsencePopupComponent} from "../components/new-absence-popup.componen
         RouterLink,
         NewAnnouncementPopupComponent,
         NgIf,
-        NewAbsencePopupComponent
+        NewAbsencePopupComponent,
+        NexusTimeModule
     ],
   templateUrl: './absence-block.component.html',
   styleUrl: './absence-block.component.scss'

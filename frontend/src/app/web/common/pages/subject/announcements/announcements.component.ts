@@ -16,6 +16,7 @@ import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-valid
 import {DividerModule} from "primeng/divider";
 import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";
 import {TaskPopupComponent} from "../submitted-tasks/components/task-popup.component";
+import {NexusTimeModule} from "../../../util/date/nexus-time.module";
 
 @Component({
     selector: 'app-announcements',
@@ -34,7 +35,8 @@ import {TaskPopupComponent} from "../submitted-tasks/components/task-popup.compo
         NgClass,
         DividerModule,
         NewAnnouncementPopupComponent,
-        TaskPopupComponent
+        TaskPopupComponent,
+        NexusTimeModule
     ],
     templateUrl: './announcements.component.html',
     styleUrl: './announcements.component.scss',

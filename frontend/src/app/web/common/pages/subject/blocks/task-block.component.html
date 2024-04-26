@@ -29,7 +29,7 @@
                 </td>
                 <td>
                     <span class="p-column-title">Határidő</span>
-                    <i>{{ taskAnnouncement.task.deadline | date: 'yyyy.MM.dd hh:mm' }}</i>
+                    <i>{{ taskAnnouncement.task.deadline | nexusTime }}</i>
                 </td>
             </tr>
         </ng-template>

@@ -8,6 +8,7 @@ import {DatePipe, NgIf} from "@angular/common";
 import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
 import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";
 import {SubjectDetailType} from "../../../util/enums/Commons";
+import {NexusTimeModule} from "../../../util/date/nexus-time.module";
 
 @Component({
     selector: 'app-announcement-block',
@@ -20,7 +21,8 @@ import {SubjectDetailType} from "../../../util/enums/Commons";
         DatePipe,
         NexRoleValidationModule,
         NewAnnouncementPopupComponent,
-        NgIf
+        NgIf,
+        NexusTimeModule
     ],
     templateUrl: './announcement-block.component.html',
     styleUrl: './announcement-block.component.scss',

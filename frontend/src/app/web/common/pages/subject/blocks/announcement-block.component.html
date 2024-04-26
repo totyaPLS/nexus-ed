@@ -22,7 +22,7 @@
                     {{announcement.title}}</td>
                 <td>
                     <span class="p-column-title">Közzétéve</span>
-                    <i>{{announcement.published | date: 'yyyy.MM.dd hh:mm'}}</i></td>
+                    <i>{{announcement.published | nexusTime }}</i></td>
                 <td style="text-align: center" *showForRoles="['TEACHER']">
                     <button pButton class="p-button-danger" type="button" icon="pi pi-trash"></button>
                 </td>

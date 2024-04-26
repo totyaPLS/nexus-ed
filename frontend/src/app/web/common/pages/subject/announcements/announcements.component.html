@@ -24,7 +24,7 @@
                             <div class="box">
                                 <div class="flex gap-2 align-items-center">
                                     <p class="text-center">Beadási határidő: <span
-                                        class="font-bold font-italic"><i>{{ item.task.deadline | date: 'yyyy.MM.dd hh:mm' }}</i></span>
+                                        class="font-bold font-italic"><i>{{ item.task.deadline | nexusTime }}</i></span>
                                     </p>
                                     <span *ngIf="isTaskExpired(item.task.deadline)"
                                           class="task-badge type-expired">Lejárt</span>
@@ -49,7 +49,7 @@
                             </div>
                         </ng-container>
                         <div class="creation-date w-full text-right">
-                            <span><i>{{ item.published | date: 'yyyy.MM.dd hh:mm' }}</i></span>
+                            <span><i>{{ item.published | nexusTime }}</i></span>
                         </div>
                     </div>
 

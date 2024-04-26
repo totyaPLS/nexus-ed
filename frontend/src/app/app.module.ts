@@ -12,6 +12,7 @@ import {AuthInterceptorService} from "./config/interceptors/auth-interceptor.ser
 import {NexRoleValidationModule} from "./config/auth/nex-role-validation.module";
 import {NexLoadingModule} from "./config/loading/nex-loading.module";
 import {BaseUrlInterceptorService} from "./config/interceptors/base-url-interceptor.service";
+import {NexusTimeModule} from "./web/common/util/date/nexus-time.module";
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import {BaseUrlInterceptorService} from "./config/interceptors/base-url-intercep
         ToastModule,
         CommonModule,
         NexRoleValidationModule.forRoot(),
-        NexLoadingModule.forRoot()
+        NexLoadingModule.forRoot(),
+        NexusTimeModule.forRoot()
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },

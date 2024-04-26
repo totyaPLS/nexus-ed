@@ -7,6 +7,7 @@ import {getEnumName, SubjectDetailType, TASK_TYPE} from "../../../util/enums/Com
 import {RouterLink} from "@angular/router";
 import {Announcement} from "../../../util/models/announcement-models";
 import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";
+import {NexusTimeModule} from "../../../util/date/nexus-time.module";
 
 @Component({
   selector: 'app-task-block',
@@ -18,7 +19,8 @@ import {NewAnnouncementPopupComponent} from "../components/new-announcement-popu
         DatePipe,
         RouterLink,
         NewAnnouncementPopupComponent,
-        NgIf
+        NgIf,
+        NexusTimeModule
     ],
   templateUrl: './task-block.component.html',
   styleUrl: './task-block.component.scss'
