@@ -33,3 +33,8 @@ export interface AnnouncementForm {
     deadline: FormControl<Date | null>,
     type: FormControl<TaskType | null>
 }
+
+export interface GradeForm {
+    weight: FormControl<number | null>,
+    grade: FormControl<number | null>,
+}

@@ -10,7 +10,7 @@ import {
 } from "@ngneat/elf-requests";
 import {SubmittableTask} from "../util/models/announcement-models";
 
-type RequestStates = 'tasks';
+type RequestStates = 'tasks' | 'upload';
 
 @Injectable({providedIn: 'root'})
 export class SubmittableTasksRepository {
@@ -18,6 +18,7 @@ export class SubmittableTasksRepository {
 
     //loading states
     listLoading$: Observable<boolean>;
+    upLoading$: Observable<boolean>;
 
     private readonly store;
     private readonly trackRequestStatus;
@@ -31,6 +32,9 @@ export class SubmittableTasksRepository {
         this.tasks$ = this.store.pipe(selectAllEntities());
         this.listLoading$ = this.store.pipe(
             this.isRequestPending('tasks'),
+        );
+        this.upLoading$ = this.store.pipe(
+            this.isRequestPending('upload'),
         );
     }
 
@@ -50,7 +54,7 @@ export class SubmittableTasksRepository {
     upsertSubmittableTasks(announcement: SubmittableTask) {
         this.store.update(
             upsertEntities(announcement),
-            updateRequestStatus('tasks', 'success'),
+            updateRequestStatus('upload', 'success'),
         );
     }
 

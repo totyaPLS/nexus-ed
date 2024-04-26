@@ -19,6 +19,7 @@ import {BoolIndicatorComponent} from "../../../components/bool-indicator.compone
 import {GradeClassDirective} from "../../../components/grade.directive";
 import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module";
 import {NexusTimeModule} from "../../../util/date/nexus-time.module";
+import {TaskGradeReq} from "../../../util/models/grade-models";
 
 @Component({
   selector: 'app-submitted-tasks',
@@ -53,17 +54,23 @@ export class SubmittedTasksComponent implements OnInit {
     first = 0;
     rows = 10;
     announcementId: number;
+    subjectId: number;
+    classId: number;
+    openedTask?: SubmittableTask;
 
     destroyRef = inject(DestroyRef);
 
     constructor(private taskService: SubmittableTaskService,
                 private taskRepo: SubmittableTasksRepository,
-                private route: ActivatedRoute) {
+                private route: ActivatedRoute,
+                private messageService: MessageService) {
         this.tasks$ = taskRepo.tasks$;
         this.loading$ = this.taskRepo.listLoading$.pipe(
             distinctUntilChanged(),
         );
         this.announcementId = parseInt(this.route.snapshot.paramMap.get('announcementId')!);
+        this.subjectId = JSON.parse(this.route.snapshot.paramMap.get('subjectId')!);
+        this.classId = JSON.parse(this.route.snapshot.paramMap.get('classId')!);
     }
 
     ngOnInit(): void {
@@ -79,7 +86,8 @@ export class SubmittedTasksComponent implements OnInit {
         this.rows = event.rows;
     }
 
-    openNew() {
+    openNew(task: SubmittableTask) {
+        this.openedTask = task;
         this.detailsDialog = true;
     }
 
@@ -94,5 +102,21 @@ export class SubmittedTasksComponent implements OnInit {
     clear(table: Table) {
         table.clear();
         this.filter.nativeElement.value = '';
+    }
+
+    saveGrade(taskGradeReq: TaskGradeReq) {
+        taskGradeReq.subjectId = this.subjectId;
+        taskGradeReq.classId = this.classId;
+        this.taskService.uploadTaskGrade(taskGradeReq).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+            () => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Sikeres',
+                    detail: `Feladat értékelve (${taskGradeReq.studentId})`,
+                    life: 3000,
+                });
+                this.closeDialog();
+            }
+        );
     }
 }

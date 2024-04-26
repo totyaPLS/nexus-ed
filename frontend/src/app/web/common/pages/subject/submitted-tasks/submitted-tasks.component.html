@@ -17,42 +17,56 @@
             >
                 <ng-template pTemplate="caption">
                     <div class="flex justify-content-between flex-column sm:flex-row">
-                        <button pButton label="Szűrő törlése" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(tasksTable)"></button>
+                        <button pButton label="Szűrő törlése" class="p-button-outlined mb-2" icon="pi pi-filter-slash"
+                                (click)="clear(tasksTable)"></button>
                         <span class="p-input-icon-left mb-2">
 							<i class="pi pi-search"></i>
-							<input pInputText type="text" #filter (input)="onGlobalFilter(tasksTable, $event)" placeholder="Kulcsszó keresése" class="w-full"/>
+							<input pInputText type="text" #filter (input)="onGlobalFilter(tasksTable, $event)"
+                                   placeholder="Kulcsszó keresése" class="w-full"/>
 						</span>
                     </div>
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="studentName" id="name" style="width:25%">Név <p-sortIcon field=""></p-sortIcon></th>
+                        <th pSortableColumn="studentName" id="name" style="width:25%">Név
+                            <p-sortIcon field=""></p-sortIcon>
+                        </th>
                         <th id="submitted" style="width:25%">Beadta</th>
-                        <th pSortableColumn="grade.gradeValue" id="grade" style="width:25%">Értékelés <p-sortIcon field=""></p-sortIcon></th>
-                        <th pSortableColumn="graded" id="graded" style="width:25%">Értékelve <p-sortIcon field=""></p-sortIcon></th>
+                        <th pSortableColumn="grade.gradeValue" id="grade" style="width:25%">Értékelés
+                            <p-sortIcon field=""></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="graded" id="graded" style="width:25%">Értékelve
+                            <p-sortIcon field=""></p-sortIcon>
+                        </th>
                         <th id="details" style="width:25%"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-task>
                     <tr>
                         <td>{{ task.studentName }} ({{ task.studentId }})</td>
-                        <td><app-bool-indicator [bool]="!!task.submitted"></app-bool-indicator></td>
-                        <td><span *ngIf="task.grade" [grade]="task.grade.gradeValue">{{ task.grade.gradeValue }}</span></td>
+                        <td>
+                            <app-bool-indicator [bool]="!!task.submitted"></app-bool-indicator>
+                        </td>
+                        <td><span *ngIf="task.grade" [grade]="task.grade.gradeValue">{{ task.grade.gradeValue }}</span>
+                        </td>
                         <td><i>{{ task.graded | nexusTime }}</i></td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple type="button" label="Részletek" class="p-button-warning p-button-text"
-                                (click)="openNew()"></button>
+                                <button pButton pRipple type="button" label="Részletek"
+                                        class="p-button-warning p-button-text"
+                                        (click)="openNew(task)"></button>
                             </div>
                         </td>
                     </tr>
-                    <app-task-popup *ngIf="detailsDialog"
-                        [task]="task"
-                        [detailsDialog]="detailsDialog"
-                        (closeDialogEvent)="closeDialog()">
-                    </app-task-popup>
                 </ng-template>
             </p-table>
         </div>
     </div>
 </div>
+
+<app-task-popup *ngIf="detailsDialog"
+                [task]="openedTask!"
+                [detailsDialog]="detailsDialog"
+                (closeDialogEvent)="closeDialog()"
+                (saveGradeEvent)="saveGrade($event)">
+</app-task-popup>

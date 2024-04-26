@@ -54,6 +54,13 @@ export const GRADE_TYPE = {
     [GradeType.FIVE]: 'five',
 };
 
+export enum WeightType {
+    HALF = 0.5,
+    ONE = 1,
+    ONE_AND_HALF = 1.5,
+    TWO = 2,
+}
+
 export function getEnumName<T extends string>(
     value: T | null,
     enumMap: Record<T, string>

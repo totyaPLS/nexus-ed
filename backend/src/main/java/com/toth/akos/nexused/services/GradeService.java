@@ -3,12 +3,14 @@ package com.toth.akos.nexused.services;
 import com.toth.akos.nexused.dtos.GradeDTO;
 import com.toth.akos.nexused.dtos.GradeDataForStudentDTO;
 import com.toth.akos.nexused.dtos.UserDTO;
+import com.toth.akos.nexused.dtos.requests.TaskGradeReqDTO;
 import com.toth.akos.nexused.entities.Grade;
 import com.toth.akos.nexused.mappers.GradeMapper;
 import com.toth.akos.nexused.repositories.GradeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ public class GradeService {
     private final GradeRepository gradeRepository;
     private final GradeMapper mapper;
     private final UserService userService;
+    private final AuthService authService;
 
     public List<GradeDataForStudentDTO> getGradeTable(int subjectId, int classId) {
         List<Grade> grades = gradeRepository.findAllBySubjectIdAndClassId(subjectId, classId);
@@ -70,5 +73,11 @@ public class GradeService {
         }
 
         return gradeDataForStudentDTOs;
+    }
+
+    public Grade uploadGrade(TaskGradeReqDTO taskGradeReqDTO) {
+        taskGradeReqDTO.setTeacherId(authService.getPrincipalUid());
+        taskGradeReqDTO.setCreated(LocalDateTime.now());
+        return gradeRepository.save(mapper.toGrade(taskGradeReqDTO));
     }
 }
