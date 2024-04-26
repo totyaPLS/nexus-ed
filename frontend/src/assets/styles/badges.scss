@@ -11,7 +11,9 @@
         color: var(--green-800);
     }
 
-    &.type-test {
+    &.type-test,
+    &.task-badge.type-final,
+    &.task-badge.type-expired {
         background: var(--pink-200);
         color: var(--pink-800);
     }
@@ -19,11 +21,6 @@
     &.type-homework {
         background: var(--yellow-200);
         color: var(--yellow-800);
-    }
-
-    &.type-expired {
-        background: var(--pink-200);
-        color: var(--pink-800);
     }
 }
 
@@ -36,16 +33,14 @@
         color: var(--green-500);
     }
 
-    &.type-test {
+    &.type-test,
+    &.task-badge-text.type-final,
+    &.task-badge-text.type-expired {
         color: var(--pink-500);
     }
 
     &.type-homework {
         color: var(--yellow-500);
-    }
-
-    &.type-expired {
-        color: var(--pink-500);
     }
 }
 

@@ -95,7 +95,7 @@ create table submittable_task (
 	student_id varchar(10) not null references system_user on delete cascade,
 	grade_id integer references grade on delete set null,
 	task_id integer not null references task on delete cascade,
-	graded timestamp not null,
+	graded timestamp,
 	text text,
 	submitted timestamp
 );

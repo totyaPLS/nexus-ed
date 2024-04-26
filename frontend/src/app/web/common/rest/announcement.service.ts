@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {AnnouncementRepository} from "../state/announcements.repository";
-import {Announcement} from "../util/models/announcement-models";
+import {Announcement, AnnouncementReq} from "../util/models/announcement-models";
 import {Comment} from "../util/models/comment-models";
 
 @Injectable({
@@ -42,6 +42,15 @@ export class AnnouncementService {
     getPermissionOfSubmittedTask(announcementId: number) {
         return this.http.get<boolean>(`/${announcementId}`).pipe(
             this.announcementRepo.withRequestStatus('check', () => {}),
+        );
+    }
+
+    uploadAnnouncement(announcementReq: AnnouncementReq) {
+        return this.http.post<Announcement>(`/uploadAnnouncement`, announcementReq).pipe(
+            this.announcementRepo.withRequestStatus(
+                'announcements',
+                announcement => this.announcementRepo.upsertAnnouncements(announcement)
+            ),
         );
     }
 

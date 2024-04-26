@@ -1,6 +1,7 @@
 package com.toth.akos.nexused.mappers;
 
 import com.toth.akos.nexused.dtos.AnnouncementDTO;
+import com.toth.akos.nexused.dtos.requests.AnnouncementReqDTO;
 import com.toth.akos.nexused.entities.Announcement;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -12,4 +13,6 @@ public interface AnnouncementMapper {
     List<AnnouncementDTO> toAnnouncementDTOs(List<Announcement> announcements);
 
     AnnouncementDTO toAnnouncementDTO(Announcement announcement);
+
+    Announcement toAnnouncement(AnnouncementReqDTO announcementReqDTO);
 }

@@ -101,4 +101,9 @@ public class UserService {
         }
         return userMapper.toUserDTO(oUser.get());
     }
+
+    public List<UserDTO> getAllByIds(List<String> uids) {
+        List<User> users = userRepository.findAllById(uids);
+        return userMapper.toUserDTOs(users);
+    }
 }

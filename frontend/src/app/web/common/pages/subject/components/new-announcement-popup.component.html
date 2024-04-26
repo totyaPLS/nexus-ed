@@ -1,11 +1,36 @@
 <p-dialog [(visible)]="announcementDialog" [style]="{width: '800px'}" header="Új {{title}} felvétele" [modal]="true"
           class="p-fluid" (onHide)="hideDialog()">
     <ng-template pTemplate="content">
-        <p>New popup</p>
+        <form [formGroup]="formGroup">
+            <div class="field col-12">
+                <label for="title">Cím</label>
+                <input type="text" pInputText id="title" formControlName="title" required/>
+            </div>
+
+            <div class="field col-12">
+                <label for="description">Leírás</label>
+                <p-editor id="description" [style]="{'height':'250px'}" formControlName="description"
+                          (onTextChange)="onEditorChange()"></p-editor>
+            </div>
+
+            <div class="grid task-box" *ngIf="isTaskType">
+                <div class="field col-6">
+                    <label for="deadline">Határidő</label>
+                    <p-calendar [showIcon]="true" [showTime]="true" inputId="deadline" id="deadline" formControlName="deadline"></p-calendar>
+                </div>
+                <div class="field col-6">
+                    <label for="types">Feladat típusa</label>
+                    <p-dropdown [options]="types" placeholder="Típus" id="types" formControlName="type"></p-dropdown>
+                </div>
+            </div>
+
+        </form>
     </ng-template>
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Mégse" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button type="submit" pButton pRipple label="Mentés" icon="pi pi-check" class="p-button-text" (click)="saveAnnouncement()"></button>
+        <button type="submit" pButton pRipple label="Mentés" icon="pi pi-check" class="p-button-text"
+                (click)="saveAnnouncement()"
+                [disabled]="isFormInvalid"></button>
     </ng-template>
 </p-dialog>

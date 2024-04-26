@@ -2,7 +2,7 @@ import {Component, DestroyRef, EventEmitter, inject, Input, OnDestroy, OnInit, O
 import {DropdownModule} from "primeng/dropdown";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ClassDropdown, UserDropdown, User} from "../../../../../common/util/models/user-models";
-import {StudentForm} from "../../../../../common/util/models/user-form-models";
+import {StudentForm} from "../../../../../common/util/models/form-models";
 import {ClassService} from "../../../../../common/rest/class.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 

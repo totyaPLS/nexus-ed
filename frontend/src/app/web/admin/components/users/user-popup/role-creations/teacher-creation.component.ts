@@ -2,7 +2,7 @@ import {Component, DestroyRef, EventEmitter, inject, OnDestroy, OnInit, Output} 
 import {DropdownModule} from "primeng/dropdown";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ClassDropdown, SubjectDropdown} from "../../../../../common/util/models/user-models";
-import {TeacherForm} from "../../../../../common/util/models/user-form-models";
+import {TeacherForm} from "../../../../../common/util/models/form-models";
 import {SubjectRepository} from "../../../../../common/state/subjects.repository";
 import {distinctUntilChanged, Observable} from "rxjs";
 import {ClassRepository} from "../../../../../common/state/classes.repository";

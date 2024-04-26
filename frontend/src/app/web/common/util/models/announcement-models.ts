@@ -1,9 +1,10 @@
 import {Comment} from "./comment-models";
+import {TaskType} from "../enums/Commons";
 
 export interface Task {
     announcementId: number;
     deadline: string;
-    type: string;
+    type: TaskType;
 }
 
 export interface Announcement {
@@ -36,4 +37,14 @@ export interface Grade {
     teacherId: string;
     gradeValue: number;
     weight: number;
+}
+
+/** For actions **/
+
+export interface AnnouncementReq {
+    subjectId: number;
+    classId: number;
+    title: string;
+    description: string;
+    task: Omit<Task, 'announcementId'> | null;
 }

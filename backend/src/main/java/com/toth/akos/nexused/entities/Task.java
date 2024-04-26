@@ -14,14 +14,18 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 public class Task {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "announcement_id")
-    private int announcementId;
+    private Integer announcementId;
 
     @Column(name = "deadline")
     private LocalDateTime deadline;
 
     @Column(name = "type")
     private String type;
+
+    @OneToOne()
+    @JoinColumn(name = "announcement_id")
+    @MapsId
+    private Announcement announcement;
 }

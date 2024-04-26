@@ -4,7 +4,7 @@ import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {AnnouncementService} from "../../../rest/announcement.service";
 import {Observable} from "rxjs";
-import {Announcement} from "../../../util/models/announcement-models";
+import {Announcement, AnnouncementReq} from "../../../util/models/announcement-models";
 import {DETAIL, getEnumName, SubjectDetailType, TASK_TYPE} from "../../../util/enums/Commons";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
@@ -16,10 +16,13 @@ import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-valid
 import {DividerModule} from "primeng/divider";
 import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";
 import {TaskPopupComponent} from "../submitted-tasks/components/task-popup.component";
+import {AnnouncementForm} from "../../../util/models/form-models";
+import {ExtractFromControl} from "../../../util/type-utils";
+import {formatDate} from "../../../util/date-utils";
 
 @Component({
-  selector: 'app-announcements',
-  standalone: true,
+    selector: 'app-announcements',
+    standalone: true,
     imports: [
         AccordionModule,
         NgForOf,
@@ -36,9 +39,9 @@ import {TaskPopupComponent} from "../submitted-tasks/components/task-popup.compo
         NewAnnouncementPopupComponent,
         TaskPopupComponent
     ],
-  templateUrl: './announcements.component.html',
-  styleUrl: './announcements.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './announcements.component.html',
+    styleUrl: './announcements.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnnouncementsComponent implements OnInit {
     protected readonly getEnumName = getEnumName;
@@ -88,7 +91,7 @@ export class AnnouncementsComponent implements OnInit {
     }
 
     navigateToSubmittedTasks(taskId: number) {
-        this.router.navigate([taskId], { relativeTo: this.route });
+        this.router.navigate([taskId], {relativeTo: this.route});
     }
 
     openNew() {
@@ -101,5 +104,20 @@ export class AnnouncementsComponent implements OnInit {
 
     get isAnnouncementTask() {
         return this.announcementType === SubjectDetailType.TASKS;
+    }
+
+    saveAnnouncement(announcementForm: ExtractFromControl<AnnouncementForm>) {
+        const announcementReq: AnnouncementReq = {
+            subjectId: this.subjectId,
+            classId: this.classId,
+            title: announcementForm.title!,
+            description: announcementForm.description!,
+            task: announcementForm.deadline ? {
+                deadline: formatDate(announcementForm.deadline),
+                type: announcementForm.type!,
+            } : null,
+        }
+        this.announcementService.uploadAnnouncement(announcementReq).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+        this.closeDialog();
     }
 }

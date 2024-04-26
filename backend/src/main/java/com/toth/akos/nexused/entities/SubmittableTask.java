@@ -20,10 +20,10 @@ public class SubmittableTask {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "student_id", insertable = false, updatable = false)
+    @Column(name = "student_id")
     private String studentId;
 
-    @Column(name = "grade_id", insertable = false, updatable = false)
+    @Column(name = "grade_id")
     private Integer gradeId;
 
     @Column(name = "task_id")
@@ -39,11 +39,15 @@ public class SubmittableTask {
     private LocalDateTime submitted;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id", insertable = false, updatable = false)
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "grade_id")
+    @JoinColumn(name = "grade_id", insertable = false, updatable = false)
     private Grade grade;
 
+    public SubmittableTask(String studentId, int taskId) {
+        this.studentId = studentId;
+        this.taskId = taskId;
+    }
 }

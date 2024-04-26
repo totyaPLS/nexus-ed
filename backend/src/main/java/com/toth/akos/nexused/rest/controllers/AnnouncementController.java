@@ -2,6 +2,7 @@ package com.toth.akos.nexused.rest.controllers;
 
 import com.toth.akos.nexused.dtos.AnnouncementDTO;
 import com.toth.akos.nexused.dtos.CommentDTO;
+import com.toth.akos.nexused.dtos.requests.AnnouncementReqDTO;
 import com.toth.akos.nexused.services.AnnouncementService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,13 @@ public class AnnouncementController {
     public ResponseEntity<AnnouncementDTO> uploadComment(
             @Valid @RequestBody CommentDTO commentDTO) {
         AnnouncementDTO updatedAnnouncementDTO = announcementService.uploadComment(commentDTO);
+        return ResponseEntity.created(URI.create("/announcements/" + updatedAnnouncementDTO.getId())).body(updatedAnnouncementDTO);
+    }
+
+    @PostMapping("/uploadAnnouncement")
+    public ResponseEntity<AnnouncementDTO> uploadAnnouncement(
+            @Valid @RequestBody AnnouncementReqDTO announcementReqDTO) {
+        AnnouncementDTO updatedAnnouncementDTO = announcementService.uploadAnnouncement(announcementReqDTO);
         return ResponseEntity.created(URI.create("/announcements/" + updatedAnnouncementDTO.getId())).body(updatedAnnouncementDTO);
     }
 }

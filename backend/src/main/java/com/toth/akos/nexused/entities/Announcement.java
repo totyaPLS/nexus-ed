@@ -18,13 +18,13 @@ public class Announcement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "teacher_id")
     private String teacherId;
 
     @Column(name = "subject_id")
-    private int subjectId;
+    private Integer subjectId;
 
     @Column(name = "title")
     private String title;
@@ -36,13 +36,12 @@ public class Announcement {
     private LocalDateTime published;
 
     @Column(name = "class_id")
-    private int classId;
+    private Integer classId;
 
-    @OneToOne
-    @JoinColumn(name = "id")
+    @OneToOne(mappedBy = "announcement", cascade = CascadeType.ALL)
     private Task task;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "announcement_id")
     private List<Comment> comment;
 }

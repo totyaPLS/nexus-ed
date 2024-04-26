@@ -2,12 +2,14 @@ export enum TaskType {
     OPTIONAL = 'OPTIONAL',
     HOMEWORK = 'HOMEWORK',
     TEST = 'TEST',
+    FINAL = 'FINAL',
 }
 
 export const TASK_TYPE = {
     [TaskType.OPTIONAL]: 'Szorgalmi',
     [TaskType.HOMEWORK]: 'Házi feladat',
     [TaskType.TEST]: 'Dolgozat',
+    [TaskType.FINAL]: 'Témazáró',
 };
 
 export enum AbsenceStatus {

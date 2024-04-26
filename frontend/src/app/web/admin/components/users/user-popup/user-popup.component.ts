@@ -11,7 +11,7 @@ import {RippleModule} from "primeng/ripple";
 import {PasswordModule} from "primeng/password";
 import {CheckboxModule} from "primeng/checkbox";
 import {Role, ROLE_TYPE} from "../../../../common/util/enums/Role";
-import {SignUpForm, StudentForm, TeacherForm} from "../../../../common/util/models/user-form-models";
+import {SignUpForm, StudentForm, TeacherForm} from "../../../../common/util/models/form-models";
 import {
     SignUpData,
     StudentSignUp, TeacherSignUp,

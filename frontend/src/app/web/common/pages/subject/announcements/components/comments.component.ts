@@ -1,12 +1,13 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {Comment} from "../../../../util/models/comment-models";
-import {DatePipe, NgForOf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
-import {Observable} from "rxjs";
 import {NexLoadingModule} from "../../../../../../config/loading/nex-loading.module";
+import {OverlayPanelModule} from "primeng/overlaypanel";
+import {InputTextModule} from "primeng/inputtext";
 
 @Component({
     selector: 'app-comments',
@@ -18,7 +19,10 @@ import {NexLoadingModule} from "../../../../../../config/loading/nex-loading.mod
         ButtonModule,
         RippleModule,
         ReactiveFormsModule,
-        NexLoadingModule
+        NexLoadingModule,
+        OverlayPanelModule,
+        InputTextModule,
+        NgIf
     ],
     templateUrl: 'comments.component.html',
     styles: [`
@@ -35,6 +39,14 @@ export class CommentsComponent {
     @Output() commentClicked = new EventEmitter<Comment>();
 
     commentControl: FormControl<string | null>;
+
+    textContent: string = '';
+
+    emojis = [
+        '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😇', '😉', '😊', '🙂', '🙃', '😋', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '🤪', '😜', '😝', '😛',
+        '🤑', '😎', '🤓', '🧐', '🤠', '🥳', '🤗', '🤡', '😏', '😶', '😐', '😑', '😒', '🙄', '🤨', '🤔', '🤫', '🤭', '🤥', '😳', '😞', '😟', '😠', '😡', '🤬', '😔',
+        '😟', '😠', '😡', '🤬', '😔', '😕', '🙁', '😬', '🥺', '😣', '😖', '😫', '😩', '🥱', '😤', '😮', '😱', '😨', '😰', '😯', '😦', '😧', '😢', '😥', '😪', '🤤'
+    ];
 
     constructor() {
         this.commentControl = new FormControl<string>('');
@@ -53,5 +65,9 @@ export class CommentsComponent {
 
     get isCommentEmpty() {
         return !this.commentControl.getRawValue() || this.commentControl.getRawValue() === '';
+    }
+
+    onEmojiSelect(emoji: string) {
+        this.textContent += emoji;
     }
 }
