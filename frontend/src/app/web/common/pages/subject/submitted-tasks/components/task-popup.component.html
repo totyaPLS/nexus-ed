@@ -39,6 +39,6 @@
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Mégse" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
         <button type="submit" pButton pRipple label="Mentés" icon="pi pi-check" class="p-button-text"
-                [disabled]="formGroup.invalid" (click)="saveGrading()" [loading]="(loading$ | async)!"></button>
+                [disabled]="formGroup.invalid || formGroup.untouched" (click)="saveGrading()" [loading]="(loading$ | async)!"></button>
     </ng-template>
 </p-dialog>

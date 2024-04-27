@@ -1,10 +1,12 @@
 package com.toth.akos.nexused.services;
 
+import com.toth.akos.nexused.dtos.GradeDTO;
 import com.toth.akos.nexused.dtos.SubmittableTaskDTO;
 import com.toth.akos.nexused.dtos.requests.TaskGradeReqDTO;
 import com.toth.akos.nexused.entities.Grade;
 import com.toth.akos.nexused.entities.SubmittableTask;
 import com.toth.akos.nexused.exceptions.ApplicationException;
+import com.toth.akos.nexused.mappers.GradeMapper;
 import com.toth.akos.nexused.mappers.TaskMapper;
 import com.toth.akos.nexused.repositories.SubmittableTaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class TaskService {
     private final SubmittableTaskRepository taskRepository;
     private final TaskMapper mapper;
     private final GradeService gradeService;
+    private final GradeMapper gradeMapper;
 
     public List<SubmittableTaskDTO> getSubmittableTasksByTaskId(Integer taskId) {
         List<SubmittableTask> tasks = taskRepository.findAllByTaskId(taskId);
@@ -37,7 +40,10 @@ public class TaskService {
         submittableTask.setGradeId(grade.getId());
         submittableTask.setGraded(taskGradeReqDTO.getCreated());
         taskRepository.save(submittableTask);
-        return mapper.toSubmittableTaskDTO(submittableTask);
+        SubmittableTaskDTO submittableTaskDTO = mapper.toSubmittableTaskDTO(submittableTask);
+        GradeDTO gradeDTO = gradeMapper.toGradeDTO(grade);
+        submittableTaskDTO.setGrade(gradeDTO);
+        return submittableTaskDTO;
     }
 
     private SubmittableTask getSubmittableTaskById(Integer id) {

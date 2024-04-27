@@ -5,15 +5,18 @@ import com.toth.akos.nexused.dtos.GradeDataForStudentDTO;
 import com.toth.akos.nexused.dtos.UserDTO;
 import com.toth.akos.nexused.dtos.requests.TaskGradeReqDTO;
 import com.toth.akos.nexused.entities.Grade;
+import com.toth.akos.nexused.exceptions.ApplicationException;
 import com.toth.akos.nexused.mappers.GradeMapper;
 import com.toth.akos.nexused.repositories.GradeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,5 +82,13 @@ public class GradeService {
         taskGradeReqDTO.setTeacherId(authService.getPrincipalUid());
         taskGradeReqDTO.setCreated(LocalDateTime.now());
         return gradeRepository.save(mapper.toGrade(taskGradeReqDTO));
+    }
+
+    public Grade getGradeById(int id) {
+        Optional<Grade> oGrade = gradeRepository.findById(id);
+        if (oGrade.isEmpty()) {
+            throw new ApplicationException("Grade not found", HttpStatus.NOT_FOUND);
+        }
+        return oGrade.get();
     }
 }

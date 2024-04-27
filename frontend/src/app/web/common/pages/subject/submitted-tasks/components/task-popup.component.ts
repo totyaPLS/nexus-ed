@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DialogModule} from "primeng/dialog";
 import {DropdownModule} from "primeng/dropdown";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -53,7 +53,7 @@ import {SubmittableTasksRepository} from "../../../../state/submittable-tasks.re
         }
     `],
 })
-export class TaskPopupComponent {
+export class TaskPopupComponent implements OnInit {
     @Input() detailsDialog!: boolean;
     @Input() task!: SubmittableTask;
     @Output() closeDialogEvent = new EventEmitter<void>();
@@ -71,6 +71,13 @@ export class TaskPopupComponent {
             weight: new FormControl(null, Validators.required),
             grade: new FormControl(null, Validators.required),
         });
+    }
+
+    ngOnInit(): void {
+        if (this.task.grade) {
+            this.formGroup.controls.grade.setValue(this.task.grade.gradeValue);
+            this.formGroup.controls.weight.setValue(this.task.grade.weight);
+        }
     }
 
     hideDialog() {
