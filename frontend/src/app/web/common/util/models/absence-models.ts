@@ -14,6 +14,7 @@ export interface Absence {
 }
 
 export interface AbsenceReq {
+    absenceId?: number;
     studentId: string;
     lessonId: number;
     status: AbsenceStatus;

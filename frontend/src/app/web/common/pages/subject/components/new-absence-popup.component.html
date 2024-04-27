@@ -4,16 +4,29 @@
         <form [formGroup]="formGroup">
             <div class="absence-box">
                 <div class="grid">
-                    <div class="col-6">
-                        <label for="students">Tanuló</label>
-                        <p-dropdown id="students" [options]="(students$ | async)!" optionLabel="dropDownValue" [showClear]="true"
-                                    placeholder="Tanuló kiválasztása" formControlName="user"></p-dropdown>
-                    </div>
-                    <div class="col-6">
-                        <label for="lessons">Tanóra</label>
-                        <p-dropdown id="lessons" [options]="(lessons$ | async)!" optionLabel="start" [showClear]="true"
-                                    placeholder="Tanóra kiválasztása" formControlName="lesson"></p-dropdown>
-                    </div>
+                    <ng-container *ngIf="!absence">
+                        <div class="col-6">
+                            <label for="students">Tanuló</label>
+                            <p-dropdown id="students" [options]="(students$ | async)!" optionLabel="dropDownValue"
+                                        [showClear]="true" placeholder="Tanuló kiválasztása"
+                                        formControlName="user"></p-dropdown>
+                        </div>
+                        <div class="col-6">
+                            <label for="lessons">Tanóra</label>
+                            <p-dropdown id="lessons" [options]="(lessons$ | async)!" optionLabel="start" [showClear]="true"
+                                        placeholder="Tanóra kiválasztása" formControlName="lesson"></p-dropdown>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="absence">
+                        <div class="col-6">
+                            <span class="text-900 block font-medium mb-3 font-bold">Tanuló</span>
+                            <span>{{ absence.lastName }} {{ absence.firstName }} ({{ absence.studentId }})</span>
+                        </div>
+                        <div class="col-6">
+                            <span class="text-900 block font-medium mb-3 font-bold">Tanóra</span>
+                            <span><i>{{ absence.absenceDate | nexusTime }}</i></span>
+                        </div>
+                    </ng-container>
                     <div class="col-6">
                         <label for="status">Státusz</label>
                         <p-dropdown id="status" [options]="statusList" optionLabel="label" [showClear]="true"

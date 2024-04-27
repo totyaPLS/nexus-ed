@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AbsenceReqDTO {
+    private int absenceId;
     private String studentId;
     private int lessonId;
     private AbsenceType status;

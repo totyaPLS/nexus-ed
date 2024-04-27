@@ -1,8 +1,7 @@
-.action-btns {
-    opacity: 0;
-    transition: opacity 0.2s ease;
+.action-buttons {
+    visibility: hidden;
 }
 
-.action-btns.visible {
-    opacity: 1;
+.tr-body:hover td:last-child div {
+    visibility: visible;
 }

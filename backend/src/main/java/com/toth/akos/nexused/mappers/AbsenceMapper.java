@@ -22,5 +22,6 @@ public interface AbsenceMapper {
 
     @Mapping(target = "user.uid", source = "absenceReqDTO.studentId")
     @Mapping(target = "lesson.id", source = "absenceReqDTO.lessonId")
+    @Mapping(target = "id", source = "absenceReqDTO.absenceId")
     Absence toAbsence(AbsenceReqDTO absenceReqDTO);
 }

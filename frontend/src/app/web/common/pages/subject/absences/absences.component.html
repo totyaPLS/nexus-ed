@@ -42,8 +42,7 @@
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-absence>
-                    <tr (mouseover)="setActionsVisibility('visible')"
-                        (mouseleave)="setActionsVisibility('hidden')">
+                    <tr class="tr-body">
                         <td>{{ absence.lastName }} {{ absence.firstName }}</td>
                         <td>
                             <span [class]="'absence-badge type-' + absence.status.toLowerCase()">
@@ -53,11 +52,11 @@
                         <td><i>{{ absence.absenceDate | nexusTime }}</i></td>
                         <td><i>{{ absence.modificationDate | nexusTime }}</i></td>
                         <td style="padding: 0; margin: 0;">
-                            <div #actionButtons class="flex action-btns">
-                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"></button>
+                            <div class="flex action-buttons">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                                (click)="editAbsence(absence)"></button>
                                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
                                         (click)="confirmDel(absence.id, $event)"></button>
-                                <p-confirmPopup #delPopup key="confirmDel"></p-confirmPopup>
                             </div>
                         </td>
                     </tr>
@@ -67,7 +66,10 @@
     </div>
 </div>
 
+<p-confirmPopup #delPopup key="confirmDel"></p-confirmPopup>
+
 <app-new-absence-popup *ngIf="isDialogDisplayed"
                        [absenceDialog]="isDialogDisplayed"
+                       [absence]="editableAbsence"
                        (closeDialogEvent)="closeDialog()">
 </app-new-absence-popup>

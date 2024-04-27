@@ -48,6 +48,9 @@ export class AbsencesComponent implements OnInit {
     @ViewChild('filter') filter!: ElementRef;
     @ViewChild('actionButtons') actionButtons!: ElementRef;
     @ViewChild('delPopup') delPopup!: ConfirmPopup;
+
+    protected readonly ABSENCE_STATUS = ABSENCE_STATUS;
+    protected readonly getEnumName = getEnumName;
     isDialogDisplayed = false;
 
     loading$: Observable<boolean>;
@@ -56,6 +59,7 @@ export class AbsencesComponent implements OnInit {
     rows = 10;
     subjectId: number;
     classId: number;
+    editableAbsence?: Absence;
 
     destroyRef = inject(DestroyRef);
 
@@ -91,6 +95,9 @@ export class AbsencesComponent implements OnInit {
 
     closeDialog() {
         this.isDialogDisplayed = false;
+        if (this.editableAbsence) {
+            this.editableAbsence = undefined;
+        }
     }
 
     onGlobalFilter(table: Table, event: Event) {
@@ -100,17 +107,6 @@ export class AbsencesComponent implements OnInit {
     clear(table: Table) {
         table.clear();
         this.filter.nativeElement.value = '';
-    }
-
-    protected readonly ABSENCE_STATUS = ABSENCE_STATUS;
-    protected readonly getEnumName = getEnumName;
-
-    setActionsVisibility(visibility: string) {
-        if (visibility === 'visible' || this.delPopup.visible) {
-            this.actionButtons.nativeElement.classList.add('visible');
-        } else {
-            this.actionButtons.nativeElement.classList.remove('visible');
-        }
     }
 
     confirmDel(absenceId: number, event: Event) {
@@ -127,5 +123,10 @@ export class AbsencesComponent implements OnInit {
             },
             reject: () => {}
         });
+    }
+
+    editAbsence(absence: Absence) {
+        this.editableAbsence = absence;
+        this.openNew();
     }
 }

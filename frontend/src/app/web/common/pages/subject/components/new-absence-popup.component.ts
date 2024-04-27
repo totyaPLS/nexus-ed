@@ -35,8 +35,9 @@ import {toNexusTime} from "../../../util/date/date-utils";
 import {ABSENCE_STATUS, AbsenceStatus, getEnumName} from "../../../util/enums/Commons";
 import {AbsenceForm} from "../../../util/models/form-models";
 import {ExtractFromControl} from "../../../util/type-utils";
-import {AbsenceReq} from "../../../util/models/absence-models";
+import {Absence, AbsenceReq} from "../../../util/models/absence-models";
 import {AbsenceService} from "../../../rest/absence.service";
+import {NexusTimeModule} from "../../../util/date/nexus-time.module";
 
 @Component({
     selector: 'app-new-absence-popup',
@@ -58,6 +59,7 @@ import {AbsenceService} from "../../../rest/absence.service";
         CheckboxModule,
         CalendarModule,
         MultiSelectModule,
+        NexusTimeModule,
     ],
     templateUrl: './new-absence-popup.component.html',
     styles: [`
@@ -69,6 +71,7 @@ import {AbsenceService} from "../../../rest/absence.service";
 })
 export class NewAbsencePopupComponent implements OnInit {
     @Input() absenceDialog!: boolean;
+    @Input() absence?: Absence;
     @Output() closeDialogEvent = new EventEmitter<void>();
 
     subjectId!: number;
@@ -96,7 +99,6 @@ export class NewAbsencePopupComponent implements OnInit {
         this.subjectId = JSON.parse(this.route.snapshot.paramMap.get('subjectId')!);
         this.classId = JSON.parse(this.route.snapshot.paramMap.get('classId')!);
         this.initRepoData();
-        this.initFormData();
         this.loading$ = this.userRepo.listLoading$.pipe(
             combineLatestWith(this.lessonRepo.listLoading$),
             map(loadingValues => loadingValues.some(v => v)),
@@ -123,19 +125,28 @@ export class NewAbsencePopupComponent implements OnInit {
         );
     }
 
-    private initFormData() {
-        this.formGroup = new FormGroup<AbsenceForm>({
-            user: new FormControl(null, Validators.required),
-            lesson: new FormControl(null, Validators.required),
-            status: new FormControl(null, Validators.required),
-        });
+    ngOnInit(): void {
+        this.initFormData();
+        if (!this.absence) {
+            this.userService.listStudentUsersByClassId(this.classId)
+                .pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+            this.lessonService.listPastLessonsBySubjectId(this.subjectId, this.classId)
+                .pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+        }
     }
 
-    ngOnInit(): void {
-        this.userService.listStudentUsersByClassId(this.classId)
-            .pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
-        this.lessonService.listPastLessonsBySubjectId(this.subjectId, this.classId)
-            .pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    private initFormData() {
+        if (this.absence) {
+            this.formGroup = new FormGroup<AbsenceForm>({
+                status: new FormControl(null, Validators.required)
+            });
+        } else {
+            this.formGroup = new FormGroup<AbsenceForm>({
+                user: new FormControl(null, Validators.required),
+                lesson: new FormControl(null, Validators.required),
+                status: new FormControl(null, Validators.required),
+            });
+        }
     }
 
     hideDialog() {
@@ -145,8 +156,9 @@ export class NewAbsencePopupComponent implements OnInit {
     saveAbsence() {
         const formValues: ExtractFromControl<AbsenceForm> = this.formGroup.getRawValue();
         const absenceReq: AbsenceReq = {
-            studentId: formValues.user?.uid!,
-            lessonId: formValues.lesson?.id!,
+            absenceId: this.absence?.id,
+            studentId: this.absence ? this.absence.studentId : formValues.user?.uid!,
+            lessonId: this.absence ? this.absence.lessonId : formValues.lesson?.id!,
             status: formValues.status?.value,
             classId: this.classId,
             subjectId: this.subjectId,
@@ -156,7 +168,7 @@ export class NewAbsencePopupComponent implements OnInit {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Sikeres',
-                    detail: 'Hiányzás rögzítve',
+                    detail: `Hiányzás ${this.absence ? 'módosítva' : 'rögzítve'}`,
                     life: 3000,
                 });
                 this.hideDialog();

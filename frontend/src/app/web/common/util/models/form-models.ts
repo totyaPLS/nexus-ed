@@ -42,7 +42,7 @@ export interface GradeForm {
 }
 
 export interface AbsenceForm {
-    user: FormControl<UserDropdown | null>,
-    lesson: FormControl<Lesson | null>,
+    user?: FormControl<UserDropdown | null>,
+    lesson?: FormControl<Lesson | null>,
     status: FormControl<SelectItem | null>,
 }
