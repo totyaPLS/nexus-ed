@@ -8,6 +8,7 @@ import {RouterLink} from "@angular/router";
 import {Announcement} from "../../../util/models/announcement-models";
 import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";
 import {NexusTimeModule} from "../../../util/date/nexus-time.module";
+import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
 
 @Component({
   selector: 'app-task-block',
@@ -20,7 +21,8 @@ import {NexusTimeModule} from "../../../util/date/nexus-time.module";
         RouterLink,
         NewAnnouncementPopupComponent,
         NgIf,
-        NexusTimeModule
+        NexusTimeModule,
+        NexRoleValidationModule
     ],
   templateUrl: './task-block.component.html',
   styleUrl: './task-block.component.scss'

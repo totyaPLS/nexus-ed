@@ -9,6 +9,7 @@ import {RouterLink} from "@angular/router";
 import {NewAnnouncementPopupComponent} from "../components/new-announcement-popup.component";
 import {NewAbsencePopupComponent} from "../components/new-absence-popup.component";
 import {NexusTimeModule} from "../../../util/date/nexus-time.module";
+import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
 
 @Component({
   selector: 'app-absence-block',
@@ -22,7 +23,8 @@ import {NexusTimeModule} from "../../../util/date/nexus-time.module";
         NewAnnouncementPopupComponent,
         NgIf,
         NewAbsencePopupComponent,
-        NexusTimeModule
+        NexusTimeModule,
+        NexRoleValidationModule
     ],
   templateUrl: './absence-block.component.html',
   styleUrl: './absence-block.component.scss'

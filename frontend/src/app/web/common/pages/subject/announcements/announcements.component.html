@@ -3,7 +3,7 @@
         <div id="title" ngClass="{{announcementType + 'Title'}}">
             <h3> {{ (getEnumName(announcementType, DETAIL).toUpperCase()) }}</h3>
         </div>
-        <p-button label="ÚJ" icon="pi pi-plus"
+        <p-button label="ÚJ" icon="pi pi-plus" *showForRoles="['TEACHER']"
                   [style]="{'background-color': '#495057', 'color': 'white', height: '100%'}" (click)="openNew()"/>
     </div>
     <p-accordion [multiple]="true" [activeIndex]="[0]"
@@ -16,14 +16,14 @@
             </ng-template>
             <div class="flex ">
                 <div class="announcement w-7">
-                    <div class="action-buttons">
+                    <div class="action-buttons" *showForRoles="['TEACHER']">
                         <button pButton pRipple type="button" icon="pi pi-trash"
                                 class="p-button-rounded p-button-secondary p-button-text"
                                 (click)="confirmDel(item.id, $event)" [loading]="(loading$ | async)!"></button>
                     </div>
                     <div class="accordionItemContent">
 
-                        <p-divider></p-divider>
+                        <p-divider *showForRoles="['TEACHER']"></p-divider>
                         <div *ngIf="item.task" class="infos"
                              style="background-color: #f59f0b1e; width: fit-content; padding: 5px;">
                             <div class="box">

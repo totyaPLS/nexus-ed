@@ -1,7 +1,7 @@
 <div class="card" [style.borderColor]="'#F59E0B'">
     <div class="flex justify-content-between">
         <h4>Feladatok</h4>
-        <button pButton pRipple type="button" label="Felvétel" icon="pi pi-plus"
+        <button pButton pRipple type="button" label="Felvétel" icon="pi pi-plus" *showForRoles="['TEACHER']"
                 class="p-button-rounded p-button-secondary" iconPos="right" (click)="openNew()"></button>
     </div>
 

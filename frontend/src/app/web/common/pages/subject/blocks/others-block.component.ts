@@ -4,6 +4,7 @@ import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {DatePipe, NgIf} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
 
 @Component({
   selector: 'app-others-block',
@@ -15,6 +16,7 @@ import {RouterLink} from "@angular/router";
         DatePipe,
         RouterLink,
         NgIf,
+        NexRoleValidationModule,
     ],
   templateUrl: './others-block.component.html',
   styleUrl: './others-block.component.scss'
