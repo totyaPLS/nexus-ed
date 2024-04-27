@@ -5,6 +5,8 @@ import { ProfileComponent } from './profile.component';
 import {CardModule} from "primeng/card";
 import {ButtonModule} from "primeng/button";
 import {DividerModule} from "primeng/divider";
+import {NexLoadingModule} from "../../../../config/loading/nex-loading.module";
+import {NexRoleValidationModule} from "../../../../config/auth/nex-role-validation.module";
 
 @NgModule({
     imports: [
@@ -12,7 +14,9 @@ import {DividerModule} from "primeng/divider";
         ProfileRoutingModule,
         CardModule,
         ButtonModule,
-        DividerModule
+        DividerModule,
+        NexLoadingModule,
+        NexRoleValidationModule
     ],
 	declarations: [ProfileComponent]
 })

@@ -49,7 +49,7 @@ export class UserService {
 
     getLoggedInUserData() {
         return this.http.get<User>(`/loggedInUser`).pipe(
-            this.userRepo.withRequestStatus('userLoading', user => this.userRepo.setUser(user)),
+            this.userRepo.withRequestStatus('userLoading', () => {}),
         );
     }
 

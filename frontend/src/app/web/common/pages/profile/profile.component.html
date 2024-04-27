@@ -4,12 +4,12 @@
             src="assets/images/avatar/cover.jpg"
             class="card-img-top">
     </div>
-    <div class="lower">
+    <div class="lower" *ngIf="user$ | async as user">
 
-        <div class="card-person-info" >
+        <div class="card-person-info" [nexusLoading]="loading$">
             <div id="card-person-container">
 
-                <p-card id="leftCard" *ngIf="user$ | async as user" [style]="{'height': '100%'}">
+                <p-card id="leftCard" [style]="{'height': '100%'}">
                      <div class="card-person-img" >
                     <img alt="Card"
                         src="assets/images/avatar/profile.png">
@@ -20,56 +20,71 @@
                     </div>
                     <p-divider></p-divider>
                     <div id="profileInfoBtns">
-                    <p-button label="Alap adatok"  icon="pi pi-id-card" [style]="{'width': '100%'}" [text]='true'  severity="secondary"
+                    <p-button label="Alap adatok"  icon="pi pi-id-card" [style]="{'width': '100%'}" [text]='true' severity="secondary"
                             (click)="changePanel('default')"></p-button>
                         <p-button  label="Oktatás" icon="pi pi-book" [text]='true'  severity="secondary"
                           [style]="{'width': '100%'}"
                             (click)="changePanel('info')"></p-button>
-                        <p-button  label="Elérhetőség"  icon="pi pi-phone"[style]="{'width': '100%'}" [text]='true'  severity="secondary"
+                        <p-button  label="Elérhetőség"  icon="pi pi-phone" [style]="{'width': '100%'}" [text]='true' severity="secondary"
                             (click)="changePanel('contact')"></p-button>
                     </div>
                 </p-card>
             </div>
 
-            <p-card id="rightCard" *ngIf="user$ | async as user" [style]="{'height': '100%'}">
-                <div *ngIf="panel == 'default'; else panel2Content">
-                    <table id="dataTable" >
+            <p-card id="rightCard" [style]="{'height': '100%'}">
+                <div *ngIf="panel == 'default'">
+                    <table class="dataTable" >
+                        <tr>
+                            <td>Lakhely:</td>
+                            <td>{{user.residence}}</td>
+                        </tr>
+                        <tr>
+                            <td>Születési hely:</td>
+                            <td>{{user.birthplace}}</td>
+
+                        </tr>
+                        <tr>
+                            <td>Születési dátum:</td>
+                            <td>{{user.birthdate | date: 'yyyy. MM. dd.'}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div *ngIf="panel == 'info'">
+                    <table class="dataTable">
+                        <tr>
+                            <td>UID:</td>
+                            <td>{{user.uid}}</td>
+                        </tr>
+                        <tr>
+                            <td>Tanintézmény:</td>
+                            <td>{{user.school}}</td>
+                        </tr>
+                        <tr>
+                            <td>Szerepkör:</td>
+                            <td>{{getEnumName(user.role, ROLE_TYPE)}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div *ngIf="panel == 'contact'">
+                    <table class="dataTable" >
                         <tr>
                             <td>Hivatalos email:</td>
                             <td>{{user.schoolEmail}}</td>
-                            <div class="icons">
-                                <i class="pi pi-pencil" (click)="editProfile(user.uid)"></i>
-                                <i class="pi pi-eye" (click)="revealInfo(user.uid)"></i>
-                            </div>
                         </tr>
                         <tr>
                             <td>Publikus email:</td>
                             <td>{{user.publicEmail}}</td>
-                            <div class="icons">
-                                <i class="pi pi-pencil" (click)="editProfile(user.uid)"></i>
-                                <i class="pi pi-eye" (click)="revealInfo(user.uid)"></i>
-                            </div>
 
                         </tr>
-                        <tr>
+                        <tr *showForRoles="['TEACHER', 'ADMIN']">
                             <td>Munkahelyi telefonszám:</td>
                             <td>{{user.phone}}</td>
-                            <div class="icons">
-                                <i class="pi pi-pencil" (click)="editProfile(user.uid)"></i>
-                                <i class="pi pi-eye" (click)="revealInfo(user.uid)"></i>
-                            </div>
                         </tr>
                         <tr>
                             <td>Publikus telefonszám:</td>
                             <td>{{user.phone}}</td>
-                            <div class="icons">
-                                <i class="pi pi-pencil" (click)="editProfile(user.uid)"></i>
-                                <i class="pi pi-eye" (click)="revealInfo(user.uid)"></i>
-                            </div>
                         </tr>
-
-
-
                     </table>
                 </div>
                 <ng-template #panel2Content>
