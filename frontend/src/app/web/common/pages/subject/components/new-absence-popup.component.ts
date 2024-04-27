@@ -82,9 +82,9 @@ export class NewAbsencePopupComponent implements OnInit {
     formGroup!: FormGroup<AbsenceForm>;
 
     statusList: SelectItem[] = [
-        {label: getEnumName(AbsenceStatus.UNEXCUSED, ABSENCE_STATUS), value: AbsenceStatus.UNEXCUSED, },
-        {label: getEnumName(AbsenceStatus.EXCUSED, ABSENCE_STATUS), value: AbsenceStatus.EXCUSED, },
-        {label: getEnumName(AbsenceStatus.PENDING, ABSENCE_STATUS), value: AbsenceStatus.PENDING, },
+        {label: getEnumName(AbsenceStatus.UNEXCUSED, ABSENCE_STATUS), value: AbsenceStatus.UNEXCUSED},
+        {label: getEnumName(AbsenceStatus.EXCUSED, ABSENCE_STATUS), value: AbsenceStatus.EXCUSED},
+        {label: getEnumName(AbsenceStatus.PENDING, ABSENCE_STATUS), value: AbsenceStatus.PENDING},
     ];
 
     destroyRef = inject(DestroyRef);
@@ -137,8 +137,9 @@ export class NewAbsencePopupComponent implements OnInit {
 
     private initFormData() {
         if (this.absence) {
+            const item: SelectItem = {label: getEnumName(this.absence.status, ABSENCE_STATUS), value: this.absence.status};
             this.formGroup = new FormGroup<AbsenceForm>({
-                status: new FormControl(null, Validators.required)
+                status: new FormControl(item, Validators.required)
             });
         } else {
             this.formGroup = new FormGroup<AbsenceForm>({
