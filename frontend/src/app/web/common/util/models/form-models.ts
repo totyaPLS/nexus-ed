@@ -2,6 +2,8 @@ import {FormControl} from "@angular/forms";
 import {Role} from "../enums/Role";
 import {ClassDropdown, SchoolDropdown, SubjectDropdown, UserDropdown} from "./user-models";
 import {TaskType} from "../enums/Commons";
+import {Lesson} from "./timetable-models";
+import {SelectItem} from "primeng/api";
 
 export interface SignUpForm {
     firstName: FormControl<string | null>,
@@ -37,4 +39,10 @@ export interface AnnouncementForm {
 export interface GradeForm {
     weight: FormControl<number | null>,
     grade: FormControl<number | null>,
+}
+
+export interface AbsenceForm {
+    user: FormControl<UserDropdown | null>,
+    lesson: FormControl<Lesson | null>,
+    status: FormControl<SelectItem | null>,
 }

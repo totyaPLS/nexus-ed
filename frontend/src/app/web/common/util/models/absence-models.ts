@@ -1,3 +1,5 @@
+import {AbsenceStatus} from "../enums/Commons";
+
 export interface Absence {
     id: number;
     studentId: string;
@@ -9,4 +11,12 @@ export interface Absence {
     subjectId: number;
     status: string;
     modificationDate: string;
+}
+
+export interface AbsenceReq {
+    studentId: string;
+    lessonId: number;
+    status: AbsenceStatus;
+    classId: number;
+    subjectId: number;
 }

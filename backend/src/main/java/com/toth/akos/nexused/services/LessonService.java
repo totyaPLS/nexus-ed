@@ -38,6 +38,11 @@ public class LessonService {
         return lessons;
     }
 
+    public List<LessonDTO> listPastLessons(int subjectId, int classId) {
+        List<Lesson> lessons = lessonRepository.findPastLessonsBySubjectIdIdAndClassId(subjectId, classId);
+        return lessonMapper.toLessonDTOS(lessons);
+    }
+
     public List<DiaryDTO> listDiaries(int subjectId, int classId) {
         List<Lesson> lessons = lessonRepository.findAllBySubjectIdAndClassId(subjectId, classId);
         List<DiaryDTO> diaryDTOS = new ArrayList<>();
@@ -101,5 +106,13 @@ public class LessonService {
         lesson.setTopic(topic);
         lessonRepository.save(lesson);
         return lessonMapper.toDiaryDTO(lesson);
+    }
+
+    public LessonDTO getLessonById(int lessonId) {
+        Optional<Lesson> lesson = lessonRepository.findById(lessonId);
+        if (lesson.isEmpty()) {
+            throw new ApplicationException("Lesson not found", HttpStatus.NOT_FOUND);
+        }
+        return lessonMapper.toLessonDTO(lesson.get());
     }
 }

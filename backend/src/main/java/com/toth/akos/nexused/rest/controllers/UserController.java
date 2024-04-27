@@ -27,6 +27,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getLoggedInUser());
     }
 
+    @GetMapping("/student-users/{classId}")
+    public ResponseEntity<List<UserDTO>> studentUsersByClassId(@PathVariable Integer classId) {
+        return ResponseEntity.ok(userService.studentUsersByClassId(classId));
+    }
+
     @PostMapping("/users")
     public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
         UserDTO createdUser = userService.createUser(userDTO);

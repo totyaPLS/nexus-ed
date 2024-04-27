@@ -20,6 +20,12 @@ export class LessonService {
         );
     }
 
+    listPastLessonsBySubjectId(subjectId: number, classId: number) {
+        return this.http.get<Lesson[]>(`/past-lessons/${subjectId}/${classId}`).pipe(
+            this.lessonsRepo.withRequestStatus('lessons', lessons => this.lessonsRepo.setLessons(lessons)),
+        );
+    }
+
     listDiaries(subjectId: number, classId: number) {
         return this.http.get<Diary[]>(`/diaries/${subjectId}/${classId}`).pipe(
             this.diaryRepo.withRequestStatus('diaries', diaries => this.diaryRepo.setDiaries(diaries)),

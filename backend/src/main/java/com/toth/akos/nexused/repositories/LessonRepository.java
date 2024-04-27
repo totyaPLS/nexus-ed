@@ -17,4 +17,12 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
             @Param("subjectId") int subjectId,
             @Param("classId") int classId
     );
+
+    @Query("SELECT l FROM Lesson l " +
+            "INNER JOIN Teaching t ON l.teachingId = t.id " +
+            "WHERE t.subjectId = :subjectId AND t.classId = :classId AND l.start < CURRENT_TIMESTAMP ORDER BY l.start DESC")
+    List<Lesson> findPastLessonsBySubjectIdIdAndClassId(
+            @Param("subjectId") int subjectId,
+            @Param("classId") int classId
+    );
 }

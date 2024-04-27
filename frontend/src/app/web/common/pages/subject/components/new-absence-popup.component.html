@@ -1,11 +1,32 @@
 <p-dialog [(visible)]="absenceDialog" [style]="{width: '800px'}" header="Új hiányzás felvétele" [modal]="true"
           class="p-fluid" (onHide)="hideDialog()">
     <ng-template pTemplate="content">
-        <p>New popup</p>
+        <form [formGroup]="formGroup">
+            <div class="absence-box">
+                <div class="grid">
+                    <div class="col-6">
+                        <label for="students">Tanuló</label>
+                        <p-dropdown id="students" [options]="(students$ | async)!" optionLabel="dropDownValue" [showClear]="true"
+                                    placeholder="Tanuló kiválasztása" formControlName="user"></p-dropdown>
+                    </div>
+                    <div class="col-6">
+                        <label for="lessons">Tanóra</label>
+                        <p-dropdown id="lessons" [options]="(lessons$ | async)!" optionLabel="start" [showClear]="true"
+                                    placeholder="Tanóra kiválasztása" formControlName="lesson"></p-dropdown>
+                    </div>
+                    <div class="col-6">
+                        <label for="status">Státusz</label>
+                        <p-dropdown id="status" [options]="statusList" optionLabel="label" [showClear]="true"
+                                    placeholder="Státusz kiválasztása" formControlName="status"></p-dropdown>
+                    </div>
+                </div>
+            </div>
+        </form>
     </ng-template>
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Mégse" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button type="submit" pButton pRipple label="Mentés" icon="pi pi-check" class="p-button-text" (click)="saveAbsence()"></button>
+        <button type="submit" pButton pRipple label="Mentés" icon="pi pi-check" class="p-button-text"
+                (click)="saveAbsence()" [loading]="(loading$ | async)!" [disabled]="formGroup.invalid"></button>
     </ng-template>
 </p-dialog>

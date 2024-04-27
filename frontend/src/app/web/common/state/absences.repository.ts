@@ -4,7 +4,7 @@ import {
     deleteEntities,
     getAllEntities,
     selectAllEntities,
-    setEntities,
+    setEntities, upsertEntities,
     withEntities
 } from "@ngneat/elf-entities";
 import {Injectable} from "@angular/core";
@@ -17,7 +17,7 @@ import {
 } from "@ngneat/elf-requests";
 import {Absence} from "../util/models/absence-models";
 
-type RequestStates = 'absences';
+type RequestStates = 'absences' | 'upload';
 
 @Injectable({providedIn: 'root'})
 export class AbsenceRepository {
@@ -25,6 +25,7 @@ export class AbsenceRepository {
 
     //loading states
     listLoading$: Observable<boolean>;
+    upLoading$: Observable<boolean>;
 
     private readonly store;
     private readonly trackRequestStatus;
@@ -39,6 +40,9 @@ export class AbsenceRepository {
         this.listLoading$ = this.store.pipe(
             this.isRequestPending('absences'),
         );
+        this.upLoading$ = this.store.pipe(
+            this.isRequestPending('upload'),
+        );
     }
 
     getAbsences() {
@@ -51,6 +55,13 @@ export class AbsenceRepository {
         this.store.update(
             setEntities(absences),
             updateRequestStatus('absences', 'success'),
+        );
+    }
+
+    upsertAbsences(absence: Absence) {
+        this.store.update(
+            upsertEntities(absence),
+            updateRequestStatus('upload', 'success'),
         );
     }
 

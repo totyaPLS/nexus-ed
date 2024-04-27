@@ -75,6 +75,11 @@ public class UserService {
         return userMapper.toUserDTOs(all);
     }
 
+    public List<UserDTO> studentUsersByClassId(Integer classId) {
+        List<User> students = userRepository.findAllStudentUserByClassId(classId);
+        return userMapper.toUserDTOs(students);
+    }
+
     public UserDTO getLoggedInUser() {
         User user = userRepository.findById(authService.getPrincipalUid())
                 .orElseThrow(() -> new ApplicationException("User not found", HttpStatus.NOT_FOUND));

@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {AbsenceRepository} from "../state/absences.repository";
-import {Absence} from "../util/models/absence-models";
+import {Absence, AbsenceReq} from "../util/models/absence-models";
 
 @Injectable({
     providedIn: 'root',
@@ -28,6 +28,15 @@ export class AbsenceService {
             this.absenceRepo.withRequestStatus(
                 'absences',
                 absencesId => this.absenceRepo.deleteAbsence(absencesId),
+            )
+        );
+    }
+
+    uploadAbsence(absenceReq: AbsenceReq) {
+        return this.http.post<Absence>(`/uploadAbsence`, absenceReq).pipe(
+            this.absenceRepo.withRequestStatus(
+                'absences',
+                absence => this.absenceRepo.upsertAbsences(absence),
             )
         );
     }

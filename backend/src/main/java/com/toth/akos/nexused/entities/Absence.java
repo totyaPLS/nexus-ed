@@ -19,12 +19,6 @@ public class Absence {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "student_id", insertable = false, updatable = false)
-    private String studentId;
-
-    @Column(name = "lesson_id", insertable = false, updatable = false)
-    private int lessonId;
-
     @Column(name = "class_id")
     private int classId;
 

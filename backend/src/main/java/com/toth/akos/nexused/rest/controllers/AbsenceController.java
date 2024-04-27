@@ -1,14 +1,13 @@
 package com.toth.akos.nexused.rest.controllers;
 
 import com.toth.akos.nexused.dtos.AbsenceDTO;
+import com.toth.akos.nexused.dtos.requests.AbsenceReqDTO;
 import com.toth.akos.nexused.services.AbsenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,6 +23,12 @@ public class AbsenceController {
     @GetMapping("/absences/{subjectId}/{classId}")
     public ResponseEntity<List<AbsenceDTO>> getAbsences(@PathVariable Integer subjectId, @PathVariable Integer classId) {
         return ResponseEntity.ok(absenceService.getAllBySubjectIdAndClassId(subjectId, classId));
+    }
+
+    @PostMapping("/uploadAbsence")
+    public ResponseEntity<AbsenceDTO> register(@RequestBody AbsenceReqDTO absenceReqDTO) {
+        AbsenceDTO absenceDTO = absenceService.uploadAbsence(absenceReqDTO);
+        return ResponseEntity.created(URI.create("/absences/" + absenceDTO.id())).body(absenceDTO);
     }
 
     @DeleteMapping("/deleteAbsence/{id}")

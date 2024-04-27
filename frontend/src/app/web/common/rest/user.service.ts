@@ -17,6 +17,12 @@ export class UserService {
         );
     }
 
+    listStudentUsersByClassId(classId: number) {
+        return this.http.get<User[]>(`/student-users/${classId}`).pipe(
+            this.userRepo.withRequestStatus('userLoading', users => this.userRepo.setUsers(users)),
+        );
+    }
+
     createUser(user: SignUpData) {
         return this.http.post<User>(`/register`, user).pipe(
             this.userRepo.withRequestStatus('userLoading', createdUser => this.userRepo.setUser(createdUser)),

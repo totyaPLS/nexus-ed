@@ -15,7 +15,7 @@
                 #tasksTable
                 [value]="(absences$ | async)!"
                 [paginator]="true"
-                [rows]="5"
+                [rows]="10"
                 [showCurrentPageReport]="true"
                 [tableStyle]="{ 'min-width': '50rem' }"
                 currentPageReportTemplate="{first}-{last} megjelenítése a(z) {totalRecords} bejegyzésből"
@@ -69,7 +69,5 @@
 
 <app-new-absence-popup *ngIf="isDialogDisplayed"
                        [absenceDialog]="isDialogDisplayed"
-                       [classId]="classId"
-                       [subjectId]="subjectId"
                        (closeDialogEvent)="closeDialog()">
 </app-new-absence-popup>

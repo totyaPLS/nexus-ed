@@ -21,6 +21,11 @@ public class LessonController {
         return ResponseEntity.ok(lessonService.listLessons());
     }
 
+    @GetMapping("/past-lessons/{subjectId}/{classId}")
+    public ResponseEntity<List<LessonDTO>> pastLessons(@PathVariable Integer subjectId, @PathVariable Integer classId) {
+        return ResponseEntity.ok(lessonService.listPastLessons(subjectId, classId));
+    }
+
     @GetMapping("/diaries/{subjectId}/{classId}")
     public ResponseEntity<List<DiaryDTO>> listDiaries(@PathVariable Integer subjectId, @PathVariable Integer classId) {
         return ResponseEntity.ok(lessonService.listDiaries(subjectId, classId));
