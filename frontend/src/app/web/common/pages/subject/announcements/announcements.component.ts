@@ -4,7 +4,7 @@ import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {AnnouncementService} from "../../../rest/announcement.service";
 import {Observable} from "rxjs";
-import {Announcement} from "../../../util/models/announcement-models";
+import {Announcement, Task} from "../../../util/models/announcement-models";
 import {DETAIL, getEnumName, SubjectDetailType, TASK_TYPE} from "../../../util/enums/Commons";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
@@ -19,6 +19,7 @@ import {TaskPopupComponent} from "../submitted-tasks/components/task-popup.compo
 import {NexusTimeModule} from "../../../util/date/nexus-time.module";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {TaskSubmitPopupComponent} from "../components/task-submit-popup.component";
 
 @Component({
     selector: 'app-announcements',
@@ -39,7 +40,8 @@ import {ConfirmPopupModule} from "primeng/confirmpopup";
         NewAnnouncementPopupComponent,
         TaskPopupComponent,
         NexusTimeModule,
-        ConfirmPopupModule
+        ConfirmPopupModule,
+        TaskSubmitPopupComponent
     ],
     providers: [ConfirmationService],
     templateUrl: './announcements.component.html',
@@ -52,6 +54,9 @@ export class AnnouncementsComponent implements OnInit {
     protected readonly DETAIL = DETAIL;
 
     announcementDialog = false;
+    submitDialog = false;
+    openedTask?: Task;
+
     subjectId: number;
     classId: number;
     announcementType!: string;
@@ -132,12 +137,21 @@ export class AnnouncementsComponent implements OnInit {
         this.router.navigate([taskId], {relativeTo: this.route});
     }
 
-    openNew() {
+    openAnnouncementPopup() {
         this.announcementDialog = true;
     }
 
-    closeDialog() {
+    closeAnnouncementPopup() {
         this.announcementDialog = false;
+    }
+
+    openSubmitPopup(task: Task) {
+        this.openedTask = task;
+        this.submitDialog = true;
+    }
+
+    closeSubmitPopup() {
+        this.submitDialog = false;
     }
 
     get isAnnouncementTask() {

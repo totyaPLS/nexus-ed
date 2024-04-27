@@ -23,4 +23,16 @@ export class SubmittableTaskService {
             this.taskRepo.withRequestStatus('upload', task => this.taskRepo.upsertSubmittableTasks(task)),
         );
     }
+
+    getSubmittableTask(taskId: number) {
+        return this.http.get<SubmittableTask>(`/submittable-task/${taskId}`).pipe(
+            this.taskRepo.withRequestStatus('tasks', () => {}),
+        );
+    }
+
+    submitTask(submittableTask: SubmittableTask) {
+        return this.http.post<SubmittableTask>(`/submit-task`, submittableTask).pipe(
+            this.taskRepo.withRequestStatus('upload', () => {}),
+        );
+    }
 }

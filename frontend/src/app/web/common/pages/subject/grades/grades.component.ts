@@ -17,6 +17,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module";
 import {GradeClassDirective} from "../../../components/grade.directive";
 import {NewGradePopupComponent} from "./components/new-grade-popup.component";
+import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
 
 @Component({
   selector: 'app-grades',
@@ -36,7 +37,8 @@ import {NewGradePopupComponent} from "./components/new-grade-popup.component";
         NgForOf,
         NexLoadingModule,
         GradeClassDirective,
-        NewGradePopupComponent
+        NewGradePopupComponent,
+        NexRoleValidationModule
     ],
   templateUrl: './grades.component.html',
   styleUrl: './grades.component.scss'

@@ -7,7 +7,8 @@
                     <h5 style="margin: 0">Hiányzások</h5>
                 </div>
                 <div class="my-2">
-                    <button pButton pRipple label="Új" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNew()"></button>
+                    <button pButton pRipple label="Új" icon="pi pi-plus" class="p-button-primary mr-2" (click)="openNew()"
+                    *showForRoles="['TEACHER']"></button>
                 </div>
             </div>
 

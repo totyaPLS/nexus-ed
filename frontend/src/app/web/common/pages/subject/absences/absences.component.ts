@@ -19,6 +19,7 @@ import {NewAbsencePopupComponent} from "../components/new-absence-popup.componen
 import {NexLoadingModule} from "../../../../../config/loading/nex-loading.module";
 import {ConfirmPopup, ConfirmPopupModule} from "primeng/confirmpopup";
 import {NexusTimeModule} from "../../../util/date/nexus-time.module";
+import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-validation.module";
 
 @Component({
   selector: 'app-absences',
@@ -38,7 +39,8 @@ import {NexusTimeModule} from "../../../util/date/nexus-time.module";
         NewAbsencePopupComponent,
         NexLoadingModule,
         ConfirmPopupModule,
-        NexusTimeModule
+        NexusTimeModule,
+        NexRoleValidationModule
     ],
     providers: [ConfirmationService],
   templateUrl: './absences.component.html',

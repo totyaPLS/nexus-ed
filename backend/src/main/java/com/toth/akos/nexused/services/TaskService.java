@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ public class TaskService {
     private final TaskMapper mapper;
     private final GradeService gradeService;
     private final GradeMapper gradeMapper;
+    private final AuthService authService;
 
     public List<SubmittableTaskDTO> getSubmittableTasksByTaskId(Integer taskId) {
         List<SubmittableTask> tasks = taskRepository.findAllByTaskId(taskId);
@@ -32,6 +34,20 @@ public class TaskService {
             taskDTOS.add(mapper.toSubmittableTaskDTO(task));
         }
         return taskDTOS;
+    }
+
+    private SubmittableTask getByTaskIdAndStudentId(Integer taskId, String studentId) {
+        Optional<SubmittableTask> oSubmittableTask = taskRepository.findByTaskIdAndStudentId(taskId, studentId);
+        if (oSubmittableTask.isEmpty()) {
+            throw new ApplicationException("SubmittableTask not found", HttpStatus.NOT_FOUND);
+        }
+        return oSubmittableTask.get();
+    }
+
+    public SubmittableTaskDTO getSubmittableTask(Integer taskId) {
+        String studentId = authService.getPrincipalUid();
+        SubmittableTask submittableTask = getByTaskIdAndStudentId(taskId, studentId);
+        return mapper.toSubmittableTaskDTO(submittableTask);
     }
 
     public SubmittableTaskDTO uploadTaskGrade(TaskGradeReqDTO taskGradeReqDTO) {
@@ -52,5 +68,12 @@ public class TaskService {
             throw new ApplicationException("Submittable task not found", HttpStatus.NOT_FOUND);
         }
         return oSubmittableTask.get();
+    }
+
+    public Boolean submitTask(SubmittableTaskDTO submittableTaskDTO) {
+        SubmittableTask submittableTask = mapper.toSubmittableTask(submittableTaskDTO);
+        submittableTask.setSubmitted(LocalDateTime.now());
+        taskRepository.save(submittableTask);
+        return true;
     }
 }

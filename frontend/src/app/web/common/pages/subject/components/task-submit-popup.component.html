@@ -1,0 +1,38 @@
+<p-dialog [(visible)]="submitDialog" [style]="{width: '800px'}" header="Beadandó feladat" [modal]="true"
+          class="p-fluid" (onHide)="hideDialog()">
+    <ng-template pTemplate="content">
+
+        <div class="field col-12" *ngIf="canSubmit">
+            <label for="description">Megoldásod:</label>
+            <p-editor id="description" [style]="{'height':'250px'}" [formControl]="textControl"
+                      (onTextChange)="onEditorChange()"></p-editor>
+        </div>
+
+        <div class="field col-12" *ngIf="!canSubmit">
+            <span class="block font-medium mb-3 font-bold">Megoldásod: </span>
+            <span *ngIf="!submittableTask.text"><i>Nincs megjeleníthető beadott munkád</i></span>
+            <div *ngIf="submittableTask.text" [innerHTML]="submittableTask.text"></div>
+        </div>
+
+        <div class="grid" *ngIf="submittableTask.grade">
+            <div class="col-3">
+                <span class="font-medium mb-3 font-bold">Jegy súlya: </span>
+                <span>{{ submittableTask.grade.weight }}</span>
+            </div>
+            <div class="col-3">
+                <span class="font-medium mb-3 font-bold">Értékelés: </span>
+                <span [grade]="submittableTask.grade.gradeValue">{{ submittableTask.grade.gradeValue }}</span>
+            </div>
+            <div class="col-6">
+                <span class="font-medium mb-3 font-bold">Értékelés időpontja: </span>
+                <span><i>{{ submittableTask.graded | nexusTime }}</i></span>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Mégse" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button type="submit" pButton pRipple label="Beadás" icon="pi pi-check" class="p-button-text" *ngIf="canSubmit"
+                (click)="saveAnnouncement()" [disabled]="isFormInvalid" [loading]="(loading$ | async)!"></button>
+    </ng-template>
+</p-dialog>

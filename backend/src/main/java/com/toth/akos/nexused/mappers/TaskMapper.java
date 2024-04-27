@@ -16,4 +16,5 @@ public interface TaskMapper {
         return user.getLastName() + " " + user.getFirstName();
     }
 
+    SubmittableTask toSubmittableTask(SubmittableTaskDTO submittableTaskDTO);
 }

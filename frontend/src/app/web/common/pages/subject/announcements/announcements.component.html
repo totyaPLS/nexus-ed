@@ -4,7 +4,7 @@
             <h3> {{ (getEnumName(announcementType, DETAIL).toUpperCase()) }}</h3>
         </div>
         <p-button label="ÚJ" icon="pi pi-plus" *showForRoles="['TEACHER']"
-                  [style]="{'background-color': '#495057', 'color': 'white', height: '100%'}" (click)="openNew()"/>
+                  [style]="{'background-color': '#495057', 'color': 'white', height: '100%'}" (click)="openAnnouncementPopup()"/>
     </div>
     <p-accordion [multiple]="true" [activeIndex]="[0]"
                  [style]="{'display': 'flex', 'flex-direction': 'column', 'gap': '10px'}">
@@ -24,15 +24,15 @@
                     <div class="accordionItemContent">
 
                         <p-divider *showForRoles="['TEACHER']"></p-divider>
-                        <div *ngIf="item.task" class="infos"
-                             style="background-color: #f59f0b1e; width: fit-content; padding: 5px;">
+                        <div *ngIf="item.task" class="infos">
                             <div class="box">
                                 <div class="flex gap-2 align-items-center">
-                                    <p class="text-center">Beadási határidő: <span
+                                    <span class="text-center">Beadási határidő: <span
                                         class="font-bold font-italic"><i>{{ item.task.deadline | nexusTime }}</i></span>
-                                    </p>
-                                    <span *ngIf="isTaskExpired(item.task.deadline)"
-                                          class="task-badge type-expired">Lejárt</span>
+                                    </span>
+                                    <span *ngIf="isTaskExpired(item.task.deadline)" class="task-badge type-expired">
+                                        Lejárt
+                                    </span>
                                 </div>
 
                                 <p>Feladat típusa: <span
@@ -51,6 +51,12 @@
                                 <p-button type="button" severity="warning" label="Beadott feladatok"
                                           class="p-button-raised p-button-warning"
                                           (click)="navigateToSubmittedTasks(item.id)"></p-button>
+                            </div>
+                        </ng-container>
+                        <ng-container *showForRoles="['STUDENT']">
+                            <div *ngIf="item.task" class="flex justify-content-center">
+                                <p-button type="button" severity="warning" label="Benyújtandó feladat"
+                                          class="p-button-raised p-button-warning" (click)="openSubmitPopup(item.task)"></p-button>
                             </div>
                         </ng-container>
                         <div class="creation-date w-full text-right">
@@ -75,5 +81,11 @@
 <app-new-announcement-popup *ngIf="announcementDialog"
                             [announcementDialog]="announcementDialog"
                             [announcementType]="announcementType"
-                            (closeDialogEvent)="closeDialog()">
+                            (closeDialogEvent)="closeAnnouncementPopup()">
 </app-new-announcement-popup>
+
+<app-task-submit-popup *ngIf="submitDialog"
+                            [submitDialog]="submitDialog"
+                            [task]="openedTask!"
+                            (closeDialogEvent)="closeSubmitPopup()">
+</app-task-submit-popup>

@@ -8,7 +8,7 @@
                 </div>
                 <div class="my-2">
                     <button pButton pRipple label="Új értékelés" icon="pi pi-plus" class="p-button-primary mr-2"
-                            (click)="openNew()"></button>
+                            (click)="openNew()" *showForRoles="['TEACHER']"></button>
                 </div>
             </div>
 
