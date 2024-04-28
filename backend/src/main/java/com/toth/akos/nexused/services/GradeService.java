@@ -56,20 +56,17 @@ public class GradeService {
 
             // Group grades by month
             Map<String, List<GradeDTO>> gradesByMonth = grades.stream()
-                    .collect(Collectors.groupingBy(GradeDTO::created));
+                    .collect(Collectors.groupingBy(grade ->
+                            grade.created().substring(0, 7) // Extract year-month part
+                    ));
 
-            List<List<GradeDataForStudentDTO.GradeValueDTO>> gradesPerMonth = gradesByMonth.entrySet().stream()
-                    .map(monthEntry -> {
-                        String month = monthEntry.getKey();
-                        List<GradeDTO> gradesInMonth = monthEntry.getValue();
-                        return gradesInMonth.stream()
-                                .map(gradeDTO -> new GradeDataForStudentDTO.GradeValueDTO(
-                                        gradeDTO.created(),
-                                        gradeDTO.gradeValue(),
-                                        gradeDTO.weight()))
-                                .collect(Collectors.toList());
-                    })
-                    .collect(Collectors.toList());
+            List<GradeDataForStudentDTO.MonthGradesMap> gradesPerMonth = new ArrayList<>();
+            for (Map.Entry<String, List<GradeDTO>> monthGradeMap : gradesByMonth.entrySet()) {
+                GradeDataForStudentDTO.MonthGradesMap monthGrades = new GradeDataForStudentDTO.MonthGradesMap();
+                monthGrades.setDate(monthGradeMap.getKey());
+                monthGrades.setGradeValues(monthGradeMap.getValue());
+                gradesPerMonth.add(monthGrades);
+            }
 
             gradeDataForStudentDTO.setGradesPerMonth(gradesPerMonth);
             gradeDataForStudentDTOs.add(gradeDataForStudentDTO);

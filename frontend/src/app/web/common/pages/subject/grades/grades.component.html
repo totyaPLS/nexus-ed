@@ -55,11 +55,11 @@
                     <tr>
                         <td>{{ yearGrade.studentName }} ({{ yearGrade.studentId }})</td>
                         <td>{{ getAvg(yearGrade.gradesPerMonth) }}</td>
-                        <ng-container *ngFor="let monthGrade of yearGrade.gradesPerMonth">
+                        <ng-container *ngFor="let gradesPerMonth of yearGrade.gradesPerMonth">
                             <td>
-                                <ng-container *ngFor="let gradeData of monthGrade; let i = index">
+                                <ng-container *ngFor="let gradeData of gradesPerMonth.gradeValues; let i = index">
                                     @if (i <= 2) {
-                                        <span [grade]="gradeData.grade">{{ gradeData.grade }}</span>
+                                        <span [grade]="gradeData.gradeValue">{{ gradeData.gradeValue }}</span>
                                     }
                                     @if (i === 3) {
                                         <span>...</span>

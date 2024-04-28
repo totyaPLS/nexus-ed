@@ -7,13 +7,23 @@ export interface YearGradesForStudent {
     teacherId: string;
     subjectId: number;
     classId: number;
-    gradesPerMonth: GradeData[][];
+    gradesPerMonth: MonthGradeMap[];
 }
 
-export interface GradeData {
+export interface MonthGradeMap {
+    date: string;
+    gradeValues: Grade[];
+}
+
+export interface Grade {
+    id: number;
+    studentId: string;
+    teacherId: string;
+    gradeValue: GradeType;
+    weight: WeightType;
+    subjectId: number;
+    classId: number;
     created: string;
-    grade: number;
-    weight: number;
 }
 
 export interface TaskGradeReq {

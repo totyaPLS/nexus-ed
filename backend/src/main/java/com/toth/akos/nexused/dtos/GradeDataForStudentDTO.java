@@ -18,15 +18,14 @@ public class GradeDataForStudentDTO {
     String teacherId;
     int subjectId;
     int classId;
-    List<List<GradeValueDTO>> gradesPerMonth;
+    List<MonthGradesMap> gradesPerMonth;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class GradeValueDTO {
-        String created;
-        int grade;
-        double weight;
+    public static class MonthGradesMap {
+        String date;
+        List<GradeDTO> gradeValues;
     }
 }

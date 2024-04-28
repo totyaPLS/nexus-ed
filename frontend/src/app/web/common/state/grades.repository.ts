@@ -48,6 +48,14 @@ export class GradeRepository {
     }
 
     setGrades(grades: YearGradesForStudent[]) {
+        grades.forEach(grade => {
+            grade.gradesPerMonth.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateA.getTime() - dateB.getTime();
+            });
+        });
+
         this.store.update(
             setEntities(grades),
             updateRequestStatus('grades', 'success'),

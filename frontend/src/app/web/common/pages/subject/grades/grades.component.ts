@@ -10,7 +10,7 @@ import {Table, TableModule} from "primeng/table";
 import {ToastModule} from "primeng/toast";
 import {distinctUntilChanged, Observable} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
-import {GradeData, YearGradesForStudent} from "../../../util/models/grade-models";
+import {MonthGradeMap, YearGradesForStudent} from "../../../util/models/grade-models";
 import {GradeService} from "../../../rest/grade.service";
 import {GradeRepository} from "../../../state/grades.repository";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -103,13 +103,13 @@ export class GradesComponent implements OnInit {
         return differ <= 0 ? [] : new Array(differ);
     }
 
-    getAvg(monthGrades: GradeData[][]) {
+    getAvg(monthGrades: MonthGradeMap[]) {
         let sumOfGrades = 0;
         let sumOfWeights = 0;
 
-        monthGrades.forEach((row: GradeData[]) => {
-            row.forEach((gradeData: GradeData) => {
-                sumOfGrades += gradeData.grade * gradeData.weight;
+        monthGrades.forEach(row => {
+            row.gradeValues.forEach(gradeData => {
+                sumOfGrades += gradeData.gradeValue * gradeData.weight;
                 sumOfWeights += gradeData.weight;
             });
         });
