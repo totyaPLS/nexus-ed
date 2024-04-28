@@ -15,8 +15,6 @@ import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-valid
         RippleModule,
         DatePipe,
         RouterLink,
-        NgIf,
-        NexRoleValidationModule,
     ],
   templateUrl: './others-block.component.html',
   styleUrl: './others-block.component.scss'

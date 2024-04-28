@@ -19,6 +19,7 @@ import {TaskBlockComponent} from "./blocks/task-block.component";
 import {AbsenceBlockComponent} from "./blocks/absence-block.component";
 import {NewAnnouncementPopupComponent} from "./components/new-announcement-popup.component";
 import {OthersBlockComponent} from "./blocks/others-block.component";
+import {NexRoleValidationModule} from "../../../../config/auth/nex-role-validation.module";
 
 @Component({
   selector: 'app-subject',
@@ -35,7 +36,8 @@ import {OthersBlockComponent} from "./blocks/others-block.component";
         AbsenceBlockComponent,
         NewAnnouncementPopupComponent,
         NgIf,
-        OthersBlockComponent
+        OthersBlockComponent,
+        NexRoleValidationModule
     ],
   templateUrl: './subject.component.html',
   styleUrl: './subject.component.scss',
