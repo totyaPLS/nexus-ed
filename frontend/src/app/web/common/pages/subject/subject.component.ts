@@ -78,7 +78,7 @@ export class SubjectComponent implements OnInit, OnDestroy {
                 .pipe(takeUntilDestroyed(this.destroyRef))
                 .subscribe();
 
-            this.absenceService.listTeacherAbsences(this.subjectId, this.classId)
+            this.absenceService.listBlockAbsences(this.subjectId, this.classId)
                 .pipe(takeUntilDestroyed(this.destroyRef))
                 .subscribe();
         });

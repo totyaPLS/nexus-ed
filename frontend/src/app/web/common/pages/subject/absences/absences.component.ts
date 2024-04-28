@@ -1,5 +1,5 @@
 import {Component, DestroyRef, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
-import {AsyncPipe, DatePipe, NgIf} from "@angular/common";
+import {AsyncPipe, DatePipe, NgIf, NgTemplateOutlet} from "@angular/common";
 import {BoolIndicatorComponent} from "../../../components/bool-indicator.component";
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
@@ -40,7 +40,8 @@ import {NexRoleValidationModule} from "../../../../../config/auth/nex-role-valid
         NexLoadingModule,
         ConfirmPopupModule,
         NexusTimeModule,
-        NexRoleValidationModule
+        NexRoleValidationModule,
+        NgTemplateOutlet
     ],
     providers: [ConfirmationService],
   templateUrl: './absences.component.html',
@@ -79,7 +80,7 @@ export class AbsencesComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.absenceService.listAbsences(this.subjectId, this.classId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+        this.absenceService.listAllAbsences(this.subjectId, this.classId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     }
 
     next() {

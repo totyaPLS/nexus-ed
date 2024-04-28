@@ -73,7 +73,7 @@ public class SubjectService {
     }
 
     private List<SubjectMenuItemDTO> listParentSubjectsMenus() {
-        List<Student> students = studentService.getAllByParentId();
+        List<Student> students = studentService.getAllByPrincipalParentId();
         List<Integer> classIds = students.stream().map(Student::getClassId).collect(Collectors.toList());
         List<Teaching> teachings = teachingService.getAllByClassIds(classIds);
         return createSubjectMenuFromTeachings(teachings);

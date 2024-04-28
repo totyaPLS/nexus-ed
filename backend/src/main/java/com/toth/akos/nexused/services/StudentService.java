@@ -25,7 +25,7 @@ public class StudentService {
         return oStudent.get();
     }
 
-    public List<Student> getAllByParentId() {
+    public List<Student> getAllByPrincipalParentId() {
         return studentRepository.findAllByParentId(authService.getPrincipalUid());
     }
 

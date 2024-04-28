@@ -15,13 +15,13 @@ import java.util.List;
 public class AbsenceController {
     private final AbsenceService absenceService;
 
-    @GetMapping("/teacherAbsences/{subjectId}/{classId}")
-    public ResponseEntity<List<AbsenceDTO>> teacherAbsences(@PathVariable Integer subjectId, @PathVariable Integer classId) {
+    @GetMapping("/listBlockAbsences/{subjectId}/{classId}")
+    public ResponseEntity<List<AbsenceDTO>> listBlockAbsences(@PathVariable Integer subjectId, @PathVariable Integer classId) {
         return ResponseEntity.ok(absenceService.getFirstFiveBySubjectIdAndClassId(subjectId, classId));
     }
 
-    @GetMapping("/absences/{subjectId}/{classId}")
-    public ResponseEntity<List<AbsenceDTO>> getAbsences(@PathVariable Integer subjectId, @PathVariable Integer classId) {
+    @GetMapping("/listAllAbsences/{subjectId}/{classId}")
+    public ResponseEntity<List<AbsenceDTO>> listAllAbsences(@PathVariable Integer subjectId, @PathVariable Integer classId) {
         return ResponseEntity.ok(absenceService.getAllBySubjectIdAndClassId(subjectId, classId));
     }
 

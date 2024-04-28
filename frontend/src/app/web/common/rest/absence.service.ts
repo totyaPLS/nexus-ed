@@ -11,14 +11,14 @@ export class AbsenceService {
                 private absenceRepo: AbsenceRepository) {
     }
 
-    listTeacherAbsences(subjectId: number, classId: number) {
-        return this.http.get<Absence[]>(`/teacherAbsences/${subjectId}/${classId}`).pipe(
+    listBlockAbsences(subjectId: number, classId: number) {
+        return this.http.get<Absence[]>(`/listBlockAbsences/${subjectId}/${classId}`).pipe(
             this.absenceRepo.withRequestStatus('absences', absences => this.absenceRepo.setAbsences(absences)),
         );
     }
 
-    listAbsences(subjectId: number, classId: number) {
-        return this.http.get<Absence[]>(`/absences/${subjectId}/${classId}`).pipe(
+    listAllAbsences(subjectId: number, classId: number) {
+        return this.http.get<Absence[]>(`/listAllAbsences/${subjectId}/${classId}`).pipe(
             this.absenceRepo.withRequestStatus('absences', absences => this.absenceRepo.setAbsences(absences)),
         );
     }

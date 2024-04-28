@@ -1,5 +1,12 @@
-<div class="grid">
-    <div class="col-12">
+<div class="grid container justify-content-center">
+    <div class="col-12" *showForRoles="['TEACHER']">
+        <ng-container *ngTemplateOutlet="absenceContent"></ng-container>
+    </div>
+    <div class="col-8" *showForRoles="['PARENT', 'STUDENT']">
+        <ng-container *ngTemplateOutlet="absenceContent"></ng-container>
+    </div>
+
+    <ng-template #absenceContent>
         <div class="card">
             <p-toast></p-toast>
             <div style="display: flex; justify-content: space-between;">
@@ -35,16 +42,18 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="lastName" id="lastName" style="width:25%">Név <p-sortIcon field="lastName"></p-sortIcon></th>
+                        <th pSortableColumn="lastName" id="lastName" *showForRoles="['TEACHER', 'PARENT']" style="width:25%">
+                            Név <p-sortIcon field="lastName"></p-sortIcon>
+                        </th>
                         <th pSortableColumn="status" id="status" style="width:25%">Státusz <p-sortIcon field="status"></p-sortIcon></th>
                         <th pSortableColumn="absenceDate" id="absenceDate" style="width:15%">Hiányzás időpontja <p-sortIcon field="absenceDate"></p-sortIcon></th>
                         <th pSortableColumn="modificationDate" id="modificationDate" style="width:15%">Módosítás dátuma <p-sortIcon field="modificationDate"></p-sortIcon></th>
-                        <th id="actions" style="width:10%"></th>
+                        <th id="actions" style="width:10%" *showForRoles="['TEACHER']"></th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-absence>
                     <tr class="tr-body">
-                        <td>{{ absence.lastName }} {{ absence.firstName }}</td>
+                        <td *showForRoles="['TEACHER', 'PARENT']">{{ absence.lastName }} {{ absence.firstName }}</td>
                         <td>
                             <span [class]="'absence-badge type-' + absence.status.toLowerCase()">
                         {{ getEnumName(absence.status, ABSENCE_STATUS) }}
@@ -52,7 +61,7 @@
                         </td>
                         <td><i>{{ absence.absenceDate | nexusTime }}</i></td>
                         <td><i>{{ absence.modificationDate | nexusTime }}</i></td>
-                        <td style="padding: 0; margin: 0;">
+                        <td style="padding: 0; margin: 0;" *showForRoles="['TEACHER']">
                             <div class="flex action-buttons">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
                                 (click)="editAbsence(absence)"></button>
@@ -64,7 +73,7 @@
                 </ng-template>
             </p-table>
         </div>
-    </div>
+    </ng-template>
 </div>
 
 <p-confirmPopup #delPopup key="confirmDel"></p-confirmPopup>

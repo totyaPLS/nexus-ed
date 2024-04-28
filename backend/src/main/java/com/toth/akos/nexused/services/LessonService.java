@@ -65,7 +65,7 @@ public class LessonService {
     }
 
     private List<LessonDTO> listParentLessons() {
-        List<Student> students = studentService.getAllByParentId();
+        List<Student> students = studentService.getAllByPrincipalParentId();
         if (students.isEmpty()) {
             throw new ApplicationException("No students found for this parent", HttpStatus.NOT_FOUND);
         }
