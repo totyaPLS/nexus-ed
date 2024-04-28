@@ -8,6 +8,7 @@ import com.toth.akos.nexused.entities.Subject;
 import com.toth.akos.nexused.entities.Teaching;
 import com.toth.akos.nexused.exceptions.ApplicationException;
 import com.toth.akos.nexused.mappers.LessonMapper;
+import com.toth.akos.nexused.mappers.TeachingMapper;
 import com.toth.akos.nexused.repositories.LessonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class LessonService {
     private final AuthService authService;
     private final SubjectService subjectService;
     private final LessonMapper lessonMapper;
+    private final TeachingMapper teachingMapper;
 
     public List<LessonDTO> listLessons() {
         List<LessonDTO> lessons;
@@ -87,6 +89,7 @@ public class LessonService {
             for (Lesson lesson : lessons) {
                 LessonDTO lessonDTO = lessonMapper.toLessonDTO(lesson);
                 lessonDTO.setTitle(subject.getName());
+                lessonDTO.setTeaching(teachingMapper.toTeachingDTO(teaching));
                 lessonDTOs.add(lessonDTO);
             }
         }

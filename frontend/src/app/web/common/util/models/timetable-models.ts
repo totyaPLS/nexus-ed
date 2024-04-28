@@ -1,6 +1,8 @@
+import {Teaching} from "./teaching-models";
+
 export interface Lesson {
     id: number,
-    teachingId: number,
+    teaching: Teaching;
     topic: string,
     title: string,
     start: string,

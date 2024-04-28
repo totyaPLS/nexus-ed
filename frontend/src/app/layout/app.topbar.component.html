@@ -16,7 +16,7 @@
 
     <div class="topbar-right">
         <ul class="topbar-menu">
-            <li class="static sm:relative">
+            <li class="static sm:relative" *showForRoles="['TEACHER']">
                 <a tabindex="0" pStyleClass="@next" enterFromClass="hidden" enterActiveClass="scalein" leaveToClass="hidden" leaveActiveClass="fadeout" [hideOnOutsideClick]="true">
                     <i class="pi pi-pencil"></i>
                     <span class="topbar-badge">23</span>
@@ -33,8 +33,8 @@
                         <a pRipple class="flex p-2 border-round align-items-center hover:surface-hover transition-colors transition-duration-150 cursor-pointer">
                             <i class="pi pi-inbox mr-3"></i>
                             <span class="flex flex-column">
-                                <span class="font-semibold">Új beérkező levelek</span>
-                                <span class="text-color-secondary"><strong>3</strong> új leveled érkezett.</span>
+                                <span class="font-semibold">Új feladat</span>
+                                <span class="text-color-secondary">Tantárgy: <strong>Irodalom</strong></span>
                             </span>
                         </a>
                         <a pRipple class="flex p-2 border-round align-items-center hover:surface-hover transition-colors transition-duration-150 cursor-pointer">
@@ -46,13 +46,6 @@
                         </a>
                     </li>
                 </ul>
-            </li>
-
-            <li class="static sm:relative">
-                <a tabindex="0" pStyleClass="@next" enterFromClass="hidden" enterActiveClass="scalein" leaveToClass="hidden" leaveActiveClass="fadeout" [hideOnOutsideClick]="true">
-                    <i class="pi pi-comment"></i>
-                    <span class="topbar-badge">23</span>
-                </a>
             </li>
 
             <li class="profile-item static sm:relative">

@@ -8,7 +8,7 @@
         <ng-template pTemplate="content">
             <div>
                 <span class="text-900 font-semibold block mb-2">
-                    <a routerLink="/subject-page">Irány a tantárgyhoz</a>
+                    <a [routerLink]="['/subjects', changedEvent.teaching.subjectId, changedEvent.teaching.classId]">Irány a tantárgyhoz</a>
                 </span><br>
 
                 <div class="grid">

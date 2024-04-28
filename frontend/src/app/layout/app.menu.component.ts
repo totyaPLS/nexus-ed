@@ -42,20 +42,8 @@ export class AppMenuComponent implements OnInit {
             },
             { separator: true },
             {
-                label: 'Értékelés',
-                icon: 'pi pi-file-edit',
-            },
-            {
-                label: 'Osztályok',
-                icon: 'pi pi-users',
-            },
-            {
                 label: 'Statisztikák',
                 icon: 'pi pi-chart-bar',
-            },
-            {
-                label: 'Levelezés',
-                icon: 'pi pi-envelope',
             },
         ];
         this.subjectService.listSubjectsForMenu().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(

@@ -28,6 +28,7 @@ import { AppMenuitemComponent } from './app.menuitem.component';
 import { AppSearchComponent } from './app.search.component';
 import { AppFooterComponent } from './app.footer.component';
 import {NexLoadingModule} from "../config/loading/nex-loading.module";
+import {NexRoleValidationModule} from "../config/auth/nex-role-validation.module";
 
 @NgModule({
     declarations: [
@@ -61,7 +62,8 @@ import {NexLoadingModule} from "../config/loading/nex-loading.module";
         AppConfigModule,
         DialogModule,
         StyleClassModule,
-        NexLoadingModule
+        NexLoadingModule,
+        NexRoleValidationModule
     ]
 })
 export class AppLayoutModule { }

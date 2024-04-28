@@ -11,10 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LessonDTO {
     private int id;
-    private int teachingId;
+    private TeachingDTO teaching;
     private String topic;
     private String title;
-    private int subjectId;
     private String classroom;
     private String start;
     private String end;
