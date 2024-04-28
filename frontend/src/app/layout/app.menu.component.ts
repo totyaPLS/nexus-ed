@@ -6,6 +6,8 @@ import {Subject} from "../web/common/util/models/teaching-models";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {HttpParams} from "@angular/common/http";
 import {MenuItem, SubjectMenuItem} from "../web/common/util/models/menu-models";
+import {TokenService} from "../config/token.service";
+import {Role} from "../web/common/util/enums/Role";
 
 @Component({
     selector: 'app-menu',
@@ -18,7 +20,8 @@ export class AppMenuComponent implements OnInit {
     destroyRef = inject(DestroyRef);
 
     constructor(private subjectService: SubjectService,
-                private subjectRepository: SubjectRepository) {
+                private subjectRepository: SubjectRepository,
+                private tokenService: TokenService) {
         this.subjects$ = subjectRepository.subjects$;
         this.loading$ = this.subjectRepository.listLoading$.pipe(
             distinctUntilChanged(),
@@ -28,33 +31,53 @@ export class AppMenuComponent implements OnInit {
     model: any[] = [];
 
     ngOnInit() {
-        this.model = [
-            {
-                label: 'Órarend',
-                icon: 'pi pi-calendar',
-                routerLink: ['/timetable'],
-            },
-            { separator: true },
-            {
-                label: 'Tantárgyak',
-                icon: 'pi pi-book',
-                items: null,
-            },
-            { separator: true },
-            {
-                label: 'Statisztikák',
-                icon: 'pi pi-chart-bar',
-            },
-        ];
-        this.subjectService.listSubjectsForMenu().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
-            value => {
-                this.model.forEach(menuItem => {
-                    if (menuItem.label === 'Tantárgyak') {
-                        menuItem.items = this.convertToMenuItem(value);
-                    }
-                });
-            }
-        );
+
+        if (this.tokenService.currentRole === Role.TEACHER) {
+            this.model = [
+                {
+                    label: 'Órarend',
+                    icon: 'pi pi-calendar',
+                    routerLink: ['/timetable'],
+                },
+                { separator: true },
+                {
+                    label: 'Tantárgyak',
+                    icon: 'pi pi-book',
+                    items: null,
+                },
+                { separator: true },
+                {
+                    label: 'Statisztikák',
+                    icon: 'pi pi-chart-bar',
+                },
+            ];
+        } else if (this.tokenService.currentRole === Role.STUDENT || this.tokenService.currentRole === Role.PARENT) {
+            this.model = [
+                {
+                    label: 'Órarend',
+                    icon: 'pi pi-calendar',
+                    routerLink: ['/timetable'],
+                },
+                { separator: true },
+                {
+                    label: 'Tantárgyak',
+                    icon: 'pi pi-book',
+                    items: null,
+                },
+            ];
+        }
+
+        if (this.tokenService.currentRole !== Role.ADMIN) {
+            this.subjectService.listSubjectsForMenu().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+                value => {
+                    this.model.forEach(menuItem => {
+                        if (menuItem.label === 'Tantárgyak') {
+                            menuItem.items = this.convertToMenuItem(value);
+                        }
+                    });
+                }
+            );
+        }
     }
 
     convertToMenuItem(subjectClassesTree: SubjectMenuItem[]): MenuItem[] {

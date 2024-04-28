@@ -57,4 +57,12 @@ export class TokenService {
         });
         return users$;
     }
+
+    get currentRole() {
+        const token = this.getToken();
+        if (!token) return true;
+
+        const decodedCredential = jwtDecode<CustomJwtPayload>(token);
+        return decodedCredential.role;
+    }
 }
