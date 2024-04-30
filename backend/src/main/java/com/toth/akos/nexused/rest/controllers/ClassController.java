@@ -16,13 +16,13 @@ public class ClassController {
     private final ClassService classService;
 
     @GetMapping("/classes")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyAuthority('TEACHER', 'STUDENT', 'PARENT', 'ADMIN')")
     public ResponseEntity<List<ClassDTO>> allClasses() {
         return ResponseEntity.ok(classService.allClasses());
     }
 
     @PostMapping("/teacherClasses")
-    @PreAuthorize("hasAuthority('TEACHER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<ClassDTO>> availableClasses(@Valid @RequestBody List<Integer> classLevels) {
         return ResponseEntity.ok(classService.availableClasses(classLevels));
     }

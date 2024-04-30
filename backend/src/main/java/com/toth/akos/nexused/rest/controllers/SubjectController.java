@@ -17,7 +17,7 @@ public class SubjectController {
     private final SubjectService subjectService;
 
     @GetMapping("/availableSubjects")
-    @PreAuthorize("hasAnyAuthority('TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<SubjectDTO>> availableSubjects() {
         return ResponseEntity.ok(subjectService.listAvailableSubjects());
     }
