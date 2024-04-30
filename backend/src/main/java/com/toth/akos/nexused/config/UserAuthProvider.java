@@ -74,6 +74,6 @@ public class UserAuthProvider {
         User user = userRepository.findByUid(decoded.getIssuer())
                 .orElseThrow(() -> new ApplicationException("Unknown user", HttpStatus.NOT_FOUND));
 
-        return new UsernamePasswordAuthenticationToken(userMapper.toUserDTO(user), null, Collections.emptyList());
+        return new UsernamePasswordAuthenticationToken(userMapper.toUserDTO(user), null, Arrays.asList(user.getRole()));
     }
 }

@@ -1,7 +1,9 @@
 package com.toth.akos.nexused.exceptions;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public class ApplicationException extends RuntimeException {
     private final HttpStatus status;
     public ApplicationException(String message, HttpStatus status) {
@@ -9,7 +11,4 @@ public class ApplicationException extends RuntimeException {
         this.status = status;
     }
 
-    public HttpStatus getStatus() {
-        return status;
-    }
 }

@@ -8,6 +8,7 @@ import com.toth.akos.nexused.services.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -20,12 +21,14 @@ public class GradeController {
     private final TaskService taskService;
 
     @GetMapping("/classGrades/{subjectId}/{classId}")
+    @PreAuthorize("hasAuthority('TEACHER')")
     public ResponseEntity<List<GradeDataForStudentDTO>> teacherAbsences(@PathVariable Integer subjectId,
                                                                         @PathVariable Integer classId) {
         return ResponseEntity.ok(gradeService.getGradeTable(subjectId, classId));
     }
 
     @PostMapping("/upload-task-grade")
+    @PreAuthorize("hasAuthority('TEACHER')")
     public ResponseEntity<SubmittableTaskDTO> uploadTaskGrade(
             @Valid @RequestBody TaskGradeReqDTO taskGradeReqDTO) {
         SubmittableTaskDTO submittableTaskDTO = taskService.uploadTaskGrade(taskGradeReqDTO);

@@ -1,6 +1,4 @@
 package com.toth.akos.nexused.dtos;
 
-public class ErrorDTO {
-    public ErrorDTO(String message) {
-    }
+public record ErrorDTO(String message) {
 }
